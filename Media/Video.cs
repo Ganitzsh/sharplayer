@@ -7,6 +7,7 @@ using TagLib;
 
 namespace MediaPlayer.Media
 {
+    [Serializable]
     public class Video : Media
     {
         private string title;

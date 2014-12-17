@@ -18,7 +18,8 @@ namespace MediaPlayer.Media
 
     [Serializable]
     [XmlInclude(typeof(Video))]
-    [XmlInclude(typeof(Music))]
+    [XmlInclude(typeof(Audio))]
+    [XmlInclude(typeof(Image))]
     public abstract class Media
     {
         private List<string> formatList; // TODO: Generate from XML configuration file

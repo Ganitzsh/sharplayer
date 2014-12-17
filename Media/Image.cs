@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MediaPlayer.Media
 {
+    [Serializable]
     public class Image : Media
     {
         private uint width;

@@ -11,6 +11,21 @@ using System.ComponentModel;
 
 namespace MediaPlayer
 {
+    [Serializable]
+    public class Test
+    {
+        private List<Media.Media> list;
+
+	    public List<Media.Media> List
+	    {
+		    get { return list;}
+		    set { list = value;}
+	    }
+
+        public Test()
+        { }
+    }
+
     class MyWindowsMediaPlayerV2
     {
         public const string IndexerFileName = "MVMPV2Indexer.xml";
@@ -31,30 +46,35 @@ namespace MediaPlayer
         private List<string> videoDirectories = new List<string>();
         private List<string> imageDirectories = new List<string>();
 
-        public void SerializeList(List<Media.Media> tmp, string path)
+        public bool SerializeList<T>(List<Media.Media> list, string path)
         {
+            if (File.Exists(path) || list == null)
+                return (false);
             try
             {
-                //XmlSerializer xs = new XmlSerializer();
+                Test lol = new Test();
+                lol.List = list;
+                XmlSerializer xs = new XmlSerializer(typeof(Test));
                 using (StreamWriter wr = new StreamWriter(path))
                 {
-                    Console.WriteLine("Serialzing: " + tmp.Count() + " objects");
-                    //xs.Serialize(wr, tmp);
+                    Console.WriteLine("Serialzing: " + list.Count() + " objects");
+                    xs.Serialize(wr, lol);
                     wr.Close();
                 }
             }
             catch (InvalidOperationException e)
             {
-                Console.WriteLine("XML Serialization exception: " + e.Message);
+                Console.WriteLine("XML InvalidOperationException exception: " + e.InnerException.Message);
             }
             catch (NullReferenceException e)
             {
-                Console.WriteLine("XML Serialization exception: " + e.Message);
+                Console.WriteLine("XML NullReferenceException exception: " + e.Message);
             }
             catch (AmbiguousMatchException e)
             {
                 Console.WriteLine("Fail: " + e.Message);
             }
+            return (true);
         }
 
         public List<Media.Media> ExploreDirectory(string path)
@@ -72,13 +92,22 @@ namespace MediaPlayer
 
         private List<Media.Media>   DeserializeList(string xmlFile)
         {
-            List<Media.Media> tmp = null;
-            XmlSerializer serializer = new XmlSerializer(typeof(Media.Media));
+            Test tmp = null;
+            List<Media.Media> list = null;
+            try
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(Test));
 
-            StreamReader reader = new StreamReader(xmlFile);
-            tmp = (List<Media.Media>)serializer.Deserialize(reader);
-            reader.Close();
-            return (tmp);
+                StreamReader reader = new StreamReader(xmlFile);
+                tmp = (Test)serializer.Deserialize(reader);
+                reader.Close();
+                list = tmp.List;
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine("XML InvalidOperationException exception: " + e.Message);
+            }
+            return (list);
         }
 
         public MyWindowsMediaPlayerV2()
@@ -87,9 +116,13 @@ namespace MediaPlayer
 
         public void ReadLibraries()
         {
+            //TODO: Thread for each of these operations
             imageList = ExploreDirectory(defaultImageLibraryFolder);
+            SerializeList<List<Media.Image>>(imageList, defaultImageLibraryFolder + "\\" + MyWindowsMediaPlayerV2.IndexerFileName);
             audioList = ExploreDirectory(defaultAudioLibraryFolder);
+            SerializeList<List<Media.Audio>>(audioList, defaultAudioLibraryFolder + "\\" + MyWindowsMediaPlayerV2.IndexerFileName);
             videoList = ExploreDirectory(defaultVideoLibraryFolder);
+            SerializeList <List<Media.Video>>(videoList, defaultVideoLibraryFolder + "\\" + MyWindowsMediaPlayerV2.IndexerFileName);
         }
 
         public List<Media.Media> ProcessFiles(string dir)
@@ -130,7 +163,6 @@ namespace MediaPlayer
 
         public Media.Media AddPhoto(string path)
         {
-            Console.WriteLine("Adding image: " + path);
             Media.Image tmp = new Media.Image(path);
             imageList.Add(tmp);
             return (tmp);
@@ -138,17 +170,15 @@ namespace MediaPlayer
 
         public Media.Media AddVideo(string path)
         {
-            Console.WriteLine("Adding video: " + path);
             Media.Video tmp = new Media.Video(path);
             videoList.Add(new Media.Video(path));
             return (tmp);
         }
 
-        public Media.Music AddAudio(string path)
+        public Media.Audio AddAudio(string path)
         {
-            Console.WriteLine("Adding audio: " + path);
-            Media.Music tmp = new Media.Music(path);
-            audioList.Add(new Media.Music(path));
+            Media.Audio tmp = new Media.Audio(path);
+            audioList.Add(new Media.Audio(path));
             return (tmp);
         }
     }

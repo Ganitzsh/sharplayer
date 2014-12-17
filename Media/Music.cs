@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace MediaPlayer.Media
 {
-    public class Music : Media
+    [Serializable]
+    public class Audio : Media
     {
         private string artist;
         private string album;
@@ -37,12 +38,12 @@ namespace MediaPlayer.Media
             set { artist = value; }
         }
         
-        public Music() : base()
+        public Audio() : base()
         {
 
         }
 
-        public Music(string file)
+        public Audio(string file)
             : base(file)
         {
             TagLib.File tmp = TagLib.File.Create(file); 
