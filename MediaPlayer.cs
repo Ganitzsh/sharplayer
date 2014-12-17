@@ -12,18 +12,57 @@ using System.ComponentModel;
 namespace MediaPlayer
 {
     [Serializable]
-    public class Test
+    public class DirectoryContent
     {
+        private string dir;
         private List<Media.Media> list;
 
-	    public List<Media.Media> List
+        public string Directory
+        {
+            get { return dir; }
+            set { dir = value; }
+        }
+
+        public List<Media.Media> List
+        {
+            get { return list; }
+            set { list = value; }
+        }
+     
+        public DirectoryContent()
+        {
+
+        }
+    }
+
+    [Serializable]
+    public class MediaList
+    {
+        private List<DirectoryContent> content = new List<DirectoryContent>();
+        private List<string> directories = new List<string>();
+        private string rootDirectory;
+
+        public string RootDirectory
+        {
+            get { return rootDirectory; }
+            set { rootDirectory = value; }
+        }
+ 
+        public List<string> Directories
+        {
+            get { return directories; }
+            set { directories = value; }
+        }
+
+        public List<DirectoryContent> Content
 	    {
-		    get { return list;}
-		    set { list = value;}
+		    get { return content;}
+            set { content = value; }
 	    }
 
-        public Test()
-        { }
+        public MediaList()
+        {
+        }
     }
 
     class MyWindowsMediaPlayerV2
@@ -34,31 +73,29 @@ namespace MediaPlayer
         private string defaultVideoLibraryFolder = Environment.GetFolderPath(System.Environment.SpecialFolder.MyVideos);
         private string defaultImageLibraryFolder = Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures);
 
-        private readonly BackgroundWorker workerAudio = new BackgroundWorker();
-        private readonly BackgroundWorker workerVideo = new BackgroundWorker();
-        private readonly BackgroundWorker workerImage = new BackgroundWorker();
+        /* =========================
+         * TODO: Use them!
+         * 
+         * private readonly BackgroundWorker workerAudio = new BackgroundWorker();
+         * private readonly BackgroundWorker workerVideo = new BackgroundWorker();
+         * private readonly BackgroundWorker workerImage = new BackgroundWorker();
+         *  =========================
+         */
 
-        private List<Media.Media> videoList = new List<Media.Media>();
-        private List<Media.Media> audioList = new List<Media.Media>();
-        private List<Media.Media> imageList = new List<Media.Media>();
+        private MediaList videoList = new MediaList();
+        private MediaList audioList = new MediaList();
+        private MediaList imageList = new MediaList();
 
-        private List<string> audioDirectories = new List<string>();
-        private List<string> videoDirectories = new List<string>();
-        private List<string> imageDirectories = new List<string>();
-
-        public bool SerializeList<T>(List<Media.Media> list, string path)
+        public bool SerializeList(MediaList list, string path)
         {
             if (File.Exists(path) || list == null)
                 return (false);
             try
             {
-                Test lol = new Test();
-                lol.List = list;
-                XmlSerializer xs = new XmlSerializer(typeof(Test));
+                XmlSerializer xs = new XmlSerializer(typeof(MediaList));
                 using (StreamWriter wr = new StreamWriter(path))
                 {
-                    Console.WriteLine("Serialzing: " + list.Count() + " objects");
-                    xs.Serialize(wr, lol);
+                    xs.Serialize(wr, list);
                     wr.Close();
                 }
             }
@@ -77,11 +114,22 @@ namespace MediaPlayer
             return (true);
         }
 
-        public List<Media.Media> ExploreDirectory(string path)
+        public MediaList ExploreDirectory(string path)
         {
+            MediaList tmp = new MediaList();
             if (File.Exists(path + "\\" + MyWindowsMediaPlayerV2.IndexerFileName))
                 return (DeserializeList(path + "\\" + MyWindowsMediaPlayerV2.IndexerFileName));
-            return (ProcessFiles(path));
+            tmp.Content = ProcessDirectories(path, tmp.Directories);
+            return (tmp);
+        }
+
+        public DirectoryContent  ReadDir(string dir)
+        {
+            DirectoryContent tmpContent = new DirectoryContent();
+
+            tmpContent.Directory = dir;
+            tmpContent.List = ProcessFiles(dir);
+            return (tmpContent);
         }
 
         public long CountFileInDirectory(string path)
@@ -90,24 +138,22 @@ namespace MediaPlayer
             return (files.Length);
         }
 
-        private List<Media.Media>   DeserializeList(string xmlFile)
+        private MediaList   DeserializeList(string xmlFile)
         {
-            Test tmp = null;
-            List<Media.Media> list = null;
+            MediaList tmp = null;
             try
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(Test));
+                XmlSerializer serializer = new XmlSerializer(typeof(MediaList));
 
                 StreamReader reader = new StreamReader(xmlFile);
-                tmp = (Test)serializer.Deserialize(reader);
+                tmp = (MediaList)serializer.Deserialize(reader);
                 reader.Close();
-                list = tmp.List;
             }
             catch (InvalidOperationException e)
             {
                 Console.WriteLine("XML InvalidOperationException exception: " + e.Message);
             }
-            return (list);
+            return (tmp);
         }
 
         public MyWindowsMediaPlayerV2()
@@ -116,23 +162,81 @@ namespace MediaPlayer
 
         public void ReadLibraries()
         {
-            //TODO: Thread for each of these operations
+            //TODO: Thread for each of these operations -> See above
+
             imageList = ExploreDirectory(defaultImageLibraryFolder);
-            SerializeList<List<Media.Image>>(imageList, defaultImageLibraryFolder + "\\" + MyWindowsMediaPlayerV2.IndexerFileName);
+            imageList.RootDirectory = defaultImageLibraryFolder;
+            SerializeList(imageList, defaultImageLibraryFolder + "\\" + MyWindowsMediaPlayerV2.IndexerFileName);
             audioList = ExploreDirectory(defaultAudioLibraryFolder);
-            SerializeList<List<Media.Audio>>(audioList, defaultAudioLibraryFolder + "\\" + MyWindowsMediaPlayerV2.IndexerFileName);
+            audioList.RootDirectory = defaultAudioLibraryFolder;
+            SerializeList(audioList, defaultAudioLibraryFolder + "\\" + MyWindowsMediaPlayerV2.IndexerFileName);
             videoList = ExploreDirectory(defaultVideoLibraryFolder);
-            SerializeList <List<Media.Video>>(videoList, defaultVideoLibraryFolder + "\\" + MyWindowsMediaPlayerV2.IndexerFileName);
+            videoList.RootDirectory = defaultVideoLibraryFolder;
+            SerializeList(videoList, defaultVideoLibraryFolder + "\\" + MyWindowsMediaPlayerV2.IndexerFileName);
+        }
+
+        public List<string> CreateDirectoryList(string dir)
+        {
+            List<string> tmp = new List<string>();
+            foreach (string item in Directory.GetDirectories(dir))
+            {
+                tmp.AddRange(CreateDirectoryList(item));
+            }
+            return (tmp);
+        }
+
+        public List<DirectoryContent> ProcessDirectoriesWithBlacklist(string dir, List<string> blacklist)
+        {
+            List<DirectoryContent> tmp = new List<DirectoryContent>();
+
+            foreach (var item in Directory.GetDirectories(dir))
+            {
+                tmp.AddRange(ProcessDirectoriesWithBlacklist(item, blacklist));
+            }
+            if (!blacklist.Contains(dir))
+            {
+                tmp.Add(ReadDir(dir));
+            }
+            return (tmp);
+        }
+
+        public MediaList RefreshLibrary(MediaList library)
+        {
+            if (library == null)
+                return (null);
+            List<string> directory = CreateDirectoryList(library.RootDirectory);
+            if (directory.Count > library.Directories.Count)
+            {
+                // TODO: Look for new items
+                List<DirectoryContent> newItems = new List<DirectoryContent>();
+
+                newItems = ProcessDirectoriesWithBlacklist(library.RootDirectory, directory);
+                library.Content.AddRange(newItems);
+            }
+            else if (directory.Count < library.Directories.Count)
+            {
+                // TODO: Look for deleted items
+            }
+            return (library);
+        }
+
+        public List<DirectoryContent> ProcessDirectories(string dir, List<string> dirList)
+        {
+            List<DirectoryContent> tmpList = new List<DirectoryContent>();
+
+            foreach (var item in Directory.GetDirectories(dir))
+            {
+                tmpList.AddRange(ProcessDirectories(item, dirList));
+            }
+            tmpList.Add(ReadDir(dir));
+            dirList.Add(dir);
+            return (tmpList);
         }
 
         public List<Media.Media> ProcessFiles(string dir)
         {
             List<Media.Media> tmpList = new List<Media.Media>();
 
-            foreach(var item in Directory.GetDirectories(dir))
-            {
-                tmpList.AddRange(ProcessFiles(item));
-            }
             foreach (var item in Directory.GetFiles(dir))
             {
                 try
@@ -164,21 +268,18 @@ namespace MediaPlayer
         public Media.Media AddPhoto(string path)
         {
             Media.Image tmp = new Media.Image(path);
-            imageList.Add(tmp);
             return (tmp);
         }
 
         public Media.Media AddVideo(string path)
         {
             Media.Video tmp = new Media.Video(path);
-            videoList.Add(new Media.Video(path));
             return (tmp);
         }
 
         public Media.Audio AddAudio(string path)
         {
             Media.Audio tmp = new Media.Audio(path);
-            audioList.Add(new Media.Audio(path));
             return (tmp);
         }
     }
