@@ -7,6 +7,10 @@ using System.ComponentModel;
 
 namespace MediaPlayer
 {
+    /**
+     * Main ViewModel attached to the MainWindow
+     * Good practice: to each V it's VM
+     **/
     class MainWindowViewModel
     {
         private MyWindowsMediaPlayerV2 mediaPlayer;
@@ -18,6 +22,10 @@ namespace MediaPlayer
             set { mediaPlayer = value; }
         }
 
+        /**
+         * Gets called automatically
+         * Set inside the DataContext tag in da MainWindow's XAML file
+         **/
         public MainWindowViewModel()
         {
             this.mediaPlayer = new MyWindowsMediaPlayerV2(); // <-- worker.ReportProgress(0);

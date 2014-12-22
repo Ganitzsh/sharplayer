@@ -9,6 +9,17 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.ComponentModel;
 
+/**
+ * This file cotntains the indexer's classes.
+ * The indexer takes a folder as a parameter and store it's content into a file named as below (See IndexerFileName).
+ * It creates an IndexerFileName file which avoid the program to read the folders every time the app gets launched.
+ * If an IndexerFileName file is found, it reads it and check if the content is still the same.
+ * If something is missing, it gets removed, if something has been added, it adds it and the IndexerFileName file is recreated.
+ * 
+ * Default library paths are the same as the OS's ones
+ * Each folder got it's own MediaList which contains a generic-typed list of DirectoryContent objects.
+ * 
+ **/
 namespace MediaPlayer
 {
     [Serializable]
@@ -35,6 +46,9 @@ namespace MediaPlayer
         }
     }
 
+    /**
+     * Simple helper class used for serialization corresponding to the content of a directory
+     **/
     [Serializable]
     public class MediaList
     {
@@ -74,7 +88,7 @@ namespace MediaPlayer
         private string defaultImageLibraryFolder = Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures);
 
         /* =========================
-         * TODO: Use them!
+         * TODO: Use them with multiple indexers
          * 
          * private readonly BackgroundWorker workerAudio = new BackgroundWorker();
          * private readonly BackgroundWorker workerVideo = new BackgroundWorker();
@@ -86,6 +100,9 @@ namespace MediaPlayer
         private MediaList audioList = new MediaList();
         private MediaList imageList = new MediaList();
 
+        /**
+         * This method serialize a MediaList object into a file named <IndexerFileName>
+         **/
         public bool SerializeList(MediaList list, string path)
         {
             if (File.Exists(path) || list == null)
@@ -175,6 +192,9 @@ namespace MediaPlayer
             SerializeList(videoList, defaultVideoLibraryFolder + "\\" + MyWindowsMediaPlayerV2.IndexerFileName);
         }
 
+        /**
+         * Returns a simple list of string corresponding to every possible path inside the directory passed as parameter
+         **/
         public List<string> CreateDirectoryList(string dir)
         {
             List<string> tmp = new List<string>();
@@ -185,6 +205,10 @@ namespace MediaPlayer
             return (tmp);
         }
 
+        /**
+         * Process directories recursivly creating the appropriate list of DirectoryContent objsect.
+         * If a blacklist passed as parameter exists, it skips the directories corresponding to it.
+         **/
         public List<DirectoryContent> ProcessDirectoriesWithBlacklist(string dir, List<string> blacklist)
         {
             List<DirectoryContent> tmp = new List<DirectoryContent>();
@@ -220,6 +244,9 @@ namespace MediaPlayer
             return (library);
         }
 
+        /**
+         * This method processed files recursivly from the root directory passed as parameter
+         **/
         public List<DirectoryContent> ProcessDirectories(string dir, List<string> dirList)
         {
             List<DirectoryContent> tmpList = new List<DirectoryContent>();
@@ -233,6 +260,9 @@ namespace MediaPlayer
             return (tmpList);
         }
 
+        /**
+         * This method creates a list of Media.Media objects from the content of the directory passed as parameter.
+         **/
         public List<Media.Media> ProcessFiles(string dir)
         {
             List<Media.Media> tmpList = new List<Media.Media>();
