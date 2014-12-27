@@ -107,15 +107,18 @@ namespace MediaPlayer
 
         public void FilterByName(string query)
         {
-            foreach (var dirContent in imageList.Content)
+            foreach (var list in new List<MediaList> { videoList, audioList, imageList })
             {
-                List<Media.Media> lst = dirContent.List.FindAll(delegate(Media.Media med)
+                foreach (var dirContent in list.Content)
                 {
-                    return med.Name.Contains(query);
-                });
-                foreach (var obj in lst)
-                {
-                    Console.WriteLine(obj.ToString());
+                    List<Media.Media> lst = dirContent.List.FindAll(delegate(Media.Media med)
+                    {
+                        return med.Name.Contains(query);
+                    });
+                    foreach (var obj in lst)
+                    {
+                        Console.WriteLine(obj.ToString());
+                    }
                 }
             }
         }
