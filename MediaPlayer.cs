@@ -100,6 +100,26 @@ namespace MediaPlayer
         private MediaList audioList = new MediaList();
         private MediaList imageList = new MediaList();
 
+        public MediaList ImageList
+        {
+            get { return imageList; }
+        }
+
+        public void FilterByName(string query)
+        {
+            foreach (var dirContent in imageList.Content)
+            {
+                List<Media.Media> lst = dirContent.List.FindAll(delegate(Media.Media med)
+                {
+                    return med.Name.Contains(query);
+                });
+                foreach (var obj in lst)
+                {
+                    Console.WriteLine(obj.ToString());
+                }
+            }
+        }
+
         /**
          * This method serialize a MediaList object into a file named <IndexerFileName>
          **/

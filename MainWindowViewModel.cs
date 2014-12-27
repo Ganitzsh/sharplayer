@@ -35,6 +35,11 @@ namespace MediaPlayer
             worker.RunWorkerAsync();
         }
 
+        public void SearchMedia(string query)
+        {
+            mediaPlayer.FilterByName(query);
+        }
+
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             // Finished creating stuff

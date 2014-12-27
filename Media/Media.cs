@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using System.IO;
 using TagLib;
 
 namespace MediaPlayer.Media
@@ -44,12 +45,22 @@ namespace MediaPlayer.Media
             set { filePath = value; }
         }
 
+        public string Name
+        {
+            get { return Path.GetFileName(filePath); }
+        }
+
         protected Media()
         { }
 
         protected Media(string fileString)
         {
             this.filePath = fileString;
+        }
+
+        override public string ToString()
+        {
+            return type.ToString() + ": " + Name;
         }
     }
 }

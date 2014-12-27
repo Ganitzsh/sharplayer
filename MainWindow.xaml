@@ -7,5 +7,15 @@
         <local:MainWindowViewModel/>
     </Window.DataContext>
     <Grid>
+        <TextBox x:Name="SearchField" HorizontalAlignment="Left" Height="21" Margin="161,107,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="232" RenderTransformOrigin="0.5,0.5" TextChanged="SearchMedia" ToolTip="SearchField">
+            <TextBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0.203"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBox.RenderTransform>
+        </TextBox>
     </Grid>
 </Window>

@@ -21,5 +21,10 @@ namespace MediaPlayer
         {
             InitializeComponent();
         }
+
+        private void SearchMedia(object sender, TextChangedEventArgs e)
+        {
+            ((MainWindowViewModel)this.DataContext).SearchMedia(((TextBox)sender).Text);
+        }
     }
 }
