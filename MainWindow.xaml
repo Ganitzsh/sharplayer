@@ -23,9 +23,9 @@
             </TabItem>
         </TabControl>
         <Grid Margin="10,0,10,10.5" Height="37" VerticalAlignment="Bottom">
-            <Button x:Name="playButton" Content="Play" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="76" Click="Button_Click"/>
-            <Button x:Name="pauseButton" Content="Pause" HorizontalAlignment="Left" Margin="91,0,0,0" VerticalAlignment="Center" Width="76" Click="Button_Click"/>
-            <Button x:Name="stopButton" Content="Stop" HorizontalAlignment="Left" Margin="172,0,0,0" VerticalAlignment="Center" Width="76" Click="Button_Click"/>
+            <Button x:Name="playButton" Content="Play" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="76"/>
+            <Button x:Name="pauseButton" Content="Pause" HorizontalAlignment="Left" Margin="91,0,0,0" VerticalAlignment="Center" Width="76"/>
+            <Button x:Name="stopButton" Content="Stop" HorizontalAlignment="Left" Margin="172,0,0,0" VerticalAlignment="Center" Width="76"/>
             <Slider x:Name="volumeSlider" Margin="0,0,10,9" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="122"/>
             <ProgressBar x:Name="playProgression" Height="18" Margin="253,10,137,9" VerticalAlignment="Center"/>
         </Grid>
