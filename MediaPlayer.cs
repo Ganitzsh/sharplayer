@@ -77,6 +77,25 @@ namespace MediaPlayer
         public MediaList()
         {
         }
+
+        public MediaList FilterByName(string query)
+        {
+            if (query == "")
+                return this;
+
+            var ret = (MediaList)this.MemberwiseClone();
+            ret.Content = new List<DirectoryContent>();
+
+            foreach (var dirContent in Content)
+            {
+                var newDirContent = new DirectoryContent();
+                newDirContent.List = dirContent.List.FindAll(med => med.Name.Contains(query));
+                newDirContent.Directory = dirContent.Directory;
+
+                ret.Content.Add(newDirContent);
+            }
+            return ret;
+        }
     }
 
     class MyWindowsMediaPlayerV2
@@ -107,20 +126,9 @@ namespace MediaPlayer
 
         public void FilterByName(string query)
         {
-            foreach (var list in new List<MediaList> { videoList, audioList, imageList })
-            {
-                foreach (var dirContent in list.Content)
-                {
-                    List<Media.Media> lst = dirContent.List.FindAll(delegate(Media.Media med)
-                    {
-                        return med.Name.Contains(query);
-                    });
-                    foreach (var obj in lst)
-                    {
-                        Console.WriteLine(obj.ToString());
-                    }
-                }
-            }
+            Parallel.ForEach(new List<MediaList> { videoList, audioList, imageList }, mediaList => {
+                mediaList.FilterByName(query);
+            });
         }
 
         /**
