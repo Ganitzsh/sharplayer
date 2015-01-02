@@ -52,9 +52,20 @@ namespace MediaPlayer
     [Serializable]
     public class MediaList
     {
+        private MediaList sorted;
         private List<DirectoryContent> content = new List<DirectoryContent>();
         private List<string> directories = new List<string>();
         private string rootDirectory;
+
+        public MediaList Sorted
+        {
+            get { return sorted; }
+        }
+
+        public static MediaList operator+(MediaList a, MediaList b)
+        {
+            return new MediaList(a.Content.Concat(b.Content).ToList());
+        }
 
         public string RootDirectory
         {
@@ -74,8 +85,15 @@ namespace MediaPlayer
             set { content = value; }
 	    }
 
+        public MediaList(List<DirectoryContent> _content)
+        {
+            sorted = this;
+            content = _content;
+        }
+
         public MediaList()
         {
+            sorted = this;
         }
 
         public MediaList FilterByName(string query)
@@ -94,6 +112,7 @@ namespace MediaPlayer
 
                 ret.Content.Add(newDirContent);
             }
+            sorted = ret;
             return ret;
         }
     }
@@ -119,16 +138,21 @@ namespace MediaPlayer
         private MediaList audioList = new MediaList();
         private MediaList imageList = new MediaList();
 
-        public MediaList ImageList
+        public List<Media.Media> AllSortedMedia
         {
-            get { return imageList; }
+            get { return (videoList.Sorted + audioList.Sorted + imageList.Sorted).Content.SelectMany(dir => dir.List).ToList(); }
         }
 
         public void FilterByName(string query)
         {
-            Parallel.ForEach(new List<MediaList> { videoList, audioList, imageList }, mediaList => {
+             Parallel.ForEach(new List<MediaList> {
+                 videoList,
+                 audioList,
+                 imageList
+             }, mediaList =>
+             {
                 mediaList.FilterByName(query);
-            });
+             });
         }
 
         /**
