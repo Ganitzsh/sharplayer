@@ -52,14 +52,14 @@ namespace MediaPlayer
     [Serializable]
     public class MediaList
     {
-        private MediaList sorted;
+        private MediaList sorted = null;
         private List<DirectoryContent> content = new List<DirectoryContent>();
         private List<string> directories = new List<string>();
         private string rootDirectory;
 
         public MediaList Sorted
         {
-            get { return sorted; }
+            get { return (sorted == null ? this : sorted); }
         }
 
         public static MediaList operator+(MediaList a, MediaList b)
@@ -87,20 +87,15 @@ namespace MediaPlayer
 
         public MediaList(List<DirectoryContent> _content)
         {
-            sorted = this;
             content = _content;
         }
 
         public MediaList()
         {
-            sorted = this;
         }
 
         public MediaList FilterByName(string query)
         {
-            if (query == "")
-                return this;
-
             var ret = (MediaList)this.MemberwiseClone();
             ret.Content = new List<DirectoryContent>();
 
@@ -138,9 +133,17 @@ namespace MediaPlayer
         private MediaList audioList = new MediaList();
         private MediaList imageList = new MediaList();
 
-        public List<Media.Media> AllSortedMedia
+        private List<Media.Media> displayableMediaList = new List<Media.Media>();
+
+        public List<Media.Media> DisplayableMediaList
         {
-            get { return (videoList.Sorted + audioList.Sorted + imageList.Sorted).Content.SelectMany(dir => dir.List).ToList(); }
+            get { return displayableMediaList; }
+        }
+
+        private void UpdateDisplayableMediaList()
+        {
+            displayableMediaList.Clear();
+            displayableMediaList.AddRange((videoList.Sorted + audioList.Sorted + imageList.Sorted).Content.SelectMany(dir => dir.List).ToList());
         }
 
         public void FilterByName(string query)
@@ -153,6 +156,7 @@ namespace MediaPlayer
              {
                 mediaList.FilterByName(query);
              });
+             UpdateDisplayableMediaList();
         }
 
         /**
@@ -245,6 +249,7 @@ namespace MediaPlayer
             videoList = ExploreDirectory(defaultVideoLibraryFolder);
             videoList.RootDirectory = defaultVideoLibraryFolder;
             SerializeList(videoList, defaultVideoLibraryFolder + "\\" + MyWindowsMediaPlayerV2.IndexerFileName);
+            UpdateDisplayableMediaList();
         }
 
         /**
