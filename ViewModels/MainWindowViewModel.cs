@@ -74,5 +74,16 @@ namespace MediaPlayer
             get { return _playCommand; }
             set { this._playCommand = value; }
         }
+
+        private void PlayMedia(object context)
+        {
+            this._myMediaElement.Play();
+        }
+
+        private bool CanPlayMedia(object context)
+        {
+            // verify if can play media
+            return true;
+        }
     }
 }
