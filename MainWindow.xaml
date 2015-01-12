@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:MediaPlayer"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="MediaPlayer.MainWindow"
-        Title="Sharplayer" Height="314" Width="517" MinWidth="600" MinHeight="400" FontFamily="FontAw">
+        Title="Sharplayer" Height="289" Width="449" MinWidth="600" MinHeight="400" FontFamily="FontAw">
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
@@ -11,7 +11,7 @@
         <Grid x:Name="ContentGrid" Margin="150,0,0,40" Background="Black">
             <TextBlock x:Name="musicIcon" Margin="177,115,180,121" TextWrapping="Wrap" Foreground="#FFC19BEB" FontSize="96" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome"><Span><Run Text="&#xF001;"/></Span></TextBlock>
             <TextBlock x:Name="title" Margin="0,0,19,37" TextWrapping="Wrap" TextAlignment="Right" FontSize="18.667" FontWeight="SemiBold" Foreground="#FFC19BEB" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="51"><Run Language="fr-fr" Text="Alive"/></TextBlock>
-            <TextBlock x:Name="artist" HorizontalAlignment="Left" Margin="284,296,0,0" TextWrapping="Wrap" VerticalAlignment="Top" TextAlignment="Right" Width="142" FontSize="16" Foreground="#FFDFE1E5"><Run Language="fr-fr" Text="Empire of the sun"/></TextBlock>
+            <TextBlock x:Name="artist" Margin="0,0,19,17.3" TextWrapping="Wrap" TextAlignment="Right" FontSize="16" Foreground="#FFDFE1E5" Height="19.2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="142"><Run Language="fr-fr" Text="Empire of the sun"/></TextBlock>
         </Grid>
 
 
