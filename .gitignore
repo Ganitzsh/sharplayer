@@ -1,4 +1,1 @@
-obj/ 
-.exe  
-*.exe  
-bin/  
+obj/*
