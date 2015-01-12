@@ -36,9 +36,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <Reference Include="Gat.Controls.OpenDialog">
       <HintPath>packages\OpenDialog.1.1.1\lib\net45\Gat.Controls.OpenDialog.dll</HintPath>
     </Reference>
+=======
+>>>>>>> 9d3421f440b6168120bee0a5a59a289faebb78cf
     <Reference Include="Microsoft.Practices.Prism.Composition">
       <HintPath>packages\Prism.Composition.5.0.0\lib\NET45\Microsoft.Practices.Prism.Composition.dll</HintPath>
     </Reference>
@@ -95,21 +98,31 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Library\Library.cs" />
-    <Compile Include="Library\PlayList.cs" />
-    <Compile Include="Library\Section.cs" />
+    <Compile Include="Commands\MyCommand.cs" />
+    <Compile Include="Models\Library\Library.cs" />
+    <Compile Include="Models\Library\PlayList.cs" />
+    <Compile Include="Models\Library\Section.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="MyWindowsMediaPlayerV2.cs" />
     <Compile Include="Media\Image.cs" />
     <Compile Include="Media\Media.cs" />
     <Compile Include="Media\Music.cs" />
     <Compile Include="Media\Video.cs" />
+=======
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="MediaPlayer.cs" />
+    <Compile Include="Models\Media\Image.cs" />
+    <Compile Include="Models\Media\Media.cs" />
+    <Compile Include="Models\Media\Music.cs" />
+    <Compile Include="Models\Media\Video.cs" />
+>>>>>>> 9d3421f440b6168120bee0a5a59a289faebb78cf
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -137,6 +150,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,6 +1,10 @@
 obj/
+<<<<<<< HEAD
 .exe
 *.exe
 bin/
 packages 
 packages/
+=======
+bin/
+>>>>>>> 9d3421f440b6168120bee0a5a59a289faebb78cf
