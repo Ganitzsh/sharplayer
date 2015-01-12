@@ -108,7 +108,7 @@ namespace MediaPlayer
             MediaList tmp = new MediaList();
             if (File.Exists(path + "\\" + MyWindowsMediaPlayerV2.IndexerFileName))
                 return (DeserializeList(path + "\\" + MyWindowsMediaPlayerV2.IndexerFileName));
-            tmp.Content = ProcessDirectories(path, tmp.Directories);
+            tmp.Content = ProcessDirectories(path, tmp.Directories).ToList<DirectoryContent>();
             return (tmp);
         }
 
@@ -173,7 +173,12 @@ namespace MediaPlayer
             ConcurrentBag<string> tmp = new ConcurrentBag<string>();
             foreach (string item in Directory.GetDirectories(dir))
             {
+                ConcurrentBag<string> current = CreateDirectoryList(item);
                 //tmp.AddRange(CreateDirectoryList(item));
+                foreach (var i in current)
+                {
+                    tmp.Add(i);
+                }
             }
             return (tmp);
         }
@@ -188,6 +193,10 @@ namespace MediaPlayer
 
             foreach (var item in Directory.GetDirectories(dir))
             {
+                ConcurrentBag<DirectoryContent>  current = ProcessDirectoriesWithBlacklist(item, blacklist);
+                foreach (var i in current) {
+                    tmp.Add(i);
+                }
                 //tmp.AddRange(ProcessDirectoriesWithBlacklist(item, blacklist));
             }
             if (!blacklist.Contains(dir))
@@ -209,6 +218,10 @@ namespace MediaPlayer
 
                 newItems = ProcessDirectoriesWithBlacklist(library.RootDirectory, directory);
                 //library.Content.AddRange(newItems); Ganich
+                foreach (var i in newItems)
+                {
+                    library.Content.Add(i);
+                }
             }
             else if (directory.Count < library.Directories.Count)
             {
@@ -226,6 +239,11 @@ namespace MediaPlayer
 
             foreach (var item in Directory.GetDirectories(dir))
             {
+                ConcurrentBag<DirectoryContent> current = ProcessDirectories(item, dirList);
+                foreach (var directory in current)
+                {
+                    tmpList.Add(directory);
+                }
                 //tmpList.AddRange(ProcessDirectories(item, dirList)); Ganich
             }
             tmpList.Add(ReadDir(dir));
