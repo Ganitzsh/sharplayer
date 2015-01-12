@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.Practices.Prism.Commands;
 
 namespace MediaPlayer
 {
@@ -37,11 +38,12 @@ namespace MediaPlayer
             worker.RunWorkerAsync();
         }
 
+        /*
         public void SearchMedia(string query)
         {
             mediaPlayer.FilterByName(query);
         }
-
+        */
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             // Finished creating stuff
@@ -56,34 +58,6 @@ namespace MediaPlayer
         private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             //update ui
-        }
-
-        // Main Media Element
-        private MediaElement _myMediaElement;
-
-        public MediaElement MyMediaElement
-        {
-            get { return _myMediaElement; }
-            set { this._myMediaElement = value; }
-        }
-
-        private ICommand _playCommand;
-
-        public ICommand PlayCommand
-        {
-            get { return _playCommand; }
-            set { this._playCommand = value; }
-        }
-
-        private void PlayMedia(object context)
-        {
-            this._myMediaElement.Play();
-        }
-
-        private bool CanPlayMedia(object context)
-        {
-            // verify if can play media
-            return true;
         }
     }
 }

@@ -5,4 +5,4 @@ bin/
 packages 
 packages/
 bin/
-.suo
+*.suo

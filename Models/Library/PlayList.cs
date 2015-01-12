@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Concurrent;
 
 namespace MediaPlayer.Library
 {
@@ -13,7 +14,7 @@ namespace MediaPlayer.Library
 
         public void Remove(Media.Media media)
         {
-            this.Content.Remove(media);
+            this.Content.TryTake(out media);
         }
 
         public void Add(Media.Media media)
@@ -28,14 +29,14 @@ namespace MediaPlayer.Library
         }
 
         // Not safe. Explodes if you mix media types in a playlist.
-        public List<Media.Media> FiltersBy<T>(Dictionary<string, string> filters)
+        public ConcurrentBag<Media.Media> FiltersBy<T>(Dictionary<string, string> filters)
         {
             var properties = new Dictionary<string, PropertyInfo>();
 
             foreach (var pair in filters)
                 properties.Add(pair.Key, typeof(T).GetProperty(pair.Key));
             
-            return (this.Content.FindAll(delegate(Media.Media media)
+            return (new ConcurrentBag<Media.Media>(this.Content.Where(delegate(Media.Media media)
             {
                 string str;
 
@@ -46,10 +47,10 @@ namespace MediaPlayer.Library
                         return false;
                 }
                 return true;
-            }));
+            })));
         }
 
-        public PlayList(string name, List<Media.Media> content)
+        public PlayList(string name, ConcurrentBag<Media.Media> content)
             : base(content)
         {
             this.Name = name;
