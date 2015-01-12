@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,8 +14,8 @@ namespace MediaPlayer.Serializable
     public class MediaList
     {
         private MediaList sorted = null;
-        private List<DirectoryContent> content = new List<DirectoryContent>();
-        private List<string> directories = new List<string>();
+        private ConcurrentBag<DirectoryContent> content = new ConcurrentBag<DirectoryContent>();
+        private ConcurrentBag<string> directories = new ConcurrentBag<string>();
         private string rootDirectory;
 
         public MediaList Sorted
@@ -22,10 +23,12 @@ namespace MediaPlayer.Serializable
             get { return (sorted == null ? this : sorted); }
         }
 
+        /*
         public static MediaList operator +(MediaList a, MediaList b)
         {
             return new MediaList(a.Content.Concat(b.Content).ToList());
         }
+        */
 
         public string RootDirectory
         {
@@ -33,19 +36,19 @@ namespace MediaPlayer.Serializable
             set { rootDirectory = value; }
         }
 
-        public List<string> Directories
+        public ConcurrentBag<string> Directories
         {
             get { return directories; }
             set { directories = value; }
         }
 
-        public List<DirectoryContent> Content
+        public ConcurrentBag<DirectoryContent> Content
         {
             get { return content; }
             set { content = value; }
         }
 
-        public MediaList(List<DirectoryContent> _content)
+        public MediaList(ConcurrentBag<DirectoryContent> _content)
         {
             content = _content;
         }
@@ -54,10 +57,11 @@ namespace MediaPlayer.Serializable
         {
         }
 
+        /*
         public MediaList FilterByName(string query)
         {
             var ret = (MediaList)this.MemberwiseClone();
-            ret.Content = new List<DirectoryContent>();
+            ret.Content = new ConcurrentBag<DirectoryContent>();
 
             foreach (var dirContent in Content)
             {
@@ -70,5 +74,6 @@ namespace MediaPlayer.Serializable
             sorted = ret;
             return ret;
         }
+        */
     }
 }

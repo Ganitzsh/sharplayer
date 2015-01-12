@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace MediaPlayer.Serializable
     public class DirectoryContent
     {
         private string dir;
-        private List<Media.Media> list;
+        private ConcurrentBag<Media.Media> list;
 
         public string Directory
         {
@@ -18,7 +19,7 @@ namespace MediaPlayer.Serializable
             set { dir = value; }
         }
 
-        public List<Media.Media> List
+        public ConcurrentBag<Media.Media> List
         {
             get { return list; }
             set { list = value; }
