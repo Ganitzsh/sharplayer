@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using MediaPlayer.Serializable;
 
 /**
  * This file cotntains the indexer's classes.
@@ -22,96 +23,6 @@ using System.ComponentModel;
  **/
 namespace MediaPlayer
 {
-    [Serializable]
-    public class DirectoryContent
-    {
-        private string dir;
-        private List<Media.Media> list;
-
-        public string Directory
-        {
-            get { return dir; }
-            set { dir = value; }
-        }
-
-        public List<Media.Media> List
-        {
-            get { return list; }
-            set { list = value; }
-        }
-     
-        public DirectoryContent()
-        {
-
-        }
-    }
-
-    /**
-     * Simple helper class used for serialization corresponding to the content of a directory
-     **/
-    [Serializable]
-    public class MediaList
-    {
-        private MediaList sorted = null;
-        private List<DirectoryContent> content = new List<DirectoryContent>();
-        private List<string> directories = new List<string>();
-        private string rootDirectory;
-
-        public MediaList Sorted
-        {
-            get { return (sorted == null ? this : sorted); }
-        }
-
-        public static MediaList operator+(MediaList a, MediaList b)
-        {
-            return new MediaList(a.Content.Concat(b.Content).ToList());
-        }
-
-        public string RootDirectory
-        {
-            get { return rootDirectory; }
-            set { rootDirectory = value; }
-        }
- 
-        public List<string> Directories
-        {
-            get { return directories; }
-            set { directories = value; }
-        }
-
-        public List<DirectoryContent> Content
-	    {
-		    get { return content;}
-            set { content = value; }
-	    }
-
-        public MediaList(List<DirectoryContent> _content)
-        {
-            content = _content;
-        }
-
-        public MediaList()
-        {
-        }
-
-        public MediaList FilterByName(string query)
-        {
-            var ret = (MediaList)this.MemberwiseClone();
-            ret.Content = new List<DirectoryContent>();
-
-            foreach (var dirContent in Content)
-            {
-                var newDirContent = new DirectoryContent();
-                newDirContent.List = dirContent.List.FindAll(med => med.Name.Contains(query));
-                newDirContent.Directory = dirContent.Directory;
-
-                ret.Content.Add(newDirContent);
-            }
-            sorted = ret;
-            return ret;
-        }
-    }
-
     class MyWindowsMediaPlayerV2
     {
         public const string IndexerFileName = "MVMPV2Indexer.xml";
@@ -126,7 +37,7 @@ namespace MediaPlayer
          * private readonly BackgroundWorker workerAudio = new BackgroundWorker();
          * private readonly BackgroundWorker workerVideo = new BackgroundWorker();
          * private readonly BackgroundWorker workerImage = new BackgroundWorker();
-         *  =========================
+         * =========================
          */
 
         private MediaList videoList = new MediaList();
