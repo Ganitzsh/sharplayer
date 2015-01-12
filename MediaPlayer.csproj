@@ -103,7 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="MediaPlayer.cs" />
+    <Compile Include="MyWindowsMediaPlayerV2.cs" />
     <Compile Include="Models\Media\Image.cs" />
     <Compile Include="Models\Media\Media.cs" />
     <Compile Include="Models\Media\Music.cs" />
@@ -125,7 +125,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
