@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace MediaPlayer.Library
 {
-    enum LibraryType
+    public enum LibraryType
     {
         Generic,
         PlayList,
         Section
     }
-    abstract class Library
+
+    public abstract class Library
     {
         private List<Media.Media> content;
         private LibraryType type;

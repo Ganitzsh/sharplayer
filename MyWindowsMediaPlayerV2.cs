@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using MediaPlayer.Serializable;
 
@@ -23,7 +22,7 @@ using MediaPlayer.Serializable;
  **/
 namespace MediaPlayer
 {
-    class MyWindowsMediaPlayerV2
+    public class MyWindowsMediaPlayerV2
     {
         public const string IndexerFileName = "MVMPV2Indexer.xml";
 

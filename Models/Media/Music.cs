@@ -53,5 +53,10 @@ namespace MediaPlayer.Media
             this.Album = tmp.Tag.Album;
             this.Artist = ((tmp.Tag.Performers.Length > 0) ? tmp.Tag.Performers[0] : "None");
         }
+
+        public override string ToString()
+        {
+            return String.Format("<Audio: (Artist: {0}) (Album: {1}) (Track: {2}) (Year: {3})>", Artist, Album, TrackName, Year);
+        }
     }
 }
