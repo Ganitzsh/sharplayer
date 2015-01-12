@@ -26,8 +26,8 @@ namespace MediaPlayer
         {
             ((MainWindowViewModel)this.DataContext).SearchMedia(((TextBox)sender).Text);
             // Check if it can be done better...
-            this.libraryList.ItemsSource = null;
-            this.libraryList.ItemsSource = ((MainWindowViewModel)this.DataContext).MediaPlayer.DisplayableMediaList;
+         //   this.libraryList.ItemsSource = null;
+           // this.libraryList.ItemsSource = ((MainWindowViewModel)this.DataContext).MediaPlayer.DisplayableMediaList;
         }
     }
 }
