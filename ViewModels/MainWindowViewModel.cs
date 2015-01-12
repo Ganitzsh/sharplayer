@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace MediaPlayer
 {
@@ -54,6 +56,23 @@ namespace MediaPlayer
         private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             //update ui
+        }
+
+        // Main Media Element
+        private MediaElement _myMediaElement;
+
+        public MediaElement MyMediaElement
+        {
+            get { return _myMediaElement; }
+            set { this._myMediaElement = value; }
+        }
+
+        private ICommand _playCommand;
+
+        public ICommand PlayCommand
+        {
+            get { return _playCommand; }
+            set { this._playCommand = value; }
         }
     }
 }
