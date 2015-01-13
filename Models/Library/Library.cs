@@ -14,9 +14,10 @@ namespace MediaPlayer.Library
         Section
     }
 
+    [Serializable]
     public abstract class Library
     {
-        private ConcurrentBag<Media.Media> content;
+        private List<Media.Media> content;
         private LibraryType type;
 
         public LibraryType Type
@@ -25,13 +26,13 @@ namespace MediaPlayer.Library
             set { type = value; }
         }
         
-        public ConcurrentBag<Media.Media> Content
+        public List<Media.Media> Content
         {
             get { return content; }
             set { content = value; }
         }
 
-        protected Library(ConcurrentBag<Media.Media> content)
+        protected Library(List<Media.Media> content)
         {
             this.type = LibraryType.Generic;
             this.content = content;

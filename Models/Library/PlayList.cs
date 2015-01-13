@@ -50,7 +50,7 @@ namespace MediaPlayer.Library
             })));
         }
 
-        public PlayList(string name, ConcurrentBag<Media.Media> content)
+        public PlayList(string name, List<Media.Media> content)
             : base(content)
         {
             this.Name = name;
