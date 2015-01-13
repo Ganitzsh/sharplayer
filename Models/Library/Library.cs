@@ -37,5 +37,10 @@ namespace MediaPlayer.Library
             this.type = LibraryType.Generic;
             this.content = content;
         }
+
+        protected Library()
+        {
+
+        }
     }
 }

@@ -67,15 +67,15 @@ namespace MediaPlayer
         {
             // Finished creating stuff
             Console.WriteLine("IZI bra!");
-            this._myMediaElement.Source = new Uri(this.mediaPlayer.AudioList.Content[0].List[0].File);
+            //this._myMediaElement.Source = new Uri(this.mediaPlayer.AudioList.Content[0].List[0].File);
         }
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
             // TODO: create a method to check indexer inside the MyWindowsMediaPlayerV2 class to avoid doing it inside the constructor
-            //mediaPlayer.TestLibrary();
             mediaPlayer.ReadLibraries();
-            //mediaPlayer.GetPlaylists();
+            // mediaPlayer.TestLibrary();
+            mediaPlayer.GetPlaylists();
         }
 
         private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
