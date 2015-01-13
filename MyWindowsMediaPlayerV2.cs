@@ -43,6 +43,12 @@ namespace MediaPlayer
          */
 
         private MediaList videoList = new MediaList();
+        public MediaList VideoList
+        {
+            get { return videoList; }
+            set { this.videoList = value; }
+        }
+
         private MediaList audioList = new MediaList();
 
         public MediaList AudioList
@@ -51,6 +57,11 @@ namespace MediaPlayer
             set { this.audioList = value; }
         }
         private MediaList imageList = new MediaList();
+        public MediaList ImageList
+        {
+            get { return imageList; }
+            set { this.imageList = value; }
+        }
 
         private List<Library.PlayList> playlists = new List<Library.PlayList>();
 
@@ -205,23 +216,26 @@ namespace MediaPlayer
         {
         }
 
-        public async Task ReadSpecific(MediaList list, string folder)
+        public void ReadSpecific(MediaList list, string folder)
         {
-            await Task.Run(() =>
-            {
                 list = ExploreDirectory(folder);
                 imageList.RootDirectory = folder;
                 SerializeList(list, folder + "\\" + MyWindowsMediaPlayerV2.IndexerFileName);
-            });
         }
 
-        public async Task ReadLibraries()
+        public void ReadLibraries()
         {
             //TODO: Thread for each of these operations -> See above
 
-            await ReadSpecific(audioList, defaultAudioLibraryFolder);
-            await ReadSpecific(imageList, defaultImageLibraryFolder);
-            await ReadSpecific(videoList, defaultVideoLibraryFolder);
+            audioList = ExploreDirectory(defaultAudioLibraryFolder);
+            audioList.RootDirectory = defaultAudioLibraryFolder;
+            SerializeList(audioList, defaultAudioLibraryFolder + "\\" + MyWindowsMediaPlayerV2.IndexerFileName);
+
+            videoList = ExploreDirectory(defaultVideoLibraryFolder);
+            videoList.RootDirectory = defaultVideoLibraryFolder;
+            SerializeList(videoList, defaultVideoLibraryFolder + "\\" + MyWindowsMediaPlayerV2.IndexerFileName);
+            //ReadSpecific(imageList, defaultImageLibraryFolder);
+            //ReadSpecific(videoList, defaultVideoLibraryFolder);
             //updatedisplayablemedialist();
         }
 
