@@ -44,10 +44,17 @@ namespace MediaPlayer
 
         private MediaList videoList = new MediaList();
         private MediaList audioList = new MediaList();
+<<<<<<< HEAD
         public MediaList AudioList
         {
             get { return audioList; }
             set { this.audioList = value; }
+=======
+        public MediaList AudioList
+        {
+            get { return audioList; }
+            set { this.audioList = value; }
+>>>>>>> dbd7825e5a99a40f3765a35c9ea4726ec98839e2
         }
         private MediaList imageList = new MediaList();
 
