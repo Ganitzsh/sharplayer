@@ -146,6 +146,13 @@ namespace MediaPlayer
         private readonly BackgroundWorker worker = new BackgroundWorker();
         private MediaElement _myMediaElement;
 
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         public MediaElement MyMediaElement
         {
             get { return _myMediaElement; }
@@ -166,6 +173,7 @@ namespace MediaPlayer
         {
             this.mediaPlayer = new MyWindowsMediaPlayerV2(); // <-- worker.ReportProgress(0);
             this._myMediaElement = new MediaElement();
+            this._myMediaElement.Source = new Uri(this.mediaPlayer.AudioList.Content[0].List[0].File);
             this.playCommand = new DelegateCommand<object>(PlayMedia, CanPlayMedia);
             this.pauseCommand = new DelegateCommand<object>(PauseMedia, CanPauseMedia);
             this.stopCommand = new DelegateCommand<object>(StopMedia, CanStopMedia);
