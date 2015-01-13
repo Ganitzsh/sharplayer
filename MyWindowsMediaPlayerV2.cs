@@ -116,9 +116,9 @@ namespace MediaPlayer
             }
         }
 
-        private ConcurrentBag<Media.Media> displayableMediaList = new ConcurrentBag<Media.Media>();
+        private List<Media.Media> displayableMediaList = new List<Media.Media>();
 
-        public ConcurrentBag<Media.Media> DisplayableMediaList
+        public List<Media.Media> DisplayableMediaList
         {
             get { return displayableMediaList; }
         }
@@ -236,8 +236,8 @@ namespace MediaPlayer
             //TODO: Thread for each of these operations -> See above
 
             ReadSpecific(imageList, defaultImageLibraryFolder);
-            ReadSpecific(audiolist, defaultImageLibraryFolder);
-            ReadSpecific(videolist, defaultImageLibraryFolder);
+            ReadSpecific(audioList, defaultImageLibraryFolder);
+            ReadSpecific(videoList, defaultImageLibraryFolder);
             //updatedisplayablemedialist();
         }
 
