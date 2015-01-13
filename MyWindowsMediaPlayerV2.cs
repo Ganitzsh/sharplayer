@@ -90,7 +90,7 @@ namespace MediaPlayer
             }
             catch (InvalidOperationException e)
             {
-                Console.WriteLine("XML InvalidOperationException exception: " + e.InnerException.Message);
+                Console.WriteLine("XML InvalidOperationException exception: " + e.ToString());
             }
             catch (NullReferenceException e)
             {
@@ -108,7 +108,7 @@ namespace MediaPlayer
             MediaList tmp = new MediaList();
             if (File.Exists(path + "\\" + MyWindowsMediaPlayerV2.IndexerFileName))
                 return (DeserializeList(path + "\\" + MyWindowsMediaPlayerV2.IndexerFileName));
-            tmp.Content = new ConcurrentBag<DirectoryContent>(ProcessDirectories(path, tmp.Directories).ToList<DirectoryContent>());
+            tmp.Content = ProcessDirectories(path, CreateDirectoryList(path));
             return (tmp);
         }
 
@@ -149,36 +149,36 @@ namespace MediaPlayer
         {
         }
 
+        public async Task ReadSpecific(MediaList list, string folder)
+        {
+            await Task.Run(() =>
+            {
+                list = ExploreDirectory(folder);
+                imageList.RootDirectory = folder;
+                SerializeList(list, folder + "\\" + MyWindowsMediaPlayerV2.IndexerFileName);
+            });
+        }
+
         public void ReadLibraries()
         {
             //TODO: Thread for each of these operations -> See above
 
-            imageList = ExploreDirectory(defaultImageLibraryFolder);
-            imageList.RootDirectory = defaultImageLibraryFolder;
-            SerializeList(imageList, defaultImageLibraryFolder + "\\" + MyWindowsMediaPlayerV2.IndexerFileName);
-            audioList = ExploreDirectory(defaultAudioLibraryFolder);
-            audioList.RootDirectory = defaultAudioLibraryFolder;
-            SerializeList(audioList, defaultAudioLibraryFolder + "\\" + MyWindowsMediaPlayerV2.IndexerFileName);
-            videoList = ExploreDirectory(defaultVideoLibraryFolder);
-            videoList.RootDirectory = defaultVideoLibraryFolder;
-            SerializeList(videoList, defaultVideoLibraryFolder + "\\" + MyWindowsMediaPlayerV2.IndexerFileName);
-            //UpdateDisplayableMediaList();
+            ReadSpecific(imageList, defaultImageLibraryFolder);
+            ReadSpecific(audiolist, defaultImageLibraryFolder);
+            ReadSpecific(videolist, defaultImageLibraryFolder);
+            //updatedisplayablemedialist();
         }
 
         /**
          * Returns a simple list of string corresponding to every possible path inside the directory passed as parameter
          **/
-        public ConcurrentBag<string> CreateDirectoryList(string dir)
+        public List<string> CreateDirectoryList(string dir)
         {
-            ConcurrentBag<string> tmp = new ConcurrentBag<string>();
+            List<string> tmp = new List<string>();
             foreach (string item in Directory.GetDirectories(dir))
             {
-                ConcurrentBag<string> current = CreateDirectoryList(item);
-                //tmp.AddRange(CreateDirectoryList(item));
-                foreach (var i in current)
-                {
-                    tmp.Add(i);
-                }
+                List<string> current = CreateDirectoryList(item);
+                tmp.AddRange(CreateDirectoryList(item));
             }
             return (tmp);
         }
@@ -187,13 +187,13 @@ namespace MediaPlayer
          * Process directories recursivly creating the appropriate list of DirectoryContent objsect.
          * If a blacklist passed as parameter exists, it skips the directories corresponding to it.
          **/
-        public ConcurrentBag<DirectoryContent> ProcessDirectoriesWithBlacklist(string dir, ConcurrentBag<string> blacklist)
+        public List<DirectoryContent> ProcessDirectoriesWithBlacklist(string dir, List<string> blacklist)
         {
-            ConcurrentBag<DirectoryContent> tmp = new ConcurrentBag<DirectoryContent>();
+            List<DirectoryContent> tmp = new List<DirectoryContent>();
 
             foreach (var item in Directory.GetDirectories(dir))
             {
-                ConcurrentBag<DirectoryContent>  current = ProcessDirectoriesWithBlacklist(item, blacklist);
+                List<DirectoryContent> current = ProcessDirectoriesWithBlacklist(item, blacklist);
                 foreach (var i in current) {
                     tmp.Add(i);
                 }
@@ -210,18 +210,14 @@ namespace MediaPlayer
         {
             if (library == null)
                 return (null);
-            ConcurrentBag<string> directory = CreateDirectoryList(library.RootDirectory);
+            List<string> directory = CreateDirectoryList(library.RootDirectory);
             if (directory.Count > library.Directories.Count)
             {
                 // TODO: Look for new items
-                ConcurrentBag<DirectoryContent> newItems = new ConcurrentBag<DirectoryContent>();
+                List<DirectoryContent> newItems = new List<DirectoryContent>();
 
                 newItems = ProcessDirectoriesWithBlacklist(library.RootDirectory, directory);
-                //library.Content.AddRange(newItems); Ganich
-                foreach (var i in newItems)
-                {
-                    library.Content.Add(i);
-                }
+                library.Content.AddRange(newItems);
             }
             else if (directory.Count < library.Directories.Count)
             {
@@ -233,18 +229,14 @@ namespace MediaPlayer
         /**
          * This method processed files recursivly from the root directory passed as parameter
          **/
-        public ConcurrentBag<DirectoryContent> ProcessDirectories(string dir, ConcurrentBag<string> dirList)
+        public List<DirectoryContent> ProcessDirectories(string dir, List<string> dirList)
         {
-            ConcurrentBag<DirectoryContent> tmpList = new ConcurrentBag<DirectoryContent>();
+            List<DirectoryContent> tmpList = new List<DirectoryContent>();
 
             foreach (var item in Directory.GetDirectories(dir))
             {
-                ConcurrentBag<DirectoryContent> current = ProcessDirectories(item, dirList);
-                foreach (var directory in current)
-                {
-                    tmpList.Add(directory);
-                }
-                //tmpList.AddRange(ProcessDirectories(item, dirList)); Ganich
+                List<DirectoryContent> current = ProcessDirectories(item, dirList);
+                tmpList.AddRange(ProcessDirectories(item, dirList));
             }
             tmpList.Add(ReadDir(dir));
             dirList.Add(dir);
@@ -254,9 +246,9 @@ namespace MediaPlayer
         /**
          * This method creates a list of Media.Media objects from the content of the directory passed as parameter.
          **/
-        public ConcurrentBag<Media.Media> ProcessFiles(string dir)
+        public List<Media.Media> ProcessFiles(string dir)
         {
-            ConcurrentBag<Media.Media> tmpList = new ConcurrentBag<Media.Media>();
+            List<Media.Media> tmpList = new List<Media.Media>();
 
             foreach (var item in Directory.GetFiles(dir))
             {

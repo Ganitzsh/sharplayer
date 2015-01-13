@@ -11,7 +11,7 @@ namespace MediaPlayer.Serializable
     public class DirectoryContent
     {
         private string dir;
-        private ConcurrentBag<Media.Media> list;
+        private List<Media.Media> list;
 
         public string Directory
         {
@@ -19,7 +19,7 @@ namespace MediaPlayer.Serializable
             set { dir = value; }
         }
 
-        public ConcurrentBag<Media.Media> List
+        public List<Media.Media> List
         {
             get { return list; }
             set { list = value; }
