@@ -18,6 +18,7 @@ namespace MediaPlayer
     {
         private MyWindowsMediaPlayerV2 mediaPlayer;
         private readonly BackgroundWorker worker = new BackgroundWorker();
+        private MediaElement _myMediaElement;
 
         public MyWindowsMediaPlayerV2 MediaPlayer
         {
@@ -32,6 +33,9 @@ namespace MediaPlayer
         public MainWindowViewModel()
         {
             this.mediaPlayer = new MyWindowsMediaPlayerV2(); // <-- worker.ReportProgress(0);
+            this.playCommand = new DelegateCommand<object>(PlayMedia, CanPlayMedia);
+            this.pauseCommand = new DelegateCommand<object>(PauseMedia, CanPauseMedia);
+            this.stopCommand = new DelegateCommand<object>(StopMedia, CanStopMedia);
             worker.ProgressChanged += worker_ProgressChanged;
             worker.DoWork += worker_DoWork;
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
@@ -59,5 +63,62 @@ namespace MediaPlayer
         {
             //update ui
         }
+
+        #region PlayMedia
+
+        public ICommand playCommand { get; set; }
+
+        public void PlayMedia(object param)
+        {
+            this._myMediaElement.Play();
+        }
+
+        public bool CanPlayMedia(object param)
+        {
+            if (this._myMediaElement != null)
+                return true;
+            else
+                return false;
+        }
+
+        #endregion
+
+        #region PauseMedia
+
+        public ICommand pauseCommand { get; set; }
+
+        public void PauseMedia(object param)
+        {
+            this._myMediaElement.Pause();
+        }
+
+        public bool CanPauseMedia(object param)
+        {
+            if (this._myMediaElement != null)
+                return true;
+            else
+                return false;
+        }
+
+        #endregion
+
+        #region StopMedia
+
+        public ICommand stopCommand { get; set; }
+
+        public void StopMedia(object param)
+        {
+            this._myMediaElement.Stop();
+        }
+
+        public bool CanStopMedia(object param)
+        {
+            if (this._myMediaElement != null)
+                return true;
+            else
+                return false;
+        }
+
+        #endregion
     }
 }
