@@ -26,10 +26,12 @@ namespace MediaPlayer
     public class MyWindowsMediaPlayerV2
     {
         public const string IndexerFileName = "MVMPV2Indexer.xml";
+        public const string MPFolder = "MVMPV2.d";
 
         private string defaultAudioLibraryFolder = Environment.GetFolderPath(System.Environment.SpecialFolder.MyMusic);
         private string defaultVideoLibraryFolder = Environment.GetFolderPath(System.Environment.SpecialFolder.MyVideos);
         private string defaultImageLibraryFolder = Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures);
+        private string defaultAppDataFolder = Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
 
         /* =========================
          * TODO: Use them with multiple indexers
@@ -43,6 +45,76 @@ namespace MediaPlayer
         private MediaList videoList = new MediaList();
         private MediaList audioList = new MediaList();
         private MediaList imageList = new MediaList();
+
+        private List<Library.PlayList> playlists = new List<Library.PlayList>();
+
+        public void TestLibrary()
+        {
+            var dc = ReadDir(defaultAppDataFolder + '\\' + MPFolder);
+            playlists.Add(new Library.PlayList("Toast", dc.List));
+            SerializePlaylists();
+        }
+
+        public void GetPlaylists()
+        {
+            if (!Directory.Exists(defaultAppDataFolder + '\\' + MPFolder))
+                Directory.CreateDirectory(defaultAppDataFolder +  '\\' + MPFolder);
+
+            string[] files = Directory.GetFiles(defaultAppDataFolder + '\\' + MPFolder);
+            foreach (var file in files)
+                ProcessFileForLibrary(file);
+        }
+
+        private void ProcessFileForLibrary(string file)
+        {
+            Library.PlayList tmp = null;
+
+            try
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(Library.PlayList));
+                StreamReader reader = new StreamReader(file);
+
+                tmp = (Library.PlayList)serializer.Deserialize(reader);
+                playlists.Add(tmp);
+
+                reader.Close();
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine("XML InvalidOperationException exception: " + e.Message);
+            }
+        }
+
+        private void SerializePlaylists()
+        {
+            foreach (var playlist in playlists)
+            {
+                if (!File.Exists(defaultAppDataFolder + '\\' + MPFolder + '\\' + playlist.Name + ".xml"))
+                    File.Create(defaultAppDataFolder + '\\' + MPFolder + '\\' + playlist.Name + ".xml");
+
+                try
+                {
+                    XmlSerializer xs = new XmlSerializer(typeof(MediaList));
+                    using (StreamWriter wr = new StreamWriter(defaultAppDataFolder + '\\' + MPFolder + '\\' + playlist.Name + ".xml"))
+                    {
+                        xs.Serialize(wr, playlist);
+                        wr.Close();
+                    }
+                }
+                catch (InvalidOperationException e)
+                {
+                    Console.WriteLine("XML InvalidOperationException exception: " + e.InnerException.Message);
+                }
+                catch (NullReferenceException e)
+                {
+                    Console.WriteLine("XML NullReferenceException exception: " + e.Message);
+                }
+                catch (AmbiguousMatchException e)
+                {
+                    Console.WriteLine("Fail: " + e.Message);
+                }
+            }
+        }
 
         private ConcurrentBag<Media.Media> displayableMediaList = new ConcurrentBag<Media.Media>();
 
