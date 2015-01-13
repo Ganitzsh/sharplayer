@@ -47,6 +47,8 @@ namespace MediaPlayer
         {
             this.mediaPlayer = new MyWindowsMediaPlayerV2(); // <-- worker.ReportProgress(0);
             this._myMediaElement = new MediaElement();
+            this._myMediaElement.LoadedBehavior = MediaState.Manual;
+            this._myMediaElement.UnloadedBehavior = MediaState.Stop;
             
             this.playCommand = new DelegateCommand<object>(PlayMedia, CanPlayMedia);
             this.pauseCommand = new DelegateCommand<object>(PauseMedia, CanPauseMedia);
@@ -67,7 +69,8 @@ namespace MediaPlayer
         {
             // Finished creating stuff
             Console.WriteLine("IZI bra!");
-            this._myMediaElement.Source = new Uri(this.mediaPlayer.AudioList.Content[0].List[0].File);
+            this._myMediaElement.Source = new Uri(this.mediaPlayer.VideoList.Content[0].List[0].File);
+
         }
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
