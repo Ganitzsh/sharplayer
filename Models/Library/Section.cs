@@ -8,7 +8,7 @@ namespace MediaPlayer.Library
 {
     class Section : Library
     {
-        public Section(ConcurrentBag<Media.Media> content)
+        public Section(List<Media.Media> content)
             : base(content)
         {
             this.Type = LibraryType.Section;
