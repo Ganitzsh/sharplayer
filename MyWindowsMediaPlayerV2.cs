@@ -159,13 +159,13 @@ namespace MediaPlayer
             });
         }
 
-        public void ReadLibraries()
+        public async Task ReadLibraries()
         {
             //TODO: Thread for each of these operations -> See above
 
-            ReadSpecific(imageList, defaultImageLibraryFolder);
-            ReadSpecific(audiolist, defaultImageLibraryFolder);
-            ReadSpecific(videolist, defaultImageLibraryFolder);
+            await ReadSpecific(audioList, defaultAudioLibraryFolder);
+            await ReadSpecific(imageList, defaultImageLibraryFolder);
+            await ReadSpecific(videoList, defaultVideoLibraryFolder);
             //updatedisplayablemedialist();
         }
 
