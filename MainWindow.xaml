@@ -12,7 +12,7 @@
             <TextBlock x:Name="musicIcon" Margin="0" TextWrapping="Wrap" Foreground="#FFC19BEB" FontSize="96" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" HorizontalAlignment="Center" Width="183.333" TextAlignment="Center" LineHeight="29.333" VerticalAlignment="Center"><Span><Run Text="&#xF001;"/></Span></TextBlock>
             <TextBlock x:Name="title" Margin="0,0,19,37" TextWrapping="Wrap" TextAlignment="Right" FontSize="18.667" FontWeight="SemiBold" Foreground="#FFC19BEB" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="51"><Run Language="fr-fr" Text="Alive"/></TextBlock>
             <TextBlock x:Name="artist" Margin="0,0,19,17.3" TextWrapping="Wrap" TextAlignment="Right" FontSize="16" Foreground="#FFDFE1E5" Height="19.2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="142"><Run Language="fr-fr" Text="Empire of the sun"/></TextBlock>
-            <ContentControl Content="LOL ça ne marche pas." HorizontalAlignment="Left" Margin="27.5,45.5,0,0" VerticalAlignment="Top" Height="110.4" Width="138.877" Foreground="Red" Background="White"/>
+            <ContentControl Content="{Binding MyMediaElement}" HorizontalAlignment="Left" Margin="27.5,45.5,0,0" VerticalAlignment="Top" Height="110.4" Width="138.877" Foreground="Red" Background="Black"/>
         </Grid>
 
 
