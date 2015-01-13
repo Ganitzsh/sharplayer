@@ -235,15 +235,9 @@ namespace MediaPlayer
         {
             //TODO: Thread for each of these operations -> See above
 
-<<<<<<< HEAD
             await ReadSpecific(audioList, defaultAudioLibraryFolder);
             await ReadSpecific(imageList, defaultImageLibraryFolder);
             await ReadSpecific(videoList, defaultVideoLibraryFolder);
-=======
-            ReadSpecific(imageList, defaultImageLibraryFolder);
-            ReadSpecific(audioList, defaultImageLibraryFolder);
-            ReadSpecific(videoList, defaultImageLibraryFolder);
->>>>>>> dd366124c208ef2ed7805f06af0ff58ecc748597
             //updatedisplayablemedialist();
         }
 
