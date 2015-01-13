@@ -14,7 +14,7 @@ namespace MediaPlayer
      * Main ViewModel attached to the MainWindow
      * Good practice: to each V it's VM
      **/
-    class MainWindowViewModel :INotifyPropertyChanged
+    class MainWindowViewModel : INotifyPropertyChanged
     {
         private MyWindowsMediaPlayerV2 mediaPlayer;
         private readonly BackgroundWorker worker = new BackgroundWorker();
