@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace MediaPlayer.Serializable
 {
@@ -14,8 +15,10 @@ namespace MediaPlayer.Serializable
     public class MediaList
     {
         private MediaList sorted = null;
-        private ConcurrentBag<DirectoryContent> content = new ConcurrentBag<DirectoryContent>();
-        private ConcurrentBag<string> directories = new ConcurrentBag<string>();
+
+        private List<DirectoryContent> content = new List<DirectoryContent>();
+        private List<string> directories = new List<string>();
+
         private string rootDirectory;
 
         public MediaList Sorted
@@ -23,12 +26,10 @@ namespace MediaPlayer.Serializable
             get { return (sorted == null ? this : sorted); }
         }
 
-        /*
         public static MediaList operator +(MediaList a, MediaList b)
         {
             return new MediaList(a.Content.Concat(b.Content).ToList());
         }
-        */
 
         public string RootDirectory
         {
@@ -36,19 +37,19 @@ namespace MediaPlayer.Serializable
             set { rootDirectory = value; }
         }
 
-        public ConcurrentBag<string> Directories
+        public List<string> Directories
         {
             get { return directories; }
             set { directories = value; }
         }
 
-        public ConcurrentBag<DirectoryContent> Content
+        public List<DirectoryContent> Content
         {
             get { return content; }
             set { content = value; }
         }
 
-        public MediaList(ConcurrentBag<DirectoryContent> _content)
+        public MediaList(List<DirectoryContent> _content)
         {
             content = _content;
         }

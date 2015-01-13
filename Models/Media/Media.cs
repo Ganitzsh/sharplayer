@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.IO;
 using TagLib;
-using System.Collections.Concurrent;
 
 namespace MediaPlayer.Media
 {
@@ -24,11 +23,11 @@ namespace MediaPlayer.Media
     [XmlInclude(typeof(Image))]
     public abstract class Media
     {
-        private ConcurrentBag<string> formatList; // TODO: Generate from XML configuration file
+        private List<string> formatList; // TODO: Generate from XML configuration file
         private string filePath;
         private MediaTypes type;
 
-        public ConcurrentBag<string> Formats
+        public List<string> Formats
         {
             get { return formatList; }
             set { formatList = value; }
