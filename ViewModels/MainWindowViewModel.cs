@@ -14,11 +14,17 @@ namespace MediaPlayer
      * Main ViewModel attached to the MainWindow
      * Good practice: to each V it's VM
      **/
-    class MainWindowViewModel
+    class MainWindowViewModel :INotifyPropertyChanged
     {
         private MyWindowsMediaPlayerV2 mediaPlayer;
         private readonly BackgroundWorker worker = new BackgroundWorker();
         private MediaElement _myMediaElement;
+
+        public MediaElement MyMediaElement
+        {
+            get { return _myMediaElement; }
+            set { this._myMediaElement = value; }
+        }
 
         public MyWindowsMediaPlayerV2 MediaPlayer
         {
@@ -33,6 +39,7 @@ namespace MediaPlayer
         public MainWindowViewModel()
         {
             this.mediaPlayer = new MyWindowsMediaPlayerV2(); // <-- worker.ReportProgress(0);
+            this._myMediaElement = new MediaElement();
             this.playCommand = new DelegateCommand<object>(PlayMedia, CanPlayMedia);
             this.pauseCommand = new DelegateCommand<object>(PauseMedia, CanPauseMedia);
             this.stopCommand = new DelegateCommand<object>(StopMedia, CanStopMedia);
