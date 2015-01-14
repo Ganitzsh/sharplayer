@@ -175,14 +175,16 @@ namespace MediaPlayer
 
         #endregion
 
-<<<<<<< HEAD
         #region DummyTest
 
         public ICommand writeStuff { get; set; }
 
         public void DummyStuff(object param)
         {
-=======
+        }
+
+        #endregion
+
         #region FastForward
 
         public ICommand fastCommand { get; set; }
@@ -217,7 +219,6 @@ namespace MediaPlayer
                 return true;
             else
                 return false;
->>>>>>> 5a7581978c4050407d257db56c61de8c8690decf
         }
 
         #endregion
