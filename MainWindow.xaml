@@ -108,7 +108,7 @@
 
             </ListBox>
         </Grid>
-        <ProgressBar Height="4" Margin="0,0,0,40" VerticalAlignment="Bottom" Value="50" Foreground="#FFC19BEB" Background="#FFDFE1E5" BorderBrush="{x:Null}" BorderThickness="0"/>
+        <Slider x:Name="progressSlider" HorizontalAlignment="Left" Margin="0,325.5,0,0" VerticalAlignment="Top" Width="595" Value="50" Maximum="100" Foreground="{x:Null}"/>
         <Grid ClipToBounds="True" Background="Black" Margin="150,0,0,44">
         	<TabControl BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}" Padding="0">
         		<TabItem Header="TabItem" BorderBrush="{x:Null}">
