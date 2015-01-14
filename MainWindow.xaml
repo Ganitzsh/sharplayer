@@ -8,7 +8,8 @@
         <local:MainWindowViewModel/>
     </Window.DataContext>
     <Grid Margin="0">
-
+	 <ContentControl Content="{Binding MyMediaElement}" HorizontalAlignment="Left" Margin="27.5,45.5,0,0" VerticalAlignment="Top" Height="110.4" Width="138.877" Foreground="Red" Background="Black"/>
+       
 
         <Border x:Name="BotomBarBorder" BorderBrush="#FF303030" BorderThickness="0,1,0,0" Background="#FF161616" Height="40" VerticalAlignment="Bottom">
             <Grid x:Name="BotomBarGrid" Margin="0,-1,0,0" >
