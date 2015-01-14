@@ -61,7 +61,13 @@ namespace MediaPlayer
         public double SliderValue
         {
             get { return sliderValue; }
-            set { this.sliderValue = value; OnPropertyChanged("SliderValue"); }
+            set { this.sliderValue = value; OnPropertyChanged("SliderValue"); ChangeMediaPosition(); }
+        }
+
+        private void ChangeMediaPosition()
+        {
+            this._myMediaElement.Position = TimeSpan.FromSeconds(sliderValue);
+            Console.WriteLine("Media Changed");
         }
 
         private double sliderMaxValue;
@@ -120,7 +126,7 @@ namespace MediaPlayer
             this.writeStuff = new DelegateCommand<object>(DummyStuff);
             this.fastCommand = new DelegateCommand<object>(FastMedia, CanFastMedia);
             this.reverseCommand = new DelegateCommand<object>(ReverseMedia, CanReverseMedia);
-
+            
             worker.ProgressChanged += worker_ProgressChanged;
             worker.DoWork += worker_DoWork;
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
@@ -162,6 +168,25 @@ namespace MediaPlayer
         {
             //update ui
         }
+
+        #region Slider
+
+        public ICommand sliderCommand { get; set; }
+
+        public void SliderMoved(object param)
+        {
+            Console.WriteLine("Slider moved");
+        }
+
+        public bool CanMoveSlider(object param)
+        {
+            if (this._myMediaElement != null)
+                return true;
+            else
+                return false;
+        }
+
+        #endregion
 
         #region PlayMedia
 
