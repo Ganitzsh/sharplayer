@@ -9,21 +9,22 @@
         <local:MainWindowViewModel/>
     </Window.DataContext>
     <Grid Margin="0">
-
+	 <ContentControl Content="{Binding MyMediaElement}" HorizontalAlignment="Left" Margin="27.5,45.5,0,0" VerticalAlignment="Top" Height="110.4" Width="138.877" Foreground="Red" Background="Black"/>
+       
 
         <Border x:Name="BotomBarBorder" BorderBrush="#FF303030" BorderThickness="0,1,0,0" Background="#FF161616" Height="40" VerticalAlignment="Bottom">
             <Grid x:Name="BotomBarGrid" Margin="0,-1,0,0" >
                 <Grid.Background>
                     <SolidColorBrush Color="Black" Opacity="0"/>
                 </Grid.Background>
-                <Button x:Name="backwardButton" Content="&#xF04A;" HorizontalAlignment="Left" Width="42" FontFamily="FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,6.332,0,2.667" Height="30">
-                    <Button.BorderBrush>
+                <RepeatButton x:Name="backwardButton" Command="{Binding reverseCommand}" Content="&#xF04A;" HorizontalAlignment="Left" Width="42" FontFamily="FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,6.332,0,2.667" Height="30">
+                    <RepeatButton.BorderBrush>
                         <SolidColorBrush Color="#FF707070" Opacity="0"/>
-                    </Button.BorderBrush>
-                    <Button.Background>
+                    </RepeatButton.BorderBrush>
+                    <RepeatButton.Background>
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
-                    </Button.Background>
-                </Button>
+                    </RepeatButton.Background>
+                </RepeatButton>
                 <Button x:Name="playButton" Command="{Binding playCommand}" Content="&#xF04B;" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFC19BEB" BorderThickness="0" Margin="42,6.332,0,2.667" Height="30">
                     <Button.BorderBrush>
                         <SolidColorBrush Color="#FF707070" Opacity="0"/>
@@ -32,7 +33,7 @@
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                     </Button.Background>
                 </Button>
-                <Button x:Name="stopButton" Content="&#xF04D;" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="84,6.332,0,2.667" Height="30">
+                <Button x:Name="stopButton" Command="{Binding stopCommand}" Content="&#xF04D;" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="84,6.332,0,2.667" Height="30">
                     <Button.BorderBrush>
                         <SolidColorBrush Color="#FF707070" Opacity="0"/>
                     </Button.BorderBrush>
@@ -40,14 +41,14 @@
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                     </Button.Background>
                 </Button>
-                <Button x:Name="forwardButton" Content="&#xF04E;" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="126,6.332,0,2.667" Height="30">
-                    <Button.BorderBrush>
+                <RepeatButton x:Name="forwardButton" Command="{Binding fastCommand}" Content="&#xF04E;" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="126,6.332,0,2.667" Height="30">
+                    <RepeatButton.BorderBrush>
                         <SolidColorBrush Color="#FF707070" Opacity="0"/>
-                    </Button.BorderBrush>
-                    <Button.Background>
+                    </RepeatButton.BorderBrush>
+                    <RepeatButton.Background>
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
-                    </Button.Background>
-                </Button>
+                    </RepeatButton.Background>
+                </RepeatButton>
             </Grid>
         </Border>
         <Grid x:Name="SidebarGrid" Margin="0,0,0,44" HorizontalAlignment="Left" Width="150" >
@@ -123,7 +124,7 @@
 
             </ListBox>
         </Grid>
-        <ProgressBar Height="4" Margin="0,0,0,40" VerticalAlignment="Bottom" Value="50" Foreground="#FFC19BEB" Background="#FFDFE1E5" BorderBrush="{x:Null}" BorderThickness="0"/>
+        <Slider x:Name="progressSlider" HorizontalAlignment="Left" Margin="0,325.5,0,0" VerticalAlignment="Top" Width="595" Value="50" Maximum="100" Foreground="{x:Null}"/>
         <Grid ClipToBounds="True" Background="Black" Margin="150,0,0,44">
             <TabControl BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}" Padding="0" Name="MainTabControl" SelectedIndex="{ Binding Path=SelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }">
         		<TabItem Header="TabItem" BorderBrush="{x:Null}" >
