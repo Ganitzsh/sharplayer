@@ -63,12 +63,15 @@ namespace MediaPlayer
             set { this.imageList = value; }
         }
 
+        #region Playlists
+
         private List<Library.PlayList> playlists = new List<Library.PlayList>();
+        public List<Library.PlayList> Playlists { get { return playlists; } }
 
         public void TestLibrary()
         {
             var dc = ReadDir(defaultAudioLibraryFolder);
-            playlists.Add(new Library.PlayList("Toast", dc.List));
+            Playlists.Add(new Library.PlayList("Toast", dc.List));
             SerializePlaylists();
         }
 
@@ -79,27 +82,7 @@ namespace MediaPlayer
 
             string[] files = Directory.GetFiles(defaultAppDataFolder + '\\' + MPFolder);
             foreach (var file in files)
-                ProcessFileForLibrary(file);
-        }
-
-        private void ProcessFileForLibrary(string file)
-        {
-            Library.PlayList tmp = null;
-
-            try
-            {
-                XmlSerializer serializer = new XmlSerializer(typeof(Library.PlayList));
-                StreamReader reader = new StreamReader(file);
-
-                tmp = (Library.PlayList)serializer.Deserialize(reader);
-                playlists.Add(tmp);
-
-                reader.Close();
-            }
-            catch (InvalidOperationException e)
-            {
-                Console.WriteLine("XML InvalidOperationException exception: " + e.Message);
-            }
+                Playlists.Add(Library.PlayList.GetFromFile(file));
         }
 
         private void SerializePlaylists()
@@ -107,9 +90,11 @@ namespace MediaPlayer
             if (!Directory.Exists(defaultAppDataFolder + '\\' + MPFolder))
                 Directory.CreateDirectory(defaultAppDataFolder + '\\' + MPFolder);
 
-            foreach (var playlist in playlists)
+            foreach (var playlist in Playlists)
                 playlist.SerializeInto(defaultAppDataFolder + '\\' + MPFolder + '\\');              
         }
+
+        #endregion
 
         private List<Media.Media> displayableMediaList = new List<Media.Media>();
 

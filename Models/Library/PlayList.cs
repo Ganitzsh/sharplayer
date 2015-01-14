@@ -31,6 +31,8 @@ namespace MediaPlayer.Library
             return (this.Content.Contains(media));
         }
 
+        #region Serialization
+
         public void SerializeInto(string directory)
         {
             if (!File.Exists(directory + this.Name + ".xml"))
@@ -59,8 +61,35 @@ namespace MediaPlayer.Library
             }
         }
 
+        public static PlayList GetFromFile(string file)
+        {
+            PlayList tmp = null;
+            StreamReader reader = null;
+
+            try
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(PlayList));
+                reader = new StreamReader(file);
+
+                tmp = (PlayList)serializer.Deserialize(reader);
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine("XML InvalidOperationException exception: " + e.Message);
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
+            }
+            return (tmp);
+        }
+
+        #endregion
+
+        #region Filters
         // Not safe. Explodes if you mix media types in a playlist.
-        public List<Media.Media> FiltersBy<T>(Dictionary<string, string> filters)
+        public List<Media.Media> FilterBy<T>(Dictionary<string, string> filters)
         {
             var properties = new Dictionary<string, PropertyInfo>();
 
@@ -80,6 +109,17 @@ namespace MediaPlayer.Library
                 return true;
             })));
         }
+
+        public List<Media.Media> OrderBy<T>(Tuple<string, bool> sort)
+        {
+            var property = typeof(T).GetProperty(sort.Item1);
+
+            if (sort.Item2)
+                return (new List<Media.Media>(this.Content.OrderBy(med => property.GetValue(med))));
+            return (new List<Media.Media>(this.Content.OrderByDescending(med => property.GetValue(med))));
+        }
+
+        #endregion
 
         public PlayList(string name, List<Media.Media> content)
             : base(content)
