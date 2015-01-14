@@ -74,7 +74,7 @@ namespace MediaPlayer
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
             // TODO: create a method to check indexer inside the MyWindowsMediaPlayerV2 class to avoid doing it inside the constructor
-            //mediaPlayer.TestLibrary();
+            // mediaPlayer.TestLibrary();
             mediaPlayer.ReadLibraries();
             mediaPlayer.GetPlaylists();
         }
