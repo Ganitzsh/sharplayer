@@ -39,7 +39,7 @@
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                     </Button.Background>
                 </Button>
-                <Button x:Name="forwardButton" Content="&#xF04E;" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="126,6.332,0,2.667" Height="30">
+                <Button x:Name="forwardButton" Command="{Binding fastCommand}" Content="&#xF04E;" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="126,6.332,0,2.667" Height="30">
                     <Button.BorderBrush>
                         <SolidColorBrush Color="#FF707070" Opacity="0"/>
                     </Button.BorderBrush>

@@ -140,5 +140,25 @@ namespace MediaPlayer
         }
 
         #endregion
+
+        #region FastForward
+
+        public ICommand fastCommand { get; set; }
+
+        public void FastMedia(object param)
+        {
+            Console.WriteLine(this._myMediaElement.SpeedRatio);
+            this._myMediaElement.SpeedRatio += 0.25;
+        }
+
+        public bool CanFastMedia(object param)
+        {
+            if (this._myMediaElement != null)
+                return true;
+            else
+                return false;
+        }
+
+        #endregion
     }
 }
