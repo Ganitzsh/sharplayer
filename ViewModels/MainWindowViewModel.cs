@@ -85,7 +85,7 @@ namespace MediaPlayer
         {
             if (_myMediaElement.NaturalDuration.TimeSpan.TotalSeconds > 0)
             {
-                sliderValue = _myMediaElement.Position.TotalSeconds;
+                SliderValue = _myMediaElement.Position.TotalSeconds;
                 Console.WriteLine(sliderValue);
             }
         }
@@ -96,7 +96,7 @@ namespace MediaPlayer
                     _myMediaElement.NaturalDuration.TimeSpan.TotalSeconds,
                     MidpointRounding.AwayFromZero);
 
-            sliderMaxValue = absvalue;
+            SliderMaxValue = absvalue;
             StartTimer();
         }
 
@@ -112,8 +112,8 @@ namespace MediaPlayer
             this._myMediaElement.LoadedBehavior = MediaState.Manual;
             this._myMediaElement.UnloadedBehavior = MediaState.Stop;
             this._myMediaElement.MediaOpened += new RoutedEventHandler(MediaOpened);
-            sliderMaxValue = 100;
-            sliderValue = 0;
+            SliderMaxValue = 100;
+            SliderValue = 0;
             this.playCommand = new DelegateCommand<object>(PlayMedia, CanPlayMedia);
             this.pauseCommand = new DelegateCommand<object>(PauseMedia, CanPauseMedia);
             this.stopCommand = new DelegateCommand<object>(StopMedia, CanStopMedia);
