@@ -20,6 +20,22 @@ namespace MediaPlayer
         private readonly BackgroundWorker worker = new BackgroundWorker();
         private MediaElement _myMediaElement;
 
+        private int selectedIndex;
+
+        public int SelectedIndex
+        {
+            get { return selectedIndex; }
+            set
+            {
+                if (this.selectedIndex != value)
+                {
+                    this.selectedIndex = value;
+                    OnPropertyChanged("SelectedIndex");
+                }
+            }
+        }
+        
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -52,10 +68,21 @@ namespace MediaPlayer
             this.playCommand = new DelegateCommand<object>(PlayMedia, CanPlayMedia);
             this.pauseCommand = new DelegateCommand<object>(PauseMedia, CanPauseMedia);
             this.stopCommand = new DelegateCommand<object>(StopMedia, CanStopMedia);
+            this.writeStuff = new DelegateCommand<object>(DummyStuff);
             worker.ProgressChanged += worker_ProgressChanged;
             worker.DoWork += worker_DoWork;
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
             worker.RunWorkerAsync();
+        }
+
+        private bool displayXamlTab = false;
+        public bool DisplayXamlTab
+        {
+            get { return this.displayXamlTab; }
+            set
+            {
+                this.displayXamlTab = value;
+            }
         }
 
         /*
@@ -137,6 +164,16 @@ namespace MediaPlayer
                 return true;
             else
                 return false;
+        }
+
+        #endregion
+
+        #region DummyTest
+
+        public ICommand writeStuff { get; set; }
+
+        public void DummyStuff(object param)
+        {
         }
 
         #endregion
