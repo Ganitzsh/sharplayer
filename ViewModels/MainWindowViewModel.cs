@@ -7,6 +7,8 @@ using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
+using System.Windows.Threading;
+using System.Windows;
 
 namespace MediaPlayer
 {
@@ -54,6 +56,55 @@ namespace MediaPlayer
             set { mediaPlayer = value; }
         }
 
+        private double sliderValue;
+        public double SliderValue
+        {
+            get { return sliderValue; }
+            set { this.sliderValue = value; OnPropertyChanged("SliderValue"); ChangeMediaPosition(); }
+        }
+
+        private void ChangeMediaPosition()
+        {
+            this._myMediaElement.Position = TimeSpan.FromSeconds(sliderValue);
+            Console.WriteLine("Media Changed");
+        }
+
+        private double sliderMaxValue;
+        public double SliderMaxValue
+        {
+            get { return sliderMaxValue; }
+            set { this.sliderMaxValue = value; OnPropertyChanged("SliderMaxValue"); }
+        }
+
+        private DispatcherTimer timer;
+
+        private void StartTimer()
+        {
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timer_tick;
+            timer.Start();
+        }
+
+        private void timer_tick(object ender, object e)
+        {
+            if (_myMediaElement.NaturalDuration.TimeSpan.TotalSeconds > 0)
+            {
+                SliderValue = _myMediaElement.Position.TotalSeconds;
+                Console.WriteLine(sliderValue);
+            }
+        }
+
+        private void MediaOpened(object sender, RoutedEventArgs e)
+        {
+            double absvalue = (int)Math.Round(
+                    _myMediaElement.NaturalDuration.TimeSpan.TotalSeconds,
+                    MidpointRounding.AwayFromZero);
+
+            SliderMaxValue = absvalue;
+            StartTimer();
+        }
+
         /**
          * Gets called automatically
          * Set inside the DataContext tag in da MainWindow's XAML file
@@ -65,13 +116,16 @@ namespace MediaPlayer
             this._myMediaElement.ScrubbingEnabled = true;
             this._myMediaElement.LoadedBehavior = MediaState.Manual;
             this._myMediaElement.UnloadedBehavior = MediaState.Stop;
+            this._myMediaElement.MediaOpened += new RoutedEventHandler(MediaOpened);
+            SliderMaxValue = 100;
+            SliderValue = 0;
             this.playCommand = new DelegateCommand<object>(PlayMedia, CanPlayMedia);
             this.pauseCommand = new DelegateCommand<object>(PauseMedia, CanPauseMedia);
             this.stopCommand = new DelegateCommand<object>(StopMedia, CanStopMedia);
             this.writeStuff = new DelegateCommand<object>(DummyStuff);
             this.fastCommand = new DelegateCommand<object>(FastMedia, CanFastMedia);
             this.reverseCommand = new DelegateCommand<object>(ReverseMedia, CanReverseMedia);
-
+            
             worker.ProgressChanged += worker_ProgressChanged;
             worker.DoWork += worker_DoWork;
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
@@ -113,6 +167,25 @@ namespace MediaPlayer
         {
             //update ui
         }
+
+        #region Slider
+
+        public ICommand sliderCommand { get; set; }
+
+        public void SliderMoved(object param)
+        {
+            Console.WriteLine("Slider moved");
+        }
+
+        public bool CanMoveSlider(object param)
+        {
+            if (this._myMediaElement != null)
+                return true;
+            else
+                return false;
+        }
+
+        #endregion
 
         #region PlayMedia
 
