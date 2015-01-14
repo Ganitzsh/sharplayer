@@ -47,11 +47,14 @@ namespace MediaPlayer
         {
             this.mediaPlayer = new MyWindowsMediaPlayerV2(); // <-- worker.ReportProgress(0);
             this._myMediaElement = new MediaElement();
+            this._myMediaElement.ScrubbingEnabled = true;
             this._myMediaElement.LoadedBehavior = MediaState.Manual;
             this._myMediaElement.UnloadedBehavior = MediaState.Stop;
             this.playCommand = new DelegateCommand<object>(PlayMedia, CanPlayMedia);
             this.pauseCommand = new DelegateCommand<object>(PauseMedia, CanPauseMedia);
             this.stopCommand = new DelegateCommand<object>(StopMedia, CanStopMedia);
+            this.fastCommand = new DelegateCommand<object>(FastMedia, CanFastMedia);
+            this.reverseCommand = new DelegateCommand<object>(ReverseMedia, CanReverseMedia);
             worker.ProgressChanged += worker_ProgressChanged;
             worker.DoWork += worker_DoWork;
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
@@ -90,6 +93,7 @@ namespace MediaPlayer
 
         public void PlayMedia(object param)
         {
+            Console.WriteLine("TESTLOL");
             this._myMediaElement.Play();
         }
 
@@ -147,11 +151,29 @@ namespace MediaPlayer
 
         public void FastMedia(object param)
         {
-            Console.WriteLine(this._myMediaElement.SpeedRatio);
-            this._myMediaElement.SpeedRatio += 0.25;
+            this._myMediaElement.Position = TimeSpan.FromSeconds(this._myMediaElement.Position.TotalSeconds + 0.5);
         }
 
         public bool CanFastMedia(object param)
+        {
+            if (this._myMediaElement != null)
+                return true;
+            else
+                return false;
+        }
+
+        #endregion
+
+        #region Reverse
+
+        public ICommand reverseCommand { get; set; }
+
+        public void ReverseMedia(object param)
+        {
+           this._myMediaElement.Position = TimeSpan.FromSeconds(this._myMediaElement.Position.TotalSeconds - 0.5);
+        }
+
+        public bool CanReverseMedia(object param)
         {
             if (this._myMediaElement != null)
                 return true;
