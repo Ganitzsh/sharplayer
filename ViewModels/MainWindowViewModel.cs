@@ -69,12 +69,10 @@ namespace MediaPlayer
             this.playCommand = new DelegateCommand<object>(PlayMedia, CanPlayMedia);
             this.pauseCommand = new DelegateCommand<object>(PauseMedia, CanPauseMedia);
             this.stopCommand = new DelegateCommand<object>(StopMedia, CanStopMedia);
-<<<<<<< HEAD
             this.writeStuff = new DelegateCommand<object>(DummyStuff);
-=======
             this.fastCommand = new DelegateCommand<object>(FastMedia, CanFastMedia);
             this.reverseCommand = new DelegateCommand<object>(ReverseMedia, CanReverseMedia);
->>>>>>> 5a7581978c4050407d257db56c61de8c8690decf
+
             worker.ProgressChanged += worker_ProgressChanged;
             worker.DoWork += worker_DoWork;
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
@@ -181,6 +179,7 @@ namespace MediaPlayer
 
         public void DummyStuff(object param)
         {
+            SelectedIndex = 1;
         }
 
         #endregion
