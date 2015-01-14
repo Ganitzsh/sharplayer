@@ -3,17 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:MediaPlayer"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="MediaPlayer.MainWindow"
-        Title="Sharplayer" Height="304" Width="454" MinWidth="600" MinHeight="400" FontFamily="FontAw">
+        Title="Sharplayer" Height="144" Width="170" MinWidth="600" MinHeight="400" FontFamily="FontAw" Background="Black">
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
     <Grid Margin="0">
-        <Grid x:Name="ContentGrid" Margin="150,0,0,44" Background="Black">
-            <TextBlock x:Name="musicIcon" Margin="0" TextWrapping="Wrap" Foreground="#FFC19BEB" FontSize="96" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" HorizontalAlignment="Center" Width="183.333" TextAlignment="Center" LineHeight="29.333" VerticalAlignment="Center"><Span><Run Text="&#xF001;"/></Span></TextBlock>
-            <TextBlock x:Name="title" Margin="0,0,19,37" TextWrapping="Wrap" TextAlignment="Right" FontSize="18.667" FontWeight="SemiBold" Foreground="#FFC19BEB" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="51"><Run Language="fr-fr" Text="Alive"/></TextBlock>
-            <TextBlock x:Name="artist" Margin="0,0,19,17.3" TextWrapping="Wrap" TextAlignment="Right" FontSize="16" Foreground="#FFDFE1E5" Height="19.2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="142"><Run Language="fr-fr" Text="Empire of the sun"/></TextBlock>
-            <ContentControl Content="{Binding MyMediaElement}" HorizontalAlignment="Left" Margin="27.5,45.5,0,0" VerticalAlignment="Top" Height="110.4" Width="138.877" Foreground="Red" Background="Black"/>
-        </Grid>
 
 
         <Border x:Name="BotomBarBorder" BorderBrush="#FF303030" BorderThickness="0,1,0,0" Background="#FF161616" Height="40" VerticalAlignment="Bottom">
@@ -114,6 +108,24 @@
             </ListBox>
         </Grid>
         <ProgressBar Height="4" Margin="0,0,0,40" VerticalAlignment="Bottom" Value="50" Foreground="#FFC19BEB" Background="#FFDFE1E5" BorderBrush="{x:Null}" BorderThickness="0"/>
+        <Grid ClipToBounds="True" Background="Black" Margin="150,0,0,44">
+        	<TabControl BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}" Padding="0">
+        		<TabItem Header="TabItem" BorderBrush="{x:Null}">
+        			<Grid Background="Black">
+        				<TextBlock x:Name="artist" Margin="0,0,10,10" TextWrapping="Wrap" TextAlignment="Right" FontSize="16" Foreground="#FFDFE1E5" Height="19.2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="142"><Run Language="fr-fr" Text="Empire of the sun"/></TextBlock>
+        				<TextBlock x:Name="title" Margin="0,0,10,29.2" TextWrapping="Wrap" TextAlignment="Right" FontSize="18.667" FontWeight="SemiBold" Foreground="#FFC19BEB" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="51"><Run Language="fr-fr" Text="Alive"/></TextBlock>
+        				<TextBlock x:Name="musicIcon" Margin="130.834,105.648,130.833,105.648" TextWrapping="Wrap" Foreground="#FFC19BEB" FontSize="96" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" TextAlignment="Center" LineHeight="29.333"><Span><Run Text="&#xF001;"/></Span></TextBlock>
+        			</Grid>
+        		</TabItem>
+        		<TabItem Header="TabItem" BorderBrush="{x:Null}" Margin="-2,-2,-2,0">
+        			<Grid Background="Black">
+        				<ListBox HorizontalAlignment="Left" Height="233" Margin="25.5,33.1,0,0" VerticalAlignment="Top" Width="365">
+        					<ListBoxItem Content="Test"/>
+        				</ListBox>
+        			</Grid>
+        		</TabItem>
+        	</TabControl>
+        </Grid>
 
     </Grid>
 </Window>

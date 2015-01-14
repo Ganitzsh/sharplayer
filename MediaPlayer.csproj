@@ -83,6 +83,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\TabPadding.cs" />
     <Compile Include="Serializable\DirectoryContent.cs" />
     <Compile Include="Serializable\MediaList.cs" />
     <Page Include="MainWindow.xaml">
