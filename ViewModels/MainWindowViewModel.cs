@@ -105,6 +105,18 @@ namespace MediaPlayer
             StartTimer();
         }
 
+        private void StopMediaHandler(object sender, RoutedEventArgs e)
+        {
+            CancelMedia();
+        }
+
+        private void CancelMedia()
+        {
+            this._myMediaElement.Stop();
+            this.timer.Stop();
+            SliderValue = 0;
+        }
+
         /**
          * Gets called automatically
          * Set inside the DataContext tag in da MainWindow's XAML file
@@ -113,6 +125,7 @@ namespace MediaPlayer
         {
             this.mediaPlayer = new MyWindowsMediaPlayerV2(); // <-- worker.ReportProgress(0);
             this._myMediaElement = new MediaElement();
+            this._myMediaElement.MediaEnded += StopMediaHandler;
             this._myMediaElement.ScrubbingEnabled = true;
             this._myMediaElement.LoadedBehavior = MediaState.Manual;
             this._myMediaElement.UnloadedBehavior = MediaState.Stop;
@@ -195,6 +208,7 @@ namespace MediaPlayer
         {
             Console.WriteLine("TESTLOL");
             this._myMediaElement.Play();
+            this.timer.Start();
         }
 
         public bool CanPlayMedia(object param)
@@ -232,7 +246,7 @@ namespace MediaPlayer
 
         public void StopMedia(object param)
         {
-            this._myMediaElement.Stop();
+            CancelMedia();
         }
 
         public bool CanStopMedia(object param)
