@@ -137,8 +137,11 @@ namespace MediaPlayer.Library
             {
                 type = medias[0].Type;
                 foreach (var media in medias)
+                {
                     if (type != media.Type)
-                        return Media.MediaTypes.Generic;
+                        Console.WriteLine("File skipped : " + media.Name);
+                        //return Media.MediaTypes.Generic;
+                }
             }
             return type;
         }
@@ -149,8 +152,10 @@ namespace MediaPlayer.Library
             this.Name = name;
             this.Type = LibraryType.PlayList;
             this.MediaType = GetMediaType(content);
+            /*
             if (this.MediaType == Media.MediaTypes.Generic)
                 throw new PlayListMixedMediaTypesException();
+            */
             }
 
         public PlayList()
