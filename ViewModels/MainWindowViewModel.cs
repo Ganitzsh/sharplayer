@@ -412,12 +412,15 @@ namespace MediaPlayer
 
         public void TrackSelected(object param)
         {
-            mediaPlayer.NowPlaying = CurrentAlbum[(int)param];
-            OnPropertyChanged("NowPlayingTitle");
-            OnPropertyChanged("NowPlayingArtist");
-            Console.WriteLine("File Path: " + CurrentAlbum[(int)param].File);
-            this._myMediaElement.Source = new Uri(CurrentAlbum[(int)param].File);
-            PlayMedia(null);
+            if ((int)param < CurrentAlbum.Count())
+            {
+                mediaPlayer.NowPlaying = CurrentAlbum[(int)param];
+                OnPropertyChanged("NowPlayingTitle");
+                OnPropertyChanged("NowPlayingArtist");
+                Console.WriteLine("File Path: " + CurrentAlbum[(int)param].File);
+                this._myMediaElement.Source = new Uri(CurrentAlbum[(int)param].File);
+                PlayMedia(null);
+            }
         }
 
         #endregion
