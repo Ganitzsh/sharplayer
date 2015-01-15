@@ -68,7 +68,7 @@ namespace MediaPlayer
         private List<Library.PlayList> playlists = new List<Library.PlayList>();
         public List<Library.PlayList> Playlists { get { return playlists; } }
 
-        public void TestLibrary()
+        public void TestPlaylist()
         {
             var dc = ReadDir(defaultAudioLibraryFolder);
             Playlists.Add(new Library.PlayList("Toast", dc.List));
