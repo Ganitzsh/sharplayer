@@ -166,7 +166,13 @@ namespace MediaPlayer
 
         private void StartTimer()
         {
+<<<<<<< HEAD
+            Console.WriteLine("TESTLOL");
+            this._myMediaElement.Play();
+            StartTimer();
+=======
             timer.Start();
+>>>>>>> ade16f32cebd2b4dae4a4962f28fd76c1ac06a87
         }
 
         private void timer_tick(object ender, object e)
