@@ -123,8 +123,28 @@ namespace MediaPlayer.Library
             var property = typeof(T).GetProperty(sort.Item1);
 
             if (sort.Item2)
-                return (new List<Media.Media>(this.Content.OrderBy(med => property.GetValue(med))));
-            return (new List<Media.Media>(this.Content.OrderByDescending(med => property.GetValue(med))));
+                return (new List<Media.Media>(this.Content.OrderBy(delegate(Media.Media med)
+                    {
+                        try
+                        {
+                            return (property.GetValue(med));
+                        }
+                        catch (Exception e)
+                        {
+                            return (false);
+                        }
+                    })));
+            return (new List<Media.Media>(this.Content.OrderByDescending(delegate(Media.Media med)
+                    {
+                        try
+                        {
+                            return (property.GetValue(med));
+                        }
+                        catch (Exception e)
+                        {
+                            return (false);
+                        }
+                    })));
         }
 
         #endregion
