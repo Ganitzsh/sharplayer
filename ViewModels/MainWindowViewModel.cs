@@ -394,6 +394,8 @@ namespace MediaPlayer
         public void TrackSelected(object param)
         {
             Console.WriteLine("File Path: " + CurrentAlbum[(int)param].File);
+            this._myMediaElement.Source = new Uri(CurrentAlbum[(int)param].File);
+            PlayMedia(null);
         }
 
         #endregion
