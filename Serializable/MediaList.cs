@@ -62,7 +62,7 @@ namespace MediaPlayer.Serializable
                         return null;
                     }
                 }));
-            }).Distinct().ToList();
+            }).Distinct().OrderBy(str => str).ToList();
 
             return lst;
         }
