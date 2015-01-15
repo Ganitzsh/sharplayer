@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace MediaPlayer.Media
 {
@@ -52,6 +54,13 @@ namespace MediaPlayer.Media
             this.Year = tmp.Tag.Year;
             this.Album = tmp.Tag.Album;
             this.Artist = ((tmp.Tag.Performers.Length > 0) ? tmp.Tag.Performers[0] : "None");
+            /*
+            if (tmp.Tag.Pictures.Length >= 1)
+            {
+                var bin = (byte[])(tmp.Tag.Pictures[0].Data.Data);
+                this.Art = System.Drawing.Image.FromStream(new MemoryStream(bin)).GetThumbnailImage(100, 100, null, IntPtr.Zero);
+            }
+            */
         }
 
         public override string ToString()

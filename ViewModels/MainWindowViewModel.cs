@@ -23,7 +23,6 @@ namespace MediaPlayer
         #region Properties
 
         private List<Media.Media> currentAlbum;
-
         public List<Media.Media> CurrentAlbum
         {
             get { return currentAlbum; }
@@ -86,7 +85,26 @@ namespace MediaPlayer
                 }
             }
         }
-        
+        public string NowPlayingTitle
+        { 
+            get
+            {
+                if (mediaPlayer.NowPlaying != null && mediaPlayer.NowPlaying.Type == Media.MediaTypes.Music)
+                    return ((Media.Audio)mediaPlayer.NowPlaying).TrackName;
+                return null;
+            }
+        }
+
+        public string NowPlayingArtist
+        {
+            get
+            {
+                if (mediaPlayer.NowPlaying != null && mediaPlayer.NowPlaying.Type == Media.MediaTypes.Music)
+                    return ((Media.Audio)mediaPlayer.NowPlaying).Artist;
+                return null;
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -149,7 +167,6 @@ namespace MediaPlayer
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(500);
             timer.Tick += timer_tick;
-            
             worker.ProgressChanged += worker_ProgressChanged;
             worker.DoWork += worker_DoWork;
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
@@ -301,20 +318,22 @@ namespace MediaPlayer
 
         public void PlayMedia(object param)
         {
-            Console.WriteLine("COUCOU");
-            if (this.mediaPlaying == false)
+            if (this._myMediaElement.Source != null)
             {
-                this._myMediaElement.Play();
-                this.mediaPlaying = true;
-                this.PlayIcon = "\uf04c";
-                if (!this.timer.IsEnabled)
-                    StartTimer();
-            }
-            else
-            {
-                this._myMediaElement.Pause();
-                this.mediaPlaying = false;
-                this.PlayIcon = "\uf04b";
+                if (this.mediaPlaying == false)
+                {
+                    this._myMediaElement.Play();
+                    this.mediaPlaying = true;
+                    this.PlayIcon = "\uf04c";
+                    if (!this.timer.IsEnabled)
+                        StartTimer();
+                }
+                else
+                {
+                    this._myMediaElement.Pause();
+                    this.mediaPlaying = false;
+                    this.PlayIcon = "\uf04b";
+                }
             }
         }
 
@@ -395,7 +414,12 @@ namespace MediaPlayer
 
         public void TrackSelected(object param)
         {
+            mediaPlayer.NowPlaying = CurrentAlbum[(int)param];
+            OnPropertyChanged("NowPlayingTitle");
+            OnPropertyChanged("NowPlayingArtist");
             Console.WriteLine("File Path: " + CurrentAlbum[(int)param].File);
+            this._myMediaElement.Source = new Uri(CurrentAlbum[(int)param].File);
+            PlayMedia(null);
         }
 
         #endregion
