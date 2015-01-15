@@ -208,7 +208,7 @@ namespace MediaPlayer
         {
             Console.WriteLine("TESTLOL");
             this._myMediaElement.Play();
-            this.timer.Start();
+            StartTimer();
         }
 
         public bool CanPlayMedia(object param)
