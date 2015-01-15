@@ -136,11 +136,16 @@
         		</TabItem>
                 <TabItem Header="Playlist" BorderBrush="{x:Null}" Margin="-2,-2,-2,0" IsSelected="{Binding DisplayXamlTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
         			<Grid Background="Black">
-        				<ListView x:Name="artistsListView" HorizontalAlignment="Left" Height="308.1" VerticalAlignment="Top" Width="136">
+                        <ListView x:Name="artistsListView" HorizontalAlignment="Left" Height="308.1" VerticalAlignment="Top" Width="136" ItemsSource="{Binding ArtistsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{ Binding Path=SelectedArtist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" >
 
-				
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviousMouseDown">
+                                    <i:InvokeCommandAction  Command="{Binding artistSelected}" 
+                                                            CommandParameter="{Binding ElementName=artistsListView, Path=SelectedItem}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
 
-						<ListView.View>
+                            <ListView.View>
 						  <GridView>
 							<GridViewColumn Width="100" Header="Artist Name" />
 						  </GridView>
@@ -148,11 +153,18 @@
 
 
         				</ListView>
-        				<ListView x:Name="albumsListView" HorizontalAlignment="Left" Height="308.1" VerticalAlignment="Top" Width="162" Margin="136,0,0,0">
+                        <ListView x:Name="albumsListView" HorizontalAlignment="Left" Height="308.1" VerticalAlignment="Top" Width="162" Margin="136,0,0,0" ItemsSource="{Binding AlbumsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{ Binding Path=SelectedAlbum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" >
 
-				
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviousMouseDown">
+                                    <i:InvokeCommandAction  Command="{Binding artistSelected}" 
+                                                            CommandParameter="{Binding ElementName=artistsListView, Path=SelectedItem}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
 
-        					<ListView.View>
+
+
+                            <ListView.View>
         						<GridView>
         							<GridViewColumn Width="100" Header="Album name" />
         						</GridView>
