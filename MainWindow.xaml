@@ -172,7 +172,12 @@
         				</ListView>
                         <ListView x:Name="titleListView" HorizontalAlignment="Left" Height="308.1" VerticalAlignment="Top" Width="147" Margin="298,0,0,0" ItemsSource="{Binding TrackList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{ Binding Path=SelectedTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" >
 
-
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction  Command="{Binding trackSelected}" 
+                                                            CommandParameter="{Binding ElementName=titleListView, Path=SelectedIndex}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
 
                             <ListView.View>
         						<GridView>

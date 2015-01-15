@@ -22,6 +22,14 @@ namespace MediaPlayer
 
         #region Properties
 
+        private List<Media.Media> currentAlbum;
+
+        public List<Media.Media> CurrentAlbum
+        {
+            get { return currentAlbum; }
+            set { currentAlbum = value; }
+        }
+
         private int selectedArtist;
         public int SelectedArtist
         {
@@ -134,6 +142,7 @@ namespace MediaPlayer
             this.reverseCommand = new DelegateCommand<object>(ReverseMedia, CanReverseMedia);
             this.artistSelected = new DelegateCommand<object>(ArtistSelected);
             this.albumSelected = new DelegateCommand<object>(AlbumSelected);
+            this.trackSelected = new DelegateCommand<object>(TrackSelected);
             this.playIcon = "\uf04b";
             this.mediaPlaying = false;
 
@@ -371,12 +380,20 @@ namespace MediaPlayer
         public void AlbumSelected(object param)
         {
             Console.WriteLine("Clicked: " + (string)param);
-            TrackList = MediaPlayer.AudioList.ToPlaylist().FilterBy<Media.Audio>(new Dictionary<string, string>{
+            CurrentAlbum = MediaPlayer.AudioList.ToPlaylist().FilterBy<Media.Audio>(new Dictionary<string, string>{
             {
                 "Album",
                 (string)param}
-            }).Select(med => ((Media.Audio)med).TrackName).Distinct().ToList();
+            });
+            TrackList = CurrentAlbum.Select(med => ((Media.Audio)med).TrackName).Distinct().ToList();
             OnPropertyChanged("TrackList");
+        }
+
+        public ICommand trackSelected { get; set; }
+
+        public void TrackSelected(object param)
+        {
+            Console.WriteLine("File Path: " + CurrentAlbum[(int)param].File);
         }
 
         #endregion
