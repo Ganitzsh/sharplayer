@@ -117,16 +117,16 @@ namespace MediaPlayer
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             // Finished creating stuff
-            this._myMediaElement.Source = new Uri(this.mediaPlayer.AudioList.Content[1].List[0].File);
+            // this._myMediaElement.Source = new Uri(this.mediaPlayer.AudioList.Content[1].List[0].File);
 
         }
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
             // TODO: create a method to check indexer inside the MyWindowsMediaPlayerV2 class to avoid doing it inside the constructor
-            // mediaPlayer.TestLibrary();
-            mediaPlayer.ReadLibraries();
+            //mediaPlayer.TestPlaylist();
             mediaPlayer.GetPlaylists();
+            mediaPlayer.ReadLibraries();
         }
 
         private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
