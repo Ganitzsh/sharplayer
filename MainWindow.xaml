@@ -25,7 +25,7 @@
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                     </RepeatButton.Background>
                 </RepeatButton>
-                <Button x:Name="playButton" Command="{Binding playCommand}" Content="&#xF04B;" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFC19BEB" BorderThickness="0" Margin="42,6.332,0,2.667" Height="30">
+                <Button x:Name="playButton" Command="{Binding playCommand}" Content="{Binding Path=PlayIcon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFC19BEB" BorderThickness="0" Margin="42,6.332,0,2.667" Height="30">
                     <Button.BorderBrush>
                         <SolidColorBrush Color="#FF707070" Opacity="0"/>
                     </Button.BorderBrush>
