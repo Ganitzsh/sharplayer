@@ -103,6 +103,8 @@ namespace MediaPlayer
             get { return displayableMediaList; }
         }
 
+        public Media.Media NowPlaying { get; set; }
+
         /*
         private void UpdateDisplayableMediaList()
         {
