@@ -139,7 +139,7 @@
                         <ListView x:Name="artistsListView" HorizontalAlignment="Left" Height="308.1" VerticalAlignment="Top" Width="136" ItemsSource="{Binding ArtistsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{ Binding Path=SelectedArtist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" >
 
                             <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="PreviousMouseDown">
+                                <i:EventTrigger EventName="MouseDoubleClick">
                                     <i:InvokeCommandAction  Command="{Binding artistSelected}" 
                                                             CommandParameter="{Binding ElementName=artistsListView, Path=SelectedItem}" />
                                 </i:EventTrigger>
@@ -156,14 +156,12 @@
                         <ListView x:Name="albumsListView" HorizontalAlignment="Left" Height="308.1" VerticalAlignment="Top" Width="162" Margin="136,0,0,0" ItemsSource="{Binding AlbumsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{ Binding Path=SelectedAlbum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" >
 
                             <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="PreviousMouseDown">
-                                    <i:InvokeCommandAction  Command="{Binding artistSelected}" 
-                                                            CommandParameter="{Binding ElementName=artistsListView, Path=SelectedItem}" />
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction  Command="{Binding albumSelected}" 
+                                                            CommandParameter="{Binding ElementName=albumsListView, Path=SelectedItem}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-
-
-
+                            
                             <ListView.View>
         						<GridView>
         							<GridViewColumn Width="100" Header="Album name" />
@@ -172,11 +170,11 @@
 
 
         				</ListView>
-        				<ListView x:Name="titleListView" HorizontalAlignment="Left" Height="308.1" VerticalAlignment="Top" Width="147" Margin="298,0,0,0">
+                        <ListView x:Name="titleListView" HorizontalAlignment="Left" Height="308.1" VerticalAlignment="Top" Width="147" Margin="298,0,0,0" ItemsSource="{Binding TrackList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{ Binding Path=SelectedTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" >
 
-				
 
-        					<ListView.View>
+
+                            <ListView.View>
         						<GridView>
 									<GridViewColumn Width="10" Header="#" />
         							<GridViewColumn Width="100" Header="Title Name" />
