@@ -18,12 +18,11 @@ namespace MediaPlayer
      **/
     class MainWindowViewModel : INotifyPropertyChanged
     {
-        private MyWindowsMediaPlayerV2 mediaPlayer;
         private readonly BackgroundWorker worker = new BackgroundWorker();
-        private MediaElement _myMediaElement;
+
+        #region Properties
 
         private int selectedIndex;
-
         public int SelectedIndex
         {
             get { return selectedIndex; }
@@ -44,12 +43,14 @@ namespace MediaPlayer
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private MediaElement _myMediaElement;
         public MediaElement MyMediaElement
         {
             get { return _myMediaElement; }
             set { this._myMediaElement = value; }
         }
 
+        private MyWindowsMediaPlayerV2 mediaPlayer;
         public MyWindowsMediaPlayerV2 MediaPlayer
         {
             get { return mediaPlayer; }
@@ -64,11 +65,14 @@ namespace MediaPlayer
         }
 
         private bool mediaPlaying;
+        public bool MediaPlaying
+        {
+            get { return mediaPlaying; }
+            set { this.mediaPlaying = value; }
+        }
 
-        /**
-         * Gets called automatically
-         * Set inside the DataContext tag in da MainWindow's XAML file
-         **/
+        #endregion
+
         public MainWindowViewModel()
         {
             this.mediaPlayer = new MyWindowsMediaPlayerV2(); // <-- worker.ReportProgress(0);
@@ -97,22 +101,13 @@ namespace MediaPlayer
             worker.RunWorkerAsync();
         }
 
-        private bool displayXamlTab = false;
-        public bool DisplayXamlTab
-        {
-            get { return this.displayXamlTab; }
-            set
-            {
-                this.displayXamlTab = value;
-            }
-        }
-
         /*
         public void SearchMedia(string query)
         {
             mediaPlayer.FilterByName(query);
         }
         */
+
         #region WorkerStatus
 
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
