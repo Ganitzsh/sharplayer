@@ -15,6 +15,8 @@ namespace MediaPlayer.Library
     {
         public string Name { get; set; }
 
+        public Media.MediaTypes MediaType { get; set; }
+
         public void Remove(Media.Media media)
         {
             this.Content.Remove(media);
@@ -22,7 +24,7 @@ namespace MediaPlayer.Library
 
         public void Add(Media.Media media)
         {
-            if (!this.Contains(media))
+            if (!this.Contains(media) && media.Type == this.MediaType)
                 this.Content.Add(media);
         }
 
@@ -88,7 +90,6 @@ namespace MediaPlayer.Library
         #endregion
 
         #region Filters
-        // Not safe. Explodes if you mix media types in a playlist.
         public List<Media.Media> FilterBy<T>(Dictionary<string, string> filters)
         {
             var properties = new Dictionary<string, PropertyInfo>();
@@ -103,8 +104,15 @@ namespace MediaPlayer.Library
                 foreach (var property in properties)
                 {
                     filters.TryGetValue(property.Key, out str);
-                    if (!property.Value.GetValue(media).ToString().Contains(str))
-                        return false;
+                    try
+                    {
+                        if (!property.Value.GetValue(media).ToString().Contains(str))
+                            return false;
+                    }
+                    catch (NullReferenceException e)
+                    {
+                        return (false);
+                    }
                 }
                 return true;
             })));
@@ -121,14 +129,49 @@ namespace MediaPlayer.Library
 
         #endregion
 
+        private static Media.MediaTypes GetMediaType(List<Media.Media> medias)
+        {
+            Media.MediaTypes type = Media.MediaTypes.Generic;
+
+            if (medias.Count > 0)
+            {
+                type = medias[0].Type;
+                foreach (var media in medias)
+                    if (type != media.Type)
+                        return Media.MediaTypes.Generic;
+            }
+            return type;
+        }
+
         public PlayList(string name, List<Media.Media> content)
             : base(content)
         {
             this.Name = name;
             this.Type = LibraryType.PlayList;
-        }
+            this.MediaType = GetMediaType(content);
+            if (this.MediaType == Media.MediaTypes.Generic)
+                throw new PlayListMixedMediaTypesException();
+            }
 
         public PlayList()
+        {
+
+        }
+    }
+
+    public class PlayListException : ArgumentException
+    {
+        public PlayListException(string error)
+            : base(error)
+        {
+
+        }
+    }
+
+    public class PlayListMixedMediaTypesException : PlayListException
+    {
+        public PlayListMixedMediaTypesException()
+            : base("Can't create a PlayList with multiple media types")
         {
 
         }
