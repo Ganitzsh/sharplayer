@@ -173,6 +173,12 @@ namespace MediaPlayer
             return (tmpContent);
         }
 
+        public void KeepType(Media.MediaTypes type, List<Media.Media> list)
+        {
+            int lol = list.RemoveAll(med => med.Type != type);
+            Console.WriteLine("Removed: " + lol);
+        }
+
         public long CountFileInDirectory(string path)
         {
             string[] files = Directory.GetFiles(@path, "*.*", SearchOption.AllDirectories);
@@ -213,6 +219,10 @@ namespace MediaPlayer
             //TODO: Thread for each of these operations -> See above
 
             audioList = ExploreDirectory(defaultAudioLibraryFolder);
+            foreach (var item in audioList.Content)
+            {
+                KeepType(Media.MediaTypes.Music, item.List);
+            }
             audioList.RootDirectory = defaultAudioLibraryFolder;
             SerializeList(audioList, defaultAudioLibraryFolder + "\\" + MyWindowsMediaPlayerV2.IndexerFileName);
 

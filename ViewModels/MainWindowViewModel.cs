@@ -22,16 +22,30 @@ namespace MediaPlayer
 
         #region Properties
 
-        private int selectedArtist;
+        private List<Media.Media> currentAlbum;
 
+        public List<Media.Media> CurrentAlbum
+        {
+            get { return currentAlbum; }
+            set { currentAlbum = value; }
+        }
+
+        private int selectedArtist;
         public int SelectedArtist
         {
             get { return selectedArtist; }
             set { selectedArtist = value; }
         }
 
-        private List<string> albumsList;
+        private List<string> trackList;
+        public List<string> TrackList
+        {
+            get { return trackList; }
+            set { trackList = value; }
+        }
+        
 
+        private List<string> albumsList;
         public List<string> AlbumsList
         {
             get { return albumsList; }
@@ -39,23 +53,26 @@ namespace MediaPlayer
         }
 
         private int selectedAlbum;
-
         public int SelectedAlbum
         {
             get { return selectedAlbum; }
             set { selectedAlbum = value; }
         }
+
+        private int selctedTrack;
+        public int SelectedTrack
+        {
+            get { return selctedTrack; }
+            set { selctedTrack = value; }
+        }
         
-
         private List<string> artitsList;
-
         public List<string> ArtistsList
         {
             get { return artitsList; }
             set { artitsList = value; }
         }
         
-
         private int selectedIndex;
         public int SelectedIndex
         {
@@ -124,6 +141,8 @@ namespace MediaPlayer
             this.fastCommand = new DelegateCommand<object>(FastMedia, CanFastMedia);
             this.reverseCommand = new DelegateCommand<object>(ReverseMedia, CanReverseMedia);
             this.artistSelected = new DelegateCommand<object>(ArtistSelected);
+            this.albumSelected = new DelegateCommand<object>(AlbumSelected);
+            this.trackSelected = new DelegateCommand<object>(TrackSelected);
             this.playIcon = "\uf04b";
             this.mediaPlaying = false;
 
@@ -346,8 +365,34 @@ namespace MediaPlayer
 
         public void ArtistSelected(object param)
         {
-            Console.WriteLine("Clicked: " + (string)param);
+            Console.WriteLine("Clicked: " + (string) param);
+            AlbumsList = MediaPlayer.AudioList.ToPlaylist().FilterBy<Media.Audio>(new Dictionary<string, string>{
+            {
+                "Artist",
+                (string)param}
+            }).Select(med => ((Media.Audio) med).Album).Distinct().ToList();
+            OnPropertyChanged("AlbumsList");
+        }
 
+        public ICommand albumSelected { get; set; }
+
+        public void AlbumSelected(object param)
+        {
+            Console.WriteLine("Clicked: " + (string)param);
+            CurrentAlbum = MediaPlayer.AudioList.ToPlaylist().FilterBy<Media.Audio>(new Dictionary<string, string>{
+            {
+                "Album",
+                (string)param}
+            });
+            TrackList = CurrentAlbum.Select(med => ((Media.Audio)med).TrackName).Distinct().ToList();
+            OnPropertyChanged("TrackList");
+        }
+
+        public ICommand trackSelected { get; set; }
+
+        public void TrackSelected(object param)
+        {
+            Console.WriteLine("File Path: " + CurrentAlbum[(int)param].File);
         }
 
         #endregion
