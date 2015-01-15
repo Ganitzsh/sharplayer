@@ -392,7 +392,7 @@ namespace MediaPlayer
             {
                 "Artist",
                 (string)param}
-            }).Select(med => ((Media.Audio) med).Album).Distinct().ToList();
+            }).Select(med => ((Media.Audio) med).Album).OrderBy(str => str).Distinct().ToList();
             OnPropertyChanged("AlbumsList");
         }
 
@@ -405,7 +405,7 @@ namespace MediaPlayer
             {
                 "Album",
                 (string)param}
-            });
+            }).OrderBy(med => ((Media.Audio)med).TrackName).ToList();
             TrackList = CurrentAlbum.Select(med => ((Media.Audio)med).TrackName).Distinct().ToList();
             OnPropertyChanged("TrackList");
         }
@@ -414,12 +414,15 @@ namespace MediaPlayer
 
         public void TrackSelected(object param)
         {
-            mediaPlayer.NowPlaying = CurrentAlbum[(int)param];
-            OnPropertyChanged("NowPlayingTitle");
-            OnPropertyChanged("NowPlayingArtist");
-            Console.WriteLine("File Path: " + CurrentAlbum[(int)param].File);
-            this._myMediaElement.Source = new Uri(CurrentAlbum[(int)param].File);
-            PlayMedia(null);
+            if ((int)param < CurrentAlbum.Count())
+            {
+                mediaPlayer.NowPlaying = CurrentAlbum[(int)param];
+                OnPropertyChanged("NowPlayingTitle");
+                OnPropertyChanged("NowPlayingArtist");
+                Console.WriteLine("File Path: " + CurrentAlbum[(int)param].File);
+                this._myMediaElement.Source = new Uri(CurrentAlbum[(int)param].File);
+                PlayMedia(null);
+            }
         }
 
         #endregion
