@@ -43,14 +43,8 @@ namespace MediaPlayer.Serializable
                     {
                         return (prop.GetValue(media).ToString());
                     }
-                    catch (NullReferenceException e)
+                    catch (Exception e)
                     {
-                        Console.WriteLine(e);
-                        return null;
-                    }
-                    catch (System.Reflection.TargetException e)
-                    {
-                        Console.WriteLine(e);
                         return null;
                     }
                 }));
