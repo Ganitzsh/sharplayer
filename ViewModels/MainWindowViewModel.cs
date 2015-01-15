@@ -85,7 +85,25 @@ namespace MediaPlayer
                 }
             }
         }
-        public string NowPlayingTitle { get { return mediaPlayer.NowPlaying != null ? mediaPlayer.NowPlaying.Name : null; } }
+        public string NowPlayingTitle
+        { 
+            get
+            {
+                if (mediaPlayer.NowPlaying != null && mediaPlayer.NowPlaying.Type == Media.MediaTypes.Music)
+                    return ((Media.Audio)mediaPlayer.NowPlaying).TrackName;
+                return null;
+            }
+        }
+
+        public string NowPlayingArtist
+        {
+            get
+            {
+                if (mediaPlayer.NowPlaying != null && mediaPlayer.NowPlaying.Type == Media.MediaTypes.Music)
+                    return ((Media.Audio)mediaPlayer.NowPlaying).Artist;
+                return null;
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
@@ -396,6 +414,7 @@ namespace MediaPlayer
         {
             mediaPlayer.NowPlaying = CurrentAlbum[(int)param];
             OnPropertyChanged("NowPlayingTitle");
+            OnPropertyChanged("NowPlayingArtist");
             Console.WriteLine("File Path: " + CurrentAlbum[(int)param].File);
             this._myMediaElement.Source = new Uri(CurrentAlbum[(int)param].File);
             PlayMedia(null);
