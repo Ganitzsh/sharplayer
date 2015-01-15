@@ -31,6 +31,18 @@ namespace MediaPlayer.Serializable
             return new MediaList(a.Content.Concat(b.Content).ToList());
         }
 
+        public List<string> GetAll<T>(string property)
+        {
+            var prop = typeof(T).GetProperty(property);
+
+            var lst = Content.SelectMany(delegate(DirectoryContent directory)
+            {
+                return (directory.List.Select(media => prop.GetValue(media).ToString()));
+            }).Distinct().ToList();
+
+            return lst;
+        }
+
         public string RootDirectory
         {
             get { return rootDirectory; }
