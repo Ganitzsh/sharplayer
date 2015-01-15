@@ -390,7 +390,7 @@ namespace MediaPlayer
             {
                 "Artist",
                 (string)param}
-            }).Select(med => ((Media.Audio) med).Album).Distinct().ToList();
+            }).Select(med => ((Media.Audio) med).Album).OrderBy(str => str).Distinct().ToList();
             OnPropertyChanged("AlbumsList");
         }
 
@@ -403,7 +403,7 @@ namespace MediaPlayer
             {
                 "Album",
                 (string)param}
-            });
+            }).OrderBy(med => ((Media.Audio)med).TrackName).ToList();
             TrackList = CurrentAlbum.Select(med => ((Media.Audio)med).TrackName).Distinct().ToList();
             OnPropertyChanged("TrackList");
         }
