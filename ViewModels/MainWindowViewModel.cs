@@ -118,7 +118,7 @@ namespace MediaPlayer
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             // Finished creating stuff
-            this._myMediaElement.Source = new Uri(this.mediaPlayer.AudioList.Content[1].List[0].File);
+            // this._myMediaElement.Source = new Uri(this.mediaPlayer.AudioList.Content[1].List[0].File);
 
         }
 
