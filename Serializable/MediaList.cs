@@ -48,6 +48,11 @@ namespace MediaPlayer.Serializable
                         Console.WriteLine(e);
                         return null;
                     }
+                    catch (System.Reflection.TargetException e)
+                    {
+                        Console.WriteLine(e);
+                        return null;
+                    }
                 }));
             }).Distinct().ToList();
 
