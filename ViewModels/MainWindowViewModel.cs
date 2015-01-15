@@ -300,20 +300,22 @@ namespace MediaPlayer
 
         public void PlayMedia(object param)
         {
-            Console.WriteLine("COUCOU");
-            if (this.mediaPlaying == false)
+            if (this._myMediaElement.Source != null)
             {
-                this._myMediaElement.Play();
-                this.mediaPlaying = true;
-                this.PlayIcon = "\uf04c";
-                if (!this.timer.IsEnabled)
-                    StartTimer();
-            }
-            else
-            {
-                this._myMediaElement.Pause();
-                this.mediaPlaying = false;
-                this.PlayIcon = "\uf04b";
+                if (this.mediaPlaying == false)
+                {
+                    this._myMediaElement.Play();
+                    this.mediaPlaying = true;
+                    this.PlayIcon = "\uf04c";
+                    if (!this.timer.IsEnabled)
+                        StartTimer();
+                }
+                else
+                {
+                    this._myMediaElement.Pause();
+                    this.mediaPlaying = false;
+                    this.PlayIcon = "\uf04b";
+                }
             }
         }
 
