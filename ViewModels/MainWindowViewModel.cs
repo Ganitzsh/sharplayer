@@ -86,7 +86,7 @@ namespace MediaPlayer
                 }
             }
         }
-        
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -392,6 +392,8 @@ namespace MediaPlayer
 
         public void TrackSelected(object param)
         {
+            mediaPlayer.NowPlaying = CurrentAlbum[(int)param];
+            OnPropertyChanged(mediaPlayer.NowPlaying.Name);
             Console.WriteLine("File Path: " + CurrentAlbum[(int)param].File);
         }
 
