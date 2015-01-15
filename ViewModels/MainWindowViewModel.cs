@@ -22,6 +22,40 @@ namespace MediaPlayer
 
         #region Properties
 
+        private int selectedArtist;
+
+        public int SelectedArtist
+        {
+            get { return selectedArtist; }
+            set { selectedArtist = value; }
+        }
+
+        private List<string> albumsList;
+
+        public List<string> AlbumsList
+        {
+            get { return albumsList; }
+            set { albumsList = value; }
+        }
+
+        private int selectedAlbum;
+
+        public int SelectedAlbum
+        {
+            get { return selectedAlbum; }
+            set { selectedAlbum = value; }
+        }
+        
+
+        private List<string> artitsList;
+
+        public List<string> ArtistsList
+        {
+            get { return artitsList; }
+            set { artitsList = value; }
+        }
+        
+
         private int selectedIndex;
         public int SelectedIndex
         {
@@ -89,8 +123,10 @@ namespace MediaPlayer
             this.writeStuff = new DelegateCommand<object>(DummyStuff);
             this.fastCommand = new DelegateCommand<object>(FastMedia, CanFastMedia);
             this.reverseCommand = new DelegateCommand<object>(ReverseMedia, CanReverseMedia);
+            this.artistSelected = new DelegateCommand<object>(ArtistSelected);
             this.playIcon = "\uf04b";
             this.mediaPlaying = false;
+
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(500);
             timer.Tick += timer_tick;
@@ -115,6 +151,15 @@ namespace MediaPlayer
             // Finished creating stuff
             // this._myMediaElement.Source = new Uri(this.mediaPlayer.AudioList.Content[1].List[0].File);
 
+            try
+            {
+                ArtistsList = MediaPlayer.AudioList.GetAll<Media.Audio>("Artist");
+                OnPropertyChanged("ArtistsList");
+            }
+            catch (System.Reflection.TargetException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
@@ -292,6 +337,18 @@ namespace MediaPlayer
         public void DummyStuff(object param)
         {
             SelectedIndex = 1;
+        }
+
+        #endregion
+
+        #region PlaylistViewCommands
+
+        public ICommand artistSelected { get; set; }
+
+        public void ArtistSelected(object param)
+        {
+            Console.WriteLine("Clicked: " + (string)param);
+
         }
 
         #endregion
