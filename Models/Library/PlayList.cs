@@ -123,8 +123,28 @@ namespace MediaPlayer.Library
             var property = typeof(T).GetProperty(sort.Item1);
 
             if (sort.Item2)
-                return (new List<Media.Media>(this.Content.OrderBy(med => property.GetValue(med))));
-            return (new List<Media.Media>(this.Content.OrderByDescending(med => property.GetValue(med))));
+                return (new List<Media.Media>(this.Content.OrderBy(delegate(Media.Media med)
+                    {
+                        try
+                        {
+                            return (property.GetValue(med));
+                        }
+                        catch (Exception e)
+                        {
+                            return (false);
+                        }
+                    })));
+            return (new List<Media.Media>(this.Content.OrderByDescending(delegate(Media.Media med)
+                    {
+                        try
+                        {
+                            return (property.GetValue(med));
+                        }
+                        catch (Exception e)
+                        {
+                            return (false);
+                        }
+                    })));
         }
 
         #endregion
@@ -137,8 +157,11 @@ namespace MediaPlayer.Library
             {
                 type = medias[0].Type;
                 foreach (var media in medias)
+                {
                     if (type != media.Type)
-                        return Media.MediaTypes.Generic;
+                        Console.WriteLine("File skipped : " + media.Name);
+                        //return Media.MediaTypes.Generic;
+                }
             }
             return type;
         }
@@ -149,8 +172,10 @@ namespace MediaPlayer.Library
             this.Name = name;
             this.Type = LibraryType.PlayList;
             this.MediaType = GetMediaType(content);
+            /*
             if (this.MediaType == Media.MediaTypes.Generic)
                 throw new PlayListMixedMediaTypesException();
+            */
             }
 
         public PlayList()
