@@ -30,6 +30,20 @@ namespace MediaPlayer.Serializable
         {
             return new MediaList(a.Content.Concat(b.Content).ToList());
         }
+        
+        public Library.PlayList ToPlaylist()
+        {
+            List<Media.Media> lst = new List<Media.Media>();
+
+            foreach (var directory in content)
+            {
+                foreach (var media in directory.List)
+                {
+                    lst.Add(media);
+                }
+            }
+            return (new Library.PlayList("", lst));
+        }
 
         public List<string> GetAll<T>(string property)
         {
