@@ -81,13 +81,15 @@ namespace MediaPlayer
             SliderMaxValue = 100;
             SliderValue = 0;
             this.playCommand = new DelegateCommand<object>(PlayMedia, CanPlayMedia);
-            this.pauseCommand = new DelegateCommand<object>(PauseMedia, CanPauseMedia);
             this.stopCommand = new DelegateCommand<object>(StopMedia, CanStopMedia);
             this.writeStuff = new DelegateCommand<object>(DummyStuff);
             this.fastCommand = new DelegateCommand<object>(FastMedia, CanFastMedia);
             this.reverseCommand = new DelegateCommand<object>(ReverseMedia, CanReverseMedia);
             this.playIcon = "\uf04b";
             this.mediaPlaying = false;
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMilliseconds(500);
+            timer.Tick += timer_tick;
             
             worker.ProgressChanged += worker_ProgressChanged;
             worker.DoWork += worker_DoWork;
@@ -164,9 +166,6 @@ namespace MediaPlayer
 
         private void StartTimer()
         {
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(500);
-            timer.Tick += timer_tick;
             timer.Start();
         }
 
@@ -247,6 +246,8 @@ namespace MediaPlayer
                 this._myMediaElement.Play();
                 this.mediaPlaying = true;
                 this.PlayIcon = "\uf04c";
+                if (!this.timer.IsEnabled)
+                    StartTimer();
             }
             else
             {
@@ -266,25 +267,6 @@ namespace MediaPlayer
 
         #endregion
 
-        #region PauseMediaCommand
-
-        public ICommand pauseCommand { get; set; }
-
-        public void PauseMedia(object param)
-        {
-            this._myMediaElement.Pause();
-        }
-
-        public bool CanPauseMedia(object param)
-        {
-            if (this._myMediaElement != null)
-                return true;
-            else
-                return false;
-        }
-
-        #endregion
-
         #region StopMediaCommand
 
         public ICommand stopCommand { get; set; }
@@ -292,6 +274,8 @@ namespace MediaPlayer
         public void StopMedia(object param)
         {
             CancelMedia();
+            this.mediaPlaying = false;
+            this.PlayIcon = "\uf04b";
         }
 
         public bool CanStopMedia(object param)
