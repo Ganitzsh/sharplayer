@@ -37,7 +37,17 @@ namespace MediaPlayer.Serializable
 
             var lst = Content.SelectMany(delegate(DirectoryContent directory)
             {
-                return (directory.List.Select(media => prop.GetValue(media).ToString()));
+                return (directory.List.Select(delegate(Media.Media media)
+                {
+                    try
+                    {
+                        return (prop.GetValue(media).ToString());
+                    }
+                    catch (Exception e)
+                    {
+                        return null;
+                    }
+                }));
             }).Distinct().ToList();
 
             return lst;
