@@ -364,8 +364,10 @@ namespace MediaPlayer
 
         public ICommand artistSelected { get; set; }
 
+
         public void ArtistSelected(object param)
         {
+
             Console.WriteLine("Clicked: " + (string) param);
             AlbumsList = MediaPlayer.AudioList.ToPlaylist().FilterBy<Media.Audio>(new Dictionary<string, string>{
             {
