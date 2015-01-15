@@ -130,7 +130,7 @@
         		<TabItem Header="Musique" BorderBrush="{x:Null}" >
         			<Grid Background="Black">
         				<TextBlock x:Name="artist" Margin="0,0,10,10" TextWrapping="Wrap" TextAlignment="Right" FontSize="16" Foreground="#FFDFE1E5" Height="19.2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="142"><Run Language="fr-fr" Text="Empire of the sun"/></TextBlock>
-                        <TextBlock x:Name="title" Margin="0,0,10,29.2" TextWrapping="Wrap" TextAlignment="Right" FontSize="18.667" FontWeight="SemiBold" Foreground="#FFC19BEB" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="51"><Run Language="fr-fr" Text="{ Binding mediaPlayer.NowPlaying.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"/></TextBlock>
+                        <TextBlock x:Name="title" Margin="0,0,10,29.2" TextWrapping="Wrap" TextAlignment="Right" FontSize="18.667" FontWeight="SemiBold" Foreground="#FFC19BEB" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="51"><Run Language="fr-fr" Text="{ Binding Path=NowPlayingTitle, Mode=OneWay, UpdateSourceTrigger=PropertyChanged }"/></TextBlock>
         				<TextBlock x:Name="musicIcon" Margin="130.834,105.648,130.833,105.648" TextWrapping="Wrap" Foreground="#FFC19BEB" FontSize="96" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" TextAlignment="Center" LineHeight="29.333"><Span><Run Text="&#xF001;"/></Span></TextBlock>
         			</Grid>
         		</TabItem>

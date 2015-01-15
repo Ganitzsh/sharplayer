@@ -23,7 +23,6 @@ namespace MediaPlayer
         #region Properties
 
         private List<Media.Media> currentAlbum;
-
         public List<Media.Media> CurrentAlbum
         {
             get { return currentAlbum; }
@@ -86,6 +85,7 @@ namespace MediaPlayer
                 }
             }
         }
+        public string NowPlayingTitle { get { return mediaPlayer.NowPlaying != null ? mediaPlayer.NowPlaying.Name : null; } }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
@@ -394,7 +394,7 @@ namespace MediaPlayer
         public void TrackSelected(object param)
         {
             mediaPlayer.NowPlaying = CurrentAlbum[(int)param];
-            OnPropertyChanged(mediaPlayer.NowPlaying.Name);
+            OnPropertyChanged("NowPlayingTitle");
             Console.WriteLine("File Path: " + CurrentAlbum[(int)param].File);
             this._myMediaElement.Source = new Uri(CurrentAlbum[(int)param].File);
             PlayMedia(null);
