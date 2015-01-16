@@ -256,52 +256,10 @@
             </Grid>
         </Border>
         <Grid x:Name="SidebarGrid" Margin="0,0,0,44" HorizontalAlignment="Left" Width="150" >
-            <ListBox Foreground="#FFDFE1E5" BorderBrush="#FF303030" BorderThickness="0,0,1,0" Padding="5,0,0,0">
+            <ListBox Foreground="#FFDFE1E5" BorderBrush="#FF303030" BorderThickness="0,0,1,0" Padding="5,0,0,0" Margin="0,99,0,0.5">
                 <ListBox.Background>
                     <SolidColorBrush Color="#FF161616" Opacity="1"/>
                 </ListBox.Background>
-
-                <ListBoxItem Margin="0,10">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock FontFamily="Arial" Padding="0" FontWeight="SemiBold" Foreground="#FFC19BEB"><Run Language="fr-fr" Text="COMPUTER"/></TextBlock>
-                    </StackPanel>
-                </ListBoxItem>
-
-                <ListBoxItem>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="11" Margin="0,2,0,0" Text="&#xF001;" Width="12" Height="12"/>
-                        <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Language="fr-fr" Text="Music"/></TextBlock>
-                    </StackPanel>
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="PreviewMouseDown">
-                            <i:InvokeCommandAction Command="{ Binding writeStuff }" CommandParameter="ComputerMusic"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ListBoxItem>
-                <ListBoxItem>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="11" Margin="0,2,0,0" Width="12" Height="12"><Run Text="&#xF030;"/></TextBlock>
-                        <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Text="Photo"/></TextBlock>
-                    </StackPanel>
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="PreviewMouseDown">
-                            <i:InvokeCommandAction Command="{ Binding writeStuff }" CommandParameter="ComputerPhoto"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ListBoxItem>
-
-
-                <ListBoxItem>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock FontFamily="FontAwesome" FontSize="11" Margin="0,2,0,0" Height="12" Width="12"><Run Text="&#xF008;"/></TextBlock>
-                        <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Text="Video"/></TextBlock>
-                    </StackPanel>
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="PreviewMouseDown">
-                            <i:InvokeCommandAction Command="{ Binding writeStuff }" CommandParameter="ComputerVideo"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ListBoxItem>
                 <ListBoxItem Margin="0,10">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock FontFamily="Arial" Padding="0" FontWeight="SemiBold" Foreground="#FFC19BEB"><Run Language="fr-fr" Text="PLAYLISTS"/></TextBlock>
@@ -323,6 +281,54 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="11" Margin="0,2,0,0" Height="12" Width="12"><Run Text="&#xF008;"/></TextBlock>
                         <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Language="fr-fr" Text="Skateboard"/></TextBlock>
+                    </StackPanel>
+                </ListBoxItem>
+
+            </ListBox>
+            <ListBox Foreground="#FFDFE1E5" BorderBrush="#FF303030" BorderThickness="0,0,1,0" Padding="5,0,0,0" Margin="0,0,0,229.5">
+                <ListBox.Background>
+                    <SolidColorBrush Color="#FF161616" Opacity="1"/>
+                </ListBox.Background>
+
+                <ListBoxItem Margin="0,10">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontFamily="Arial" Padding="0" FontWeight="SemiBold" Foreground="#FFC19BEB"><Run Language="fr-fr" Text="COMPUTER"/></TextBlock>
+                    </StackPanel>
+                </ListBoxItem>
+
+                <ListBoxItem>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown">
+                            <i:InvokeCommandAction Command="{Binding writeStuff}" CommandParameter="ComputerMusic"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="11" Margin="0,2,0,0" Text="&#xF001;" Width="12" Height="12"/>
+                        <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Language="fr-fr" Text="Music"/></TextBlock>
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown">
+                            <i:InvokeCommandAction Command="{Binding writeStuff}" CommandParameter="ComputerPhoto"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="11" Margin="0,2,0,0" Width="12" Height="12"><Run Text="&#xF030;"/></TextBlock>
+                        <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Text="Photo"/></TextBlock>
+                    </StackPanel>
+                </ListBoxItem>
+
+
+                <ListBoxItem>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown">
+                            <i:InvokeCommandAction Command="{Binding writeStuff}" CommandParameter="ComputerVideo"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontFamily="FontAwesome" FontSize="11" Margin="0,2,0,0" Height="12" Width="12"><Run Text="&#xF008;"/></TextBlock>
+                        <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Text="Video"/></TextBlock>
                     </StackPanel>
                 </ListBoxItem>
 
@@ -360,22 +366,24 @@
                         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="#FFC19BEB" Panel.ZIndex="90" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" Margin="9,8.176,0,0" Width="15.143" FontSize="13.333" Height="18.824" VerticalAlignment="Top"><Span><Run Text="&#xF002;"/></Span></TextBlock>
 
 
-                        <TextBox x:Name="musicSearchTextBox" TextWrapping="Wrap" Grid.Row="0" Grid.ColumnSpan="5" Background="Black" BorderBrush="#FF303030" BorderThickness="0,0,0,1" Foreground="#FFDFE1E5" Padding="28,8,8,8" />
+                        <TextBox x:Name="musicSearchTextBox" TextWrapping="Wrap" Text="Search an Artist, an Album or a Song ..." Grid.Row="0" Grid.ColumnSpan="5" Background="Black" BorderBrush="#FF303030" BorderThickness="0,0,0,1" Foreground="#FFDFE1E5" Padding="28,8,8,8" />
 
-                        <TextBlock IsHitTestVisible="False"  TextAlignment="Left" Grid.ColumnSpan="3" Padding="5, 5, 5, 5"  Foreground="LightGray" Panel.ZIndex="99" Margin="26.143,3,62.357,4"><TextBlock.Style>
+                        <TextBlock IsHitTestVisible="False" Text="Men att läsa" Width="300"  TextAlignment="Left" Height="30" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" Padding="5, 5, 5, 5"  Foreground="LightGray" Panel.ZIndex="99" Background="#FFFC1414">
+                            <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}">
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Text, ElementName=musicSearchTextBox}" Value="">
                                             <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsFocused, ElementName=musicSearchTextBox}" Value="True">
+                                        <DataTrigger Binding="{Binding ElementName=musicSearchTextBox, Path=IsFocused}" Value="True">
                                             <Setter Property="Visibility" Value="Collapsed"/>
                                         </DataTrigger>
 
                                     </Style.Triggers>
                                 </Style>
-                            </TextBlock.Style><Run Language="fr-fr" Text="Search an Artist, an Album or a Track"/></TextBlock>
+                            </TextBlock.Style>
+                        </TextBlock>
 
                         <ListBox Grid.Column="0" Grid.Row="1" x:Name="artistsListView" ItemsSource="{Binding ArtistsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedArtist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Black" Foreground="#FFDFE1E5" BorderBrush="#FF303030" BorderThickness="0,0,1,0"  UseLayoutRounding="False" Padding="-2" ItemContainerStyle="{DynamicResource PlayListListBoxItem}" >
 
