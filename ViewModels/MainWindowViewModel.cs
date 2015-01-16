@@ -404,7 +404,6 @@ namespace MediaPlayer
 
         public void PlayMedia(object param)
         {
-            Console.WriteLine(this.sliderMaxValue);
             if (this._myMediaElement.Source != null)
             {
                 if (this.mediaPlaying == false)
@@ -630,6 +629,21 @@ namespace MediaPlayer
             CancelMedia();
             StartTimer();
             PlayMedia(null);
+        }
+
+        #endregion
+
+        #region DialogBox
+
+        private void ChangePlaylistName()
+        {
+            string answer;
+            DialogBox inputDialog = new DialogBox("Please enter the new name: ", "New playlist name");
+            if (inputDialog.ShowDialog() == true)
+            {
+                answer = inputDialog.Answer;
+                Console.WriteLine(answer);
+            }
         }
 
         #endregion
