@@ -508,7 +508,7 @@ namespace MediaPlayer
             {
                 "Artist",
                 (string)param}
-            }).Select(med => ((Media.Audio) med).Album).OrderBy(str => str).Distinct().ToList();
+            }).Select(med => ((Media.Audio) med).Album + " - " + ((Media.Audio)med).Year).OrderBy(str => str).Distinct().ToList();
             OnPropertyChanged("AlbumsList");
         }
 
