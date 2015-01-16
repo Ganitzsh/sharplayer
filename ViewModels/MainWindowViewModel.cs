@@ -9,6 +9,7 @@ using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using System.Windows.Threading;
 using System.Windows;
+using System.Windows.Media;
 
 namespace MediaPlayer
 {
@@ -183,7 +184,7 @@ namespace MediaPlayer
         public bool MustRepeat
         {
             get { return mustRepeat; }
-            set { mustRepeat = value; }
+            set { mustRepeat = value; Console.WriteLine("LOL"); ChangeRepeatColor(value); }
         }
 
         private double sliderMaxValue;
@@ -207,9 +208,8 @@ namespace MediaPlayer
             set { volumeValue = value; OnPropertyChanged("VolumeValue"); ChangeVolumeValue(); }
         }
 
-        private int repeatColor;
-
-        public int RepeatColor
+        private String repeatColor;
+        public String RepeatColor
         {
             get { return repeatColor; }
             set { repeatColor = value; OnPropertyChanged("RepeatColor"); }
@@ -253,6 +253,7 @@ namespace MediaPlayer
             SliderMaxValue = 100;
             SliderValue = 0;
             VolumeValue = 0.5;
+            RepeatColor = "#FFDFE1E5";
 
             LibIcons = new Dictionary<Media.MediaTypes, string>();
             LibIcons.Add(Media.MediaTypes.Music, "\uF001");
@@ -297,7 +298,7 @@ namespace MediaPlayer
 
         #endregion
 
-        #region SliderValues
+        #region ChangeValues
 
         private void ChangeVolumeValue()
         {
@@ -307,6 +308,15 @@ namespace MediaPlayer
         private void ChangeMediaPosition()
         {
             this._myMediaElement.Position = TimeSpan.FromSeconds(sliderValue);
+        }
+
+        private void ChangeRepeatColor(bool param)
+        {
+            Console.WriteLine("ChangeRepeatColor");
+            if (param == true)
+                RepeatColor = "#FFC19BEB";
+            else
+                RepeatColor = "#FFDFE1E5";
         }
 
         #endregion
@@ -348,7 +358,7 @@ namespace MediaPlayer
             CancelMedia();
             if (this.mustRepeat == true)
             {
-                this.mustRepeat = false;
+                MustRepeat = false;
                 StartTimer();
                 PlayMedia(null);
             }
@@ -583,9 +593,9 @@ namespace MediaPlayer
         private void RepeatMedia(object param)
         {
             if (this.mustRepeat == false)
-                this.mustRepeat = true;
+                MustRepeat = true;
             else
-                this.mustRepeat = false;
+                MustRepeat = false;
         }
 
         #endregion
