@@ -9,6 +9,8 @@ using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using System.Windows.Threading;
 using System.Windows;
+using System.Windows.Media;
+using System.IO;
 
 namespace MediaPlayer
 {
@@ -174,7 +176,7 @@ namespace MediaPlayer
         public bool MustRepeat
         {
             get { return mustRepeat; }
-            set { mustRepeat = value; }
+            set { mustRepeat = value; Console.WriteLine("LOL"); ChangeRepeatColor(value); }
         }
 
         private double sliderMaxValue;
@@ -196,6 +198,13 @@ namespace MediaPlayer
         {
             get { return volumeValue; }
             set { volumeValue = value; OnPropertyChanged("VolumeValue"); ChangeVolumeValue(); }
+        }
+
+        private String repeatColor;
+        public String RepeatColor
+        {
+            get { return repeatColor; }
+            set { repeatColor = value; OnPropertyChanged("RepeatColor"); }
         }
         
 
@@ -236,7 +245,8 @@ namespace MediaPlayer
 
             SliderMaxValue = 100;
             SliderValue = 0;
-            VolumeValue = 50;
+            VolumeValue = 0.5;
+            RepeatColor = "#FFDFE1E5";
 
             
 
@@ -280,7 +290,7 @@ namespace MediaPlayer
 
         #endregion
 
-        #region SliderValues
+        #region ChangeValues
 
         private void ChangeVolumeValue()
         {
@@ -290,6 +300,15 @@ namespace MediaPlayer
         private void ChangeMediaPosition()
         {
             this._myMediaElement.Position = TimeSpan.FromSeconds(sliderValue);
+        }
+
+        private void ChangeRepeatColor(bool param)
+        {
+            Console.WriteLine("ChangeRepeatColor");
+            if (param == true)
+                RepeatColor = "#FFC19BEB";
+            else
+                RepeatColor = "#FFDFE1E5";
         }
 
         #endregion
@@ -331,7 +350,7 @@ namespace MediaPlayer
             CancelMedia();
             if (this.mustRepeat == true)
             {
-                this.mustRepeat = false;
+                MustRepeat = false;
                 StartTimer();
                 PlayMedia(null);
             }
@@ -455,7 +474,7 @@ namespace MediaPlayer
         {
             Library.PlayList tmp = new Library.PlayList();
 
-            tmp.Icon = LibIcons[((Media.MediaTypes)type)];
+            tmp.Icon = this.mediaPlayer.LibIcons[((Media.MediaTypes)type)];
             tmp.Name = "New playlist";
         }
 
@@ -580,9 +599,9 @@ namespace MediaPlayer
         private void RepeatMedia(object param)
         {
             if (this.mustRepeat == false)
-                this.mustRepeat = true;
+                MustRepeat = true;
             else
-                this.mustRepeat = false;
+                MustRepeat = false;
         }
 
         #endregion
