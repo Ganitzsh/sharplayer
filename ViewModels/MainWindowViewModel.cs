@@ -22,6 +22,15 @@ namespace MediaPlayer
 
         #region Properties
 
+        private Dictionary<Media.MediaTypes, string> libraryIcons;
+
+        public Dictionary<Media.MediaTypes, string> LibIcons
+        {
+            get { return libraryIcons; }
+            set { libraryIcons = value; }
+        }
+        
+
         private Library.PlayList playQueue;
 
         public Library.PlayList PlayQueue
@@ -202,6 +211,11 @@ namespace MediaPlayer
             SliderMaxValue = 100;
             SliderValue = 0;
 
+            LibIcons = new Dictionary<Media.MediaTypes, string>();
+            LibIcons.Add(Media.MediaTypes.Music, "\uF001");
+            LibIcons.Add(Media.MediaTypes.Image, "\uF030");
+            LibIcons.Add(Media.MediaTypes.Video, "\uF008");
+
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(100);
             timer.Tick += timer_tick;
@@ -236,8 +250,6 @@ namespace MediaPlayer
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            // TODO: create a method to check indexer inside the MyWindowsMediaPlayerV2 class to avoid doing it inside the constructor
-            //mediaPlayer.TestPlaylist();
             mediaPlayer.GetPlaylists();
             mediaPlayer.ReadLibraries();
         }

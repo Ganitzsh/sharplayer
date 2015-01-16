@@ -23,7 +23,7 @@ namespace MediaPlayer.Media
     [XmlInclude(typeof(Image))]
     public abstract class Media
     {
-        private List<string> formatList; // TODO: Generate from XML configuration file
+        private List<string> formatList;
         private string filePath;
         private MediaTypes type;
 
