@@ -463,7 +463,7 @@
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                     </RepeatButton.Background>
                 </RepeatButton>
-                <RepeatButton x:Name="Repeat" Command="{Binding fastCommand}" Content="&#xF01E;" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,0,188.998,3.167" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="25">
+                <RepeatButton x:Name="Repeat" Command="{Binding repeatCommand}" Content="&#xF01E;" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,0,188.998,3.167" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="25">
                 	<RepeatButton.BorderBrush>
                 		<SolidColorBrush Color="#FF707070" Opacity="0"/>
                 	</RepeatButton.BorderBrush>
@@ -471,7 +471,7 @@
                 		<SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                 	</RepeatButton.Background>
                 </RepeatButton>
-                <RepeatButton x:Name="Shuffle" Command="{Binding fastCommand}" Content="&#xF074;" HorizontalAlignment="Right" Width="25" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,0,158.998,3.168" RenderTransformOrigin="-0.54,0.539" Height="30" VerticalAlignment="Bottom">
+                <RepeatButton x:Name="Shuffle" Command="{Binding shuffleCommand}" Content="&#xF074;" HorizontalAlignment="Right" Width="25" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,0,158.998,3.168" RenderTransformOrigin="-0.54,0.539" Height="30" VerticalAlignment="Bottom">
                 	<RepeatButton.BorderBrush>
                 		<SolidColorBrush Color="#FF707070" Opacity="0"/>
                 	</RepeatButton.BorderBrush>
@@ -480,7 +480,7 @@
                 	</RepeatButton.Background>
                 </RepeatButton>
                 <TextBlock x:Name="volumeIcon" Margin="0,0,121.37,11.697" TextWrapping="Wrap" Foreground="#FFDFE1E5" RenderTransformOrigin="1.673,0.443" FontSize="13.333" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" Text="&#xF028;" Height="13.444" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="12.38"/>
-                <Slider x:Name="volumeSlider" IsMoveToPointEnabled="true"  Margin="0,0,10,9" Minimum="0" Foreground="{x:Null}"  Style="{StaticResource Horizontal_Slider}" Panel.ZIndex="99" Height="21" VerticalAlignment="Bottom" Maximum="100" Value="50" HorizontalAlignment="Right" Width="60"/>
+                <Slider x:Name="volumeSlider" IsMoveToPointEnabled="true"  Margin="0,0,10,9" Minimum="0" Foreground="{x:Null}"  Style="{StaticResource Horizontal_Slider}" Panel.ZIndex="99" Height="21" VerticalAlignment="Bottom" Maximum="1" Value="{Binding VolumeValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Width="60"/>
             </Grid>
         </Border>
         <ContentControl Content="{Binding MyMediaElement}" HorizontalAlignment="Left" Margin="27.5,45.5,0,0" VerticalAlignment="Top" Height="110.4" Width="138.877" Foreground="Red" Background="Black"/>

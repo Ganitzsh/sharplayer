@@ -206,6 +206,14 @@ namespace MediaPlayer
             get { return volumeValue; }
             set { volumeValue = value; OnPropertyChanged("VolumeValue"); ChangeVolumeValue(); }
         }
+
+        private int repeatColor;
+
+        public int RepeatColor
+        {
+            get { return repeatColor; }
+            set { repeatColor = value; OnPropertyChanged("RepeatColor"); }
+        }
         
 
         #endregion
@@ -244,7 +252,7 @@ namespace MediaPlayer
 
             SliderMaxValue = 100;
             SliderValue = 0;
-            VolumeValue = 50;
+            VolumeValue = 0.5;
 
             LibIcons = new Dictionary<Media.MediaTypes, string>();
             LibIcons.Add(Media.MediaTypes.Music, "\uF001");
