@@ -140,6 +140,14 @@ namespace MediaPlayer
             set { this.mediaPlaying = value; }
         }
 
+        private string searchBarContent;
+        public string SearchBarContent
+        {
+            get { return searchBarContent; }
+            set { searchBarContent = value; }
+        }
+        
+
         #endregion
 
         public MainWindowViewModel()
@@ -364,6 +372,7 @@ namespace MediaPlayer
 
         public void DummyStuff(object param)
         {
+            Console.WriteLine(((string)param));
             SelectedIndex = 1;
         }
 
@@ -378,6 +387,18 @@ namespace MediaPlayer
         {
 
             Console.WriteLine("Clicked: " + (string) param);
+            if (CurrentAlbum != null)
+            {
+                CurrentAlbum.Clear();
+                OnPropertyChanged("AlbumsList");
+            }
+            if (TrackList != null)
+            {
+                Console.WriteLine("Clearing tracks");
+                TrackList.Clear();
+                TrackList = null;
+                OnPropertyChanged("TrackList");
+            }
             AlbumsList = MediaPlayer.AudioList.ToPlaylist().FilterBy<Media.Audio>(new Dictionary<string, string>{
             {
                 "Artist",
@@ -392,9 +413,10 @@ namespace MediaPlayer
         {
             Console.WriteLine("Clicked: " + (string)param);
             CurrentAlbum = MediaPlayer.AudioList.ToPlaylist().FilterBy<Media.Audio>(new Dictionary<string, string>{
-            {
-                "Album",
-                (string)param}
+                {
+                    "Album",
+                    (string)param
+                }
             }).OrderBy(med => ((Media.Audio)med).TrackName).ToList();
             TrackList = CurrentAlbum.Select(med => ((Media.Audio)med).TrackName).Distinct().ToList();
             OnPropertyChanged("TrackList");
