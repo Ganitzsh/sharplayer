@@ -22,6 +22,13 @@ namespace MediaPlayer
 
         #region Properties
 
+        private int selectedPlaylist;
+        public int SelectedPlaylist
+        {
+            get { return selectedPlaylist; }
+            set { selectedPlaylist = value; }
+        }
+
         private List<Media.Media> currentAlbum;
         public List<Media.Media> CurrentAlbum
         {
@@ -85,6 +92,7 @@ namespace MediaPlayer
                 }
             }
         }
+
         public string NowPlayingTitle
         { 
             get
@@ -153,12 +161,12 @@ namespace MediaPlayer
         public MainWindowViewModel()
         {
             this.mediaPlayer = new MyWindowsMediaPlayerV2(); // <-- worker.ReportProgress(0);
+
             this._myMediaElement = new MediaElement();
             this._myMediaElement.MediaEnded += StopMediaHandler;
             this._myMediaElement.LoadedBehavior = MediaState.Manual;
             this._myMediaElement.UnloadedBehavior = MediaState.Stop;
-            SliderMaxValue = 100;
-            SliderValue = 0;
+            
             this.playCommand = new DelegateCommand<object>(PlayMedia, CanPlayMedia);
             this.stopCommand = new DelegateCommand<object>(StopMedia, CanStopMedia);
             this.writeStuff = new DelegateCommand<object>(DummyStuff);
@@ -167,9 +175,13 @@ namespace MediaPlayer
             this.artistSelected = new DelegateCommand<object>(ArtistSelected);
             this.albumSelected = new DelegateCommand<object>(AlbumSelected);
             this.trackSelected = new DelegateCommand<object>(TrackSelected);
+            this.switchToQueue = new DelegateCommand<object>(SwitchToQueue);
             this.playIcon = "\uf04b";
             this.mediaPlaying = false;
             this.SearchBarContent = "";
+
+            SliderMaxValue = 100;
+            SliderValue = 0;
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(100);
@@ -191,9 +203,6 @@ namespace MediaPlayer
 
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            // Finished creating stuff
-            // this._myMediaElement.Source = new Uri(this.mediaPlayer.AudioList.Content[1].List[0].File);
-
             try
             {
                 ArtistsList = MediaPlayer.AudioList.GetAll<Media.Audio>("Artist");
@@ -459,6 +468,17 @@ namespace MediaPlayer
                 return true;
             else
                 return false;
+        }
+
+        #endregion
+
+        #region SwitchToQueue
+
+        public ICommand switchToQueue { get; set; }
+
+        public void SwitchToQueue(object param)
+        {
+            SelectedIndex = 0;
         }
 
         #endregion
