@@ -58,18 +58,18 @@ namespace MediaPlayer
             set { selectedAlbum = value; }
         }
 
-        private int selctedTrack;
+        private int selectedTrack;
         public int SelectedTrack
         {
-            get { return selctedTrack; }
-            set { selctedTrack = value; }
+            get { return selectedTrack; }
+            set { selectedTrack = value; }
         }
         
-        private List<string> artitsList;
+        private List<string> artistsList;
         public List<string> ArtistsList
         {
-            get { return artitsList; }
-            set { artitsList = value; }
+            get { return artistsList; }
+            set { artistsList = value; }
         }
         
         private int selectedIndex;
