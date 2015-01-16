@@ -142,6 +142,14 @@ namespace MediaPlayer
             set { this.mediaPlaying = value; }
         }
 
+        private string searchBarContent;
+        public string SearchBarContent
+        {
+            get { return searchBarContent; }
+            set { searchBarContent = value; }
+        }
+        
+
         #endregion
 
         public MainWindowViewModel()
@@ -149,10 +157,8 @@ namespace MediaPlayer
             this.mediaPlayer = new MyWindowsMediaPlayerV2(); // <-- worker.ReportProgress(0);
             this._myMediaElement = new MediaElement();
             this._myMediaElement.MediaEnded += StopMediaHandler;
-            this._myMediaElement.ScrubbingEnabled = true;
             this._myMediaElement.LoadedBehavior = MediaState.Manual;
             this._myMediaElement.UnloadedBehavior = MediaState.Stop;
-            this._myMediaElement.MediaOpened += MediaOpenedHandler;
             SliderMaxValue = 100;
             SliderValue = 0;
             this.playCommand = new DelegateCommand<object>(PlayMedia, CanPlayMedia);
@@ -167,7 +173,7 @@ namespace MediaPlayer
             this.mediaPlaying = false;
 
             timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(500);
+            timer.Interval = TimeSpan.FromMilliseconds(100);
             timer.Tick += timer_tick;
             worker.ProgressChanged += worker_ProgressChanged;
             worker.DoWork += worker_DoWork;
@@ -244,37 +250,28 @@ namespace MediaPlayer
 
         private void StartTimer()
         {
-            Console.WriteLine("TESTLOL");
-            this._myMediaElement.Play();
             timer.Start();
         }
 
         private void timer_tick(object ender, object e)
         {
-            if (_myMediaElement.NaturalDuration.TimeSpan.TotalSeconds > 0)
-            {
-                SliderValue = _myMediaElement.Position.TotalSeconds;
-                Console.WriteLine(sliderValue);
-            }
+            SliderValue = _myMediaElement.Position.TotalSeconds;
         }
 
         #endregion
 
         #region MediaOpenedHandler
 
-        private void MediaOpenedHandler(object sender, RoutedEventArgs e)
+        private void InitSlider()
         {
-            InitTimer();
-        }
+            if (_myMediaElement.NaturalDuration.HasTimeSpan)
+            {
+                double absvalue = (int)Math.Round(
+                _myMediaElement.NaturalDuration.TimeSpan.TotalSeconds,
+                MidpointRounding.AwayFromZero);
 
-        private void InitTimer()
-        {
-            double absvalue = (int)Math.Round(
-            _myMediaElement.NaturalDuration.TimeSpan.TotalSeconds,
-            MidpointRounding.AwayFromZero);
-
-            SliderMaxValue = absvalue;
-            StartTimer();
+                SliderMaxValue = absvalue;
+            }
         }
 
         #endregion
@@ -291,6 +288,7 @@ namespace MediaPlayer
             this._myMediaElement.Stop();
             this.timer.Stop();
             SliderValue = 0;
+            this.mediaPlaying = false;
         }
 
         #endregion
@@ -376,6 +374,7 @@ namespace MediaPlayer
 
         public void DummyStuff(object param)
         {
+            Console.WriteLine(((string)param));
             SelectedIndex = 1;
         }
 
@@ -390,6 +389,18 @@ namespace MediaPlayer
         {
 
             Console.WriteLine("Clicked: " + (string) param);
+            if (CurrentAlbum != null)
+            {
+                CurrentAlbum.Clear();
+                OnPropertyChanged("AlbumsList");
+            }
+            if (TrackList != null)
+            {
+                Console.WriteLine("Clearing tracks");
+                TrackList.Clear();
+                TrackList = null;
+                OnPropertyChanged("TrackList");
+            }
             AlbumsList = MediaPlayer.AudioList.ToPlaylist().FilterBy<Media.Audio>(new Dictionary<string, string>{
             {
                 "Artist",
@@ -404,9 +415,10 @@ namespace MediaPlayer
         {
             Console.WriteLine("Clicked: " + (string)param);
             CurrentAlbum = MediaPlayer.AudioList.ToPlaylist().FilterBy<Media.Audio>(new Dictionary<string, string>{
-            {
-                "Album",
-                (string)param}
+                {
+                    "Album",
+                    (string)param
+                }
             }).OrderBy(med => ((Media.Audio)med).TrackName).ToList();
             TrackList = CurrentAlbum.Select(med => ((Media.Audio)med).TrackName).Distinct().ToList();
             OnPropertyChanged("TrackList");
@@ -422,7 +434,10 @@ namespace MediaPlayer
                 OnPropertyChanged("NowPlayingTitle");
                 OnPropertyChanged("NowPlayingArtist");
                 Console.WriteLine("File Path: " + CurrentAlbum[(int)param].File);
+                CancelMedia();
                 this._myMediaElement.Source = new Uri(CurrentAlbum[(int)param].File);
+                InitSlider();
+                StartTimer();
                 PlayMedia(null);
             }
         }
