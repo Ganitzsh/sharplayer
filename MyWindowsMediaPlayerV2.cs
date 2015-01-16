@@ -63,6 +63,7 @@ namespace MediaPlayer
             get { return audioList; }
             set { this.audioList = value; }
         }
+
         private MediaList imageList = new MediaList();
         public MediaList ImageList
         {
