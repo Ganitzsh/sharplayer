@@ -351,12 +351,25 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <ListBox Grid.Column="0" x:Name="artistsListView" ItemsSource="{Binding ArtistsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{ Binding Path=SelectedArtist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" Background="Black" Foreground="#FFDFE1E5" BorderBrush="#FF303030" BorderThickness="0,0,1,0"  UseLayoutRounding="False" Padding="-2" ItemContainerStyle="{DynamicResource PlayListListBoxItem}" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+
+                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="#FFC19BEB" Panel.ZIndex="90" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" Margin="9,8.176,0,0" Width="15.143" FontSize="13.333" Height="18.824" VerticalAlignment="Top"><Span><Run Text="&#xF002;"/></Span></TextBlock>
+
+
+                        <TextBox TextWrapping="Wrap" Text="Search an Artist" Grid.Row="0" Grid.ColumnSpan="5" Background="Black" BorderBrush="#FF303030" BorderThickness="0,0,0,1" Foreground="#FFDFE1E5" Padding="28,8,8,8" />
+
+
+
+                        <ListBox Grid.Column="0" Grid.Row="1" x:Name="artistsListView" ItemsSource="{Binding ArtistsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedArtist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Black" Foreground="#FFDFE1E5" BorderBrush="#FF303030" BorderThickness="0,0,1,0"  UseLayoutRounding="False" Padding="-2" ItemContainerStyle="{DynamicResource PlayListListBoxItem}" >
 
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MouseDoubleClick">
                                     <i:InvokeCommandAction  Command="{Binding artistSelected}" 
-                                                            CommandParameter="{Binding ElementName=artistsListView, Path=SelectedItem}" />
+                                                            CommandParameter="{Binding SelectedItem, ElementName=artistsListView}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
 
@@ -366,15 +379,15 @@
                         </ListBox>
                         <GridSplitter HorizontalAlignment="Right" 
                   VerticalAlignment="Stretch" 
-                  Grid.Column="1" ResizeBehavior="PreviousAndNext"
+                  Grid.Column="1" Grid.Row="1" ResizeBehavior="PreviousAndNext"
                   Width="0.5" Background="#FF303030"/>
 
-                        <ListBox Grid.Column="2"  x:Name="albumsListView" ItemsSource="{Binding AlbumsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{ Binding Path=SelectedAlbum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" Foreground="#FFDFE1E5" Background="Black" BorderBrush="#FF303030" BorderThickness="0,0,1,0" Padding="-2" ItemContainerStyle="{DynamicResource PlayListListBoxItem}" >
+                        <ListBox Grid.Column="2" Grid.Row="1" x:Name="albumsListView" ItemsSource="{Binding AlbumsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedAlbum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="#FFDFE1E5" Background="Black" BorderBrush="#FF303030" BorderThickness="0,0,1,0" Padding="-2" ItemContainerStyle="{DynamicResource PlayListListBoxItem}" >
 
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MouseDoubleClick">
                                     <i:InvokeCommandAction  Command="{Binding albumSelected}" 
-                                                            CommandParameter="{Binding ElementName=albumsListView, Path=SelectedItem}" />
+                                                            CommandParameter="{Binding SelectedItem, ElementName=albumsListView}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
 
@@ -384,16 +397,16 @@
                         </ListBox>
                         <GridSplitter HorizontalAlignment="Right" 
                   VerticalAlignment="Stretch" 
-                  Grid.Column="3" ResizeBehavior="PreviousAndNext"
+                  Grid.Column="3" Grid.Row="1" ResizeBehavior="PreviousAndNext"
                   Width="0.5" Background="#FF303030"/>
-                        
-                        
-                        <ListBox x:Name="titleListView" Grid.Column="4" ItemsSource="{Binding TrackList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{ Binding Path=SelectedTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" Background="Black" Foreground="#FFDFE1E5" BorderBrush="{x:Null}" BorderThickness="0" Padding="-2" ItemContainerStyle="{DynamicResource PlayListListBoxItem}" >
+
+
+                        <ListBox x:Name="titleListView" Grid.Column="4" Grid.Row="1" ItemsSource="{Binding TrackList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Black" Foreground="#FFDFE1E5" BorderBrush="{x:Null}" BorderThickness="0" Padding="-2" ItemContainerStyle="{DynamicResource PlayListListBoxItem}" >
 
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MouseDoubleClick">
                                     <i:InvokeCommandAction  Command="{Binding trackSelected}" 
-                                                            CommandParameter="{Binding ElementName=titleListView, Path=SelectedIndex}" />
+                                                            CommandParameter="{Binding SelectedIndex, ElementName=titleListView}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
 
