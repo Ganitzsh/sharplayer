@@ -14,17 +14,10 @@ namespace MediaPlayer.Serializable
     [Serializable]
     public class MediaList
     {
-        private MediaList sorted = null;
-
         private List<DirectoryContent> content = new List<DirectoryContent>();
         private List<string> directories = new List<string>();
 
         private string rootDirectory;
-
-        public MediaList Sorted
-        {
-            get { return (sorted == null ? this : sorted); }
-        }
 
         public static MediaList operator +(MediaList a, MediaList b)
         {
@@ -94,23 +87,29 @@ namespace MediaPlayer.Serializable
         {
         }
 
-        /*
-        public MediaList FilterByName(string query)
+        public Tuple<List<string>, List<string>, List<string>> FilterByName(string query)
         {
-            var ret = (MediaList)this.MemberwiseClone();
-            ret.Content = new ConcurrentBag<DirectoryContent>();
+            Library.PlayList playlist = ToPlaylist();
 
-            foreach (var dirContent in Content)
+            if (playlist.MediaType == Media.MediaTypes.Music)
             {
-                var newDirContent = new DirectoryContent();
-                newDirContent.List = dirContent.List.FindAll(med => med.Name.Contains(query));
-                newDirContent.Directory = dirContent.Directory;
+                List<string> artists, albums, tracknames;
 
-                ret.Content.Add(newDirContent);
+                artists = playlist.FilterBy<Media.Audio>(new Dictionary<string, string>
+                    {
+                        { "Artist", query }
+                    }).Select(med => ((Media.Audio)med).Artist).Distinct().ToList();
+                albums = playlist.FilterBy<Media.Audio>(new Dictionary<string, string>
+                    {
+                        { "Album", query }
+                    }).Select(med => ((Media.Audio)med).Album).Distinct().ToList();
+                tracknames = playlist.FilterBy<Media.Audio>(new Dictionary<string, string>
+                    {
+                        { "TrackName", query }
+                    }).Select(med => ((Media.Audio)med).TrackName).Distinct().ToList();
+                return new Tuple<List<string>, List<string>, List<string>>(artists, albums, tracknames);
             }
-            sorted = ret;
-            return ret;
+            return null;
         }
-        */
     }
 }
