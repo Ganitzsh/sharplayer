@@ -177,9 +177,9 @@ namespace MediaPlayer
             this.mediaPlayer = new MyWindowsMediaPlayerV2(); // <-- worker.ReportProgress(0);
 
             this._myMediaElement = new MediaElement();
-            this._myMediaElement.MediaEnded += StopMediaHandler;
             this._myMediaElement.LoadedBehavior = MediaState.Manual;
             this._myMediaElement.UnloadedBehavior = MediaState.Stop;
+            this._myMediaElement.MediaOpened += InitSlider;
             
             this.playCommand = new DelegateCommand<object>(PlayMedia, CanPlayMedia);
             this.stopCommand = new DelegateCommand<object>(StopMedia, CanStopMedia);
@@ -287,18 +287,15 @@ namespace MediaPlayer
 
         #endregion
 
-        #region MediaOpenedHandler
+        #region InitSlider
 
-        private void InitSlider()
+        private void InitSlider(object sender, RoutedEventArgs e)
         {
-            if (_myMediaElement.NaturalDuration.HasTimeSpan)
-            {
                 double absvalue = (int)Math.Round(
                 _myMediaElement.NaturalDuration.TimeSpan.TotalSeconds,
                 MidpointRounding.AwayFromZero);
 
                 SliderMaxValue = absvalue;
-            }
         }
 
         #endregion
@@ -313,7 +310,7 @@ namespace MediaPlayer
                 Console.WriteLine("Removed: " + PlayQueue.Content.Remove(PlayQueue.Content[0]));
                 Console.WriteLine("Music left in queue: " + PlayQueue.Content.Count);
                 this._myMediaElement.Source = new Uri(PlayQueue.Content[0].File);
-                InitSlider();
+                //InitSlider();
                 StartTimer();
                 PlayMedia(null);
             }
@@ -356,6 +353,7 @@ namespace MediaPlayer
 
         public void PlayMedia(object param)
         {
+            Console.WriteLine(this.sliderMaxValue);
             if (this._myMediaElement.Source != null)
             {
                 if (this.mediaPlaying == false)
@@ -363,8 +361,6 @@ namespace MediaPlayer
                     this._myMediaElement.Play();
                     this.mediaPlaying = true;
                     this.PlayIcon = "\uf04c";
-                    if (!this.timer.IsEnabled)
-                        StartTimer();
                 }
                 else
                 {
@@ -475,9 +471,9 @@ namespace MediaPlayer
                 PlayQueue.Content = CurrentAlbum.GetRange(((int)param), CurrentAlbum.Count - ((int)param));
                 CancelMedia();
                 this._myMediaElement.Source = new Uri(PlayQueue.Content[0].File);
-                InitSlider();
-                StartTimer();
                 PlayMedia(null);
+                //InitSlider();
+                StartTimer();
             }
         }
 
