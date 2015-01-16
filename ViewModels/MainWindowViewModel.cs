@@ -146,7 +146,6 @@ namespace MediaPlayer
         {
             this.mediaPlayer = new MyWindowsMediaPlayerV2(); // <-- worker.ReportProgress(0);
             this._myMediaElement = new MediaElement();
-            this._myMediaElement.MediaEnded += StopMediaHandler;
             this._myMediaElement.LoadedBehavior = MediaState.Manual;
             this._myMediaElement.UnloadedBehavior = MediaState.Stop;
             SliderMaxValue = 100;
@@ -250,7 +249,7 @@ namespace MediaPlayer
 
         #endregion
 
-        #region MediaOpenedHandler
+        #region InitSlider
 
         private void InitSlider()
         {
@@ -266,12 +265,7 @@ namespace MediaPlayer
 
         #endregion
 
-        #region StopMediaHandler
-
-        private void StopMediaHandler(object sender, RoutedEventArgs e)
-        {
-            CancelMedia();
-        }
+        #region CancelMedia
 
         private void CancelMedia()
         {
@@ -315,8 +309,6 @@ namespace MediaPlayer
                     this._myMediaElement.Play();
                     this.mediaPlaying = true;
                     this.PlayIcon = "\uf04c";
-                    if (!this.timer.IsEnabled)
-                        StartTimer();
                 }
                 else
                 {
