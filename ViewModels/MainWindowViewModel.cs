@@ -105,6 +105,8 @@ namespace MediaPlayer
             }
         }
 
+        public string SearchBar { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
