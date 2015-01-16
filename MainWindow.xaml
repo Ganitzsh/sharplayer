@@ -431,50 +431,32 @@
                 <Grid.Background>
                     <SolidColorBrush Color="Black" Opacity="0"/>
                 </Grid.Background>
-                <RepeatButton x:Name="backwardButton" Command="{Binding reverseCommand}" Content="&#xF04A;" HorizontalAlignment="Left" Width="42" FontFamily="FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,6.332,0,2.667" Height="30">
-                    <RepeatButton.BorderBrush>
-                        <SolidColorBrush Color="#FF707070" Opacity="0"/>
-                    </RepeatButton.BorderBrush>
+                <RepeatButton x:Name="backwardButton" Command="{Binding reverseCommand}" Content="&#xF04A;" HorizontalAlignment="Left" Width="42" FontFamily="FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,6.332,0,2.667" Height="30" BorderBrush="{x:Null}">
                     <RepeatButton.Background>
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                     </RepeatButton.Background>
                 </RepeatButton>
-                <Button x:Name="playButton" Command="{Binding playCommand}" Content="{Binding PlayIcon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFC19BEB" BorderThickness="0" Margin="42,6.832,0,3.167" Height="30">
-                    <Button.BorderBrush>
-                        <SolidColorBrush Color="#FF707070" Opacity="0"/>
-                    </Button.BorderBrush>
+                <Button x:Name="playButton" Command="{Binding playCommand}" Content="{Binding PlayIcon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFC19BEB" BorderThickness="0" Margin="42,6.832,0,3.167" Height="30" BorderBrush="{x:Null}">
                     <Button.Background>
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                     </Button.Background>
                 </Button>
-                <Button x:Name="stopButton" Command="{Binding stopCommand}" Content="&#xF04D;" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="84,6.832,0,3.167" Height="30">
-                    <Button.BorderBrush>
-                        <SolidColorBrush Color="#FF707070" Opacity="0"/>
-                    </Button.BorderBrush>
+                <Button x:Name="stopButton" Command="{Binding stopCommand}" Content="&#xF04D;" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="84,6.832,0,3.167" Height="30" BorderBrush="{x:Null}">
                     <Button.Background>
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                     </Button.Background>
                 </Button>
-                <RepeatButton x:Name="forwardButton" Command="{Binding fastCommand}" Content="&#xF04E;" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="126,6.332,0,2.667" Height="30">
-                    <RepeatButton.BorderBrush>
-                        <SolidColorBrush Color="#FF707070" Opacity="0"/>
-                    </RepeatButton.BorderBrush>
+                <RepeatButton x:Name="forwardButton" Command="{Binding fastCommand}" Content="&#xF04E;" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="126,6.332,0,2.667" Height="30" BorderBrush="{x:Null}">
                     <RepeatButton.Background>
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                     </RepeatButton.Background>
                 </RepeatButton>
-                <RepeatButton x:Name="Repeat" Command="{Binding fastCommand}" Content="&#xF01E;" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,0,188.998,3.167" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="25">
-                	<RepeatButton.BorderBrush>
-                		<SolidColorBrush Color="#FF707070" Opacity="0"/>
-                	</RepeatButton.BorderBrush>
+                <RepeatButton x:Name="Repeat" Command="{Binding fastCommand}" Content="&#xF01E;" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,0,188.998,3.167" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="25" BorderBrush="{x:Null}">
                 	<RepeatButton.Background>
                 		<SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                 	</RepeatButton.Background>
                 </RepeatButton>
-                <RepeatButton x:Name="Shuffle" Command="{Binding fastCommand}" Content="&#xF074;" HorizontalAlignment="Right" Width="25" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,0,158.998,3.168" RenderTransformOrigin="-0.54,0.539" Height="30" VerticalAlignment="Bottom">
-                	<RepeatButton.BorderBrush>
-                		<SolidColorBrush Color="#FF707070" Opacity="0"/>
-                	</RepeatButton.BorderBrush>
+                <RepeatButton x:Name="Shuffle" Command="{Binding fastCommand}" Content="&#xF074;" HorizontalAlignment="Right" Width="25" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,0,158.998,3.168" RenderTransformOrigin="-0.54,0.539" Height="30" VerticalAlignment="Bottom" BorderBrush="{x:Null}">
                 	<RepeatButton.Background>
                 		<SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                 	</RepeatButton.Background>
