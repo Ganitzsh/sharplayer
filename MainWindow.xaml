@@ -329,10 +329,7 @@
             </ListBox>
         </Grid>
         <Slider x:Name="progressSlider" IsMoveToPointEnabled="true"  Margin="0,0,0,31.5" Minimum="0" Maximum="{Binding Path=SliderMaxValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{x:Null}"  Style="{StaticResource Horizontal_Slider}" Value="{Binding Path=SliderValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Panel.ZIndex="99" Height="21" VerticalAlignment="Bottom"/>
-  <!--
-       
-     <Slider x:Name="progressSlider" IsMoveToPointEnabled="true" HorizontalAlignment="Left"  Style="{StaticResource MyCustomStyleForSlider}" Margin="0,328,0,0" VerticalAlignment="Top" Width="595" Value="{Binding Path=SliderValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="{Binding Path=SliderMaxValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{x:Null}"/>
-   -->
+
 
         <Grid ClipToBounds="True" Background="Black" Margin="150,0,0,44">
             <TabControl BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}" Padding="0" Name="MainTabControl" SelectedIndex="{ Binding Path=SelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" Margin="0,-25,0,0">
