@@ -66,6 +66,10 @@ namespace MediaPlayer.Library
             {
                 Console.WriteLine("Fail: " + e.Message);
             }
+            catch (IOException e)
+            {
+                Console.WriteLine("Fail: " + e.Message);
+            }
         }
 
         public static PlayList GetFromFile(string file)

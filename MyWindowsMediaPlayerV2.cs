@@ -63,6 +63,7 @@ namespace MediaPlayer
             get { return audioList; }
             set { this.audioList = value; }
         }
+
         private MediaList imageList = new MediaList();
         public MediaList ImageList
         {
@@ -111,27 +112,6 @@ namespace MediaPlayer
         }
 
         public Media.Media NowPlaying { get; set; }
-
-        /*
-        private void UpdateDisplayableMediaList()
-        {
-            displayableMediaList.Clear();
-            displayableMediaList.AddRange((videoList.Sorted + audioList.Sorted + imageList.Sorted).Content.SelectMany(dir => dir.List).ToList());
-        }
-
-        public void FilterByName(string query)
-        {
-             Parallel.ForEach(new ConcurrentBag<MediaList> {
-                 videoList,
-                 audioList,
-                 imageList
-             }, mediaList =>
-             {
-                mediaList.FilterByName(query);
-             });
-             UpdateDisplayableMediaList();
-        }
-        */
 
         /**
          * This method serialize a MediaList object into a file named <IndexerFileName>
