@@ -179,6 +179,14 @@ namespace MediaPlayer
             set { searchBarContent = value; }
         }
 
+        private bool mustRepeat;
+        public bool MustRepeat
+        {
+            get { return mustRepeat; }
+            set { mustRepeat = value; }
+        }
+        
+
         #endregion
 
         public MainWindowViewModel()
@@ -200,9 +208,12 @@ namespace MediaPlayer
             this.albumSelected = new DelegateCommand<object>(AlbumSelected);
             this.trackSelected = new DelegateCommand<object>(TrackSelected);
             this.switchToQueue = new DelegateCommand<object>(SwitchToQueue);
+            this.repeatCommand = new DelegateCommand<object>(RepeatMedia);
+                
             this.playIcon = "\uf04b";
             this.mediaPlaying = false;
             this.SearchBarContent = "";
+            this.mustRepeat = false;
 
             PlayQueue = new Library.PlayList();
             PlayQueue.MediaType = Media.MediaTypes.Generic;
@@ -319,17 +330,25 @@ namespace MediaPlayer
         {
             Console.WriteLine("Stop handler!!");
             CancelMedia();
-            if (PlayQueue.Content != null && PlayQueue.Content[0] != null && PlayQueue.Content.Count > 1)
+            if (this.mustRepeat == true)
             {
-                Console.WriteLine("Removed: " + PlayQueue.Content.Remove(PlayQueue.Content[0]));
-                Console.WriteLine("Music left in queue: " + PlayQueue.Content.Count);
-                Console.WriteLine("Playing now: " + PlayQueue.Content[0].File);
-                this._myMediaElement.Source = new Uri(PlayQueue.Content[0].File);
+                this.mustRepeat = false;
                 StartTimer();
                 PlayMedia(null);
             }
             else
-                this.playIcon = "\uf04b";
+            {
+                if (PlayQueue.Content != null && PlayQueue.Content[0] != null && PlayQueue.Content.Count > 1)
+                {
+                    Console.WriteLine("Removed: " + PlayQueue.Content.Remove(PlayQueue.Content[0]));
+                    Console.WriteLine("Music left in queue: " + PlayQueue.Content.Count);
+                    this._myMediaElement.Source = new Uri(PlayQueue.Content[0].File);
+                    StartTimer();
+                    PlayMedia(null);
+                }
+                else
+                    this.playIcon = "\uf04b";
+            }
         }
 
         private void CancelMedia()
@@ -537,6 +556,20 @@ namespace MediaPlayer
                 return true;
             else
                 return false;
+        }
+
+        #endregion
+
+        #region RepeatCommand
+
+        public ICommand repeatCommand { get; set; }
+
+        public void RepeatMedia(object param)
+        {
+            if (this.mustRepeat == false)
+                this.mustRepeat = true;
+            else
+                this.mustRepeat = false;
         }
 
         #endregion

@@ -103,5 +103,17 @@ namespace MediaPlayer.Serializable
             }
             return null;
         }
+
+        public List<string> FilterByName(string query)
+        {
+            Library.PlayList playlist = ToPlaylist();
+            List<string> names;
+
+            names = playlist.FilterBy<Media.Media>(new Dictionary<string, string>
+                {
+                    { "Name", query }
+                }).Select(med => med.Name).Distinct().ToList();
+            return names;
+        }
     }
 }
