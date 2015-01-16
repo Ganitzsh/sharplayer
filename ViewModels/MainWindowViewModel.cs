@@ -180,6 +180,7 @@ namespace MediaPlayer
             this._myMediaElement.LoadedBehavior = MediaState.Manual;
             this._myMediaElement.UnloadedBehavior = MediaState.Stop;
             this._myMediaElement.MediaOpened += InitSlider;
+            this._myMediaElement.MediaEnded += StopMediaHandler;
             
             this.playCommand = new DelegateCommand<object>(PlayMedia, CanPlayMedia);
             this.stopCommand = new DelegateCommand<object>(StopMedia, CanStopMedia);
@@ -304,13 +305,14 @@ namespace MediaPlayer
 
         private void StopMediaHandler(object sender, RoutedEventArgs e)
         {
+            Console.WriteLine("Stop handler!!");
             CancelMedia();
             if (PlayQueue.Content != null && PlayQueue.Content[0] != null && PlayQueue.Content.Count > 1)
             {
                 Console.WriteLine("Removed: " + PlayQueue.Content.Remove(PlayQueue.Content[0]));
                 Console.WriteLine("Music left in queue: " + PlayQueue.Content.Count);
+                Console.WriteLine("Playing now: " + PlayQueue.Content[0].File);
                 this._myMediaElement.Source = new Uri(PlayQueue.Content[0].File);
-                //InitSlider();
                 StartTimer();
                 PlayMedia(null);
             }
@@ -472,7 +474,6 @@ namespace MediaPlayer
                 CancelMedia();
                 this._myMediaElement.Source = new Uri(PlayQueue.Content[0].File);
                 PlayMedia(null);
-                //InitSlider();
                 StartTimer();
             }
         }
