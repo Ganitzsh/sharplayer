@@ -15,6 +15,14 @@ namespace MediaPlayer.Media
         private string album;
         private string trackName;
         private uint year;
+        private double duration;
+
+        public double Duration
+        {
+            get { return duration; }
+            set { duration = value; }
+        }
+        
 
         public uint Year
         {
@@ -54,6 +62,7 @@ namespace MediaPlayer.Media
             this.Year = tmp.Tag.Year;
             this.Album = tmp.Tag.Album;
             this.Artist = ((tmp.Tag.Performers.Length > 0) ? tmp.Tag.Performers[0] : "None");
+            this.Duration = tmp.Properties.Duration.TotalSeconds;
             /*
             if (tmp.Tag.Pictures.Length >= 1)
             {
