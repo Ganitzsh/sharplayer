@@ -45,9 +45,6 @@ namespace MediaPlayer.Library
 
         public void SerializeInto(string directory)
         {
-            if (!File.Exists(directory + this.Name + ".xml"))
-                File.Create(directory + this.Name + ".xml");
-
             try
             {
                 XmlSerializer xs = new XmlSerializer(typeof(PlayList));
@@ -66,6 +63,10 @@ namespace MediaPlayer.Library
                 Console.WriteLine("XML NullReferenceException exception: " + e.Message);
             }
             catch (AmbiguousMatchException e)
+            {
+                Console.WriteLine("Fail: " + e.Message);
+            }
+            catch (IOException e)
             {
                 Console.WriteLine("Fail: " + e.Message);
             }

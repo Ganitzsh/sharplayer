@@ -42,6 +42,13 @@ namespace MediaPlayer
          * =========================
          */
 
+        private Dictionary<Media.MediaTypes, string> libraryIcons;
+        public Dictionary<Media.MediaTypes, string> LibIcons
+        {
+            get { return libraryIcons; }
+            set { libraryIcons = value; }
+        }
+
         private MediaList videoList = new MediaList();
         public MediaList VideoList
         {
@@ -56,6 +63,7 @@ namespace MediaPlayer
             get { return audioList; }
             set { this.audioList = value; }
         }
+
         private MediaList imageList = new MediaList();
         public MediaList ImageList
         {
@@ -104,27 +112,6 @@ namespace MediaPlayer
         }
 
         public Media.Media NowPlaying { get; set; }
-
-        /*
-        private void UpdateDisplayableMediaList()
-        {
-            displayableMediaList.Clear();
-            displayableMediaList.AddRange((videoList.Sorted + audioList.Sorted + imageList.Sorted).Content.SelectMany(dir => dir.List).ToList());
-        }
-
-        public void FilterByName(string query)
-        {
-             Parallel.ForEach(new ConcurrentBag<MediaList> {
-                 videoList,
-                 audioList,
-                 imageList
-             }, mediaList =>
-             {
-                mediaList.FilterByName(query);
-             });
-             UpdateDisplayableMediaList();
-        }
-        */
 
         /**
          * This method serialize a MediaList object into a file named <IndexerFileName>
@@ -178,7 +165,6 @@ namespace MediaPlayer
         public void KeepType(Media.MediaTypes type, List<Media.Media> list)
         {
             int lol = list.RemoveAll(med => med.Type != type);
-            Console.WriteLine("Removed: " + lol);
         }
 
         public long CountFileInDirectory(string path)
@@ -207,6 +193,10 @@ namespace MediaPlayer
 
         public MyWindowsMediaPlayerV2()
         {
+            LibIcons = new Dictionary<Media.MediaTypes, string>();
+            LibIcons.Add(Media.MediaTypes.Music, "\uF001");
+            LibIcons.Add(Media.MediaTypes.Image, "\uF030");
+            LibIcons.Add(Media.MediaTypes.Video, "\uF008");
         }
 
         public void ReadSpecific(MediaList list, string folder)

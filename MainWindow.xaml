@@ -225,53 +225,66 @@
 
 
 
-            <Grid x:Name="SidebarGrid" Grid.Column="0" Background="#FF161616">
+            <Grid x:Name="SidebarGrid" Grid.Column="0">
+                <ListBox ItemsSource="{ Binding PlayLists}" Foreground="#FFDFE1E5" BorderBrush="{x:Null}" BorderThickness="0" Padding="5,0,0,0" Margin="0,99,0,0.5">
+                    <ListBox.Background>
+                        <SolidColorBrush Color="#FF161616" Opacity="1"/>
+                    </ListBox.Background>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="11" Margin="0,2,0,0" Width="12" Height="12"><Run Text="{ Binding Icon}"/></TextBlock>
+                                <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Language="fr-fr" Text="{ Binding Name }"/></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
                 <ListBox Foreground="#FFDFE1E5" BorderBrush="{x:Null}" BorderThickness="0" Padding="5,0,0,0" Height="99" VerticalAlignment="Top">
                     <ListBox.Background>
                         <SolidColorBrush Color="#FF161616" Opacity="1"/>
                     </ListBox.Background>
 
-                	<ListBoxItem Margin="0,10">
-                		<StackPanel Orientation="Horizontal">
-                			<TextBlock FontFamily="Arial" Padding="0" FontWeight="SemiBold" Foreground="#FFC19BEB"><Run Language="fr-fr" Text="COMPUTER"/></TextBlock>
-                		</StackPanel>
-                	</ListBoxItem>
+                    <ListBoxItem Margin="0,10">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="Arial" Padding="0" FontWeight="SemiBold" Foreground="#FFC19BEB"><Run Language="fr-fr" Text="COMPUTER"/></TextBlock>
+                        </StackPanel>
+                    </ListBoxItem>
 
-                	<ListBoxItem>
-                		<i:Interaction.Triggers>
-                			<i:EventTrigger EventName="PreviewMouseDown">
-                				<i:InvokeCommandAction Command="{Binding writeStuff}" CommandParameter="ComputerMusic"/>
-                			</i:EventTrigger>
-                		</i:Interaction.Triggers>
-                		<StackPanel Orientation="Horizontal">
-                			<TextBlock FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="11" Margin="0,2,0,0" Text="&#xF001;" Width="12" Height="12"/>
-                			<TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Language="fr-fr" Text="Music"/></TextBlock>
-                		</StackPanel>
-                	</ListBoxItem>
-                	<ListBoxItem>
-                		<i:Interaction.Triggers>
-                			<i:EventTrigger EventName="PreviewMouseDown">
-                				<i:InvokeCommandAction Command="{Binding writeStuff}" CommandParameter="ComputerPhoto"/>
-                			</i:EventTrigger>
-                		</i:Interaction.Triggers>
-                		<StackPanel Orientation="Horizontal">
-                			<TextBlock FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="11" Margin="0,2,0,0" Width="12" Height="12"><Run Text="&#xF030;"/></TextBlock>
-                			<TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Text="Photo"/></TextBlock>
-                		</StackPanel>
-                	</ListBoxItem>
+                    <ListBoxItem>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown">
+                                <i:InvokeCommandAction Command="{Binding writeStuff}" CommandParameter="ComputerMusic"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="11" Margin="0,2,0,0" Text="&#xF001;" Width="12" Height="12"/>
+                            <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Language="fr-fr" Text="Music"/></TextBlock>
+                        </StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown">
+                                <i:InvokeCommandAction Command="{Binding writeStuff}" CommandParameter="ComputerPhoto"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="11" Margin="0,2,0,0" Width="12" Height="12"><Run Text="&#xF030;"/></TextBlock>
+                            <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Text="Photo"/></TextBlock>
+                        </StackPanel>
+                    </ListBoxItem>
 
 
-                	<ListBoxItem>
-                		<i:Interaction.Triggers>
-                			<i:EventTrigger EventName="PreviewMouseDown">
-                				<i:InvokeCommandAction Command="{Binding writeStuff}" CommandParameter="ComputerVideo"/>
-                			</i:EventTrigger>
-                		</i:Interaction.Triggers>
-                		<StackPanel Orientation="Horizontal">
-                			<TextBlock FontFamily="FontAwesome" FontSize="11" Margin="0,2,0,0" Height="12" Width="12"><Run Text="&#xF008;"/></TextBlock>
-                			<TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Text="Video"/></TextBlock>
-                		</StackPanel>
-                	</ListBoxItem>
+                    <ListBoxItem>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown">
+                                <i:InvokeCommandAction Command="{Binding writeStuff}" CommandParameter="ComputerVideo"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="FontAwesome" FontSize="11" Margin="0,2,0,0" Height="12" Width="12"><Run Text="&#xF008;"/></TextBlock>
+                            <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Text="Video"/></TextBlock>
+                        </StackPanel>
+                    </ListBoxItem>
 
                 </ListBox>
                 <ListBox Foreground="#FFDFE1E5" BorderBrush="#FF303030" BorderThickness="0,0,0,1" Padding="5,0,0,0" Margin="0,99,0,41.5">
@@ -429,7 +442,7 @@
                 <Grid.Background>
                     <SolidColorBrush Color="Black" Opacity="0"/>
                 </Grid.Background>
-                <RepeatButton x:Name="backwardButton" Command="{Binding reverseCommand}" Content="&#xF04A;" HorizontalAlignment="Left" Width="42" FontFamily="FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="52,6.832,0,3.167" Height="30" BorderBrush="{x:Null}">
+                <RepeatButton x:Name="backwardButton" Command="{Binding reverseCommand}" Content="&#xF04A;" HorizontalAlignment="Left" Width="42" FontFamily="FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,6.332,0,2.667" Height="30" BorderBrush="{x:Null}">
                     <RepeatButton.Background>
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                     </RepeatButton.Background>
@@ -449,16 +462,16 @@
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                     </RepeatButton.Background>
                 </RepeatButton>
-                <RepeatButton x:Name="Repeat" Command="{Binding fastCommand}" Content="&#xF01E;" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,0,188.998,3.167" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="25" BorderBrush="{x:Null}">
-                	<RepeatButton.Background>
+                <Button x:Name="Repeat" Command="{Binding repeatCommand}" Content="&#xF01E;" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="{Binding RepeatColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="0,0,188.998,3.167" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="25">
+                	<Button.Background>
                 		<SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
-                	</RepeatButton.Background>
-                </RepeatButton>
-                <RepeatButton x:Name="Shuffle" Command="{Binding fastCommand}" Content="&#xF074;" HorizontalAlignment="Right" Width="25" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,0,158.998,3.168" RenderTransformOrigin="-0.54,0.539" Height="30" VerticalAlignment="Bottom" BorderBrush="{x:Null}">
-                	<RepeatButton.Background>
+                	</Button.Background>
+                </Button>
+                <Button x:Name="Shuffle" Command="{Binding shuffleCommand}" Content="&#xF074;" HorizontalAlignment="Right" Width="25" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,0,158.998,3.168" RenderTransformOrigin="-0.54,0.539" Height="30" VerticalAlignment="Bottom">
+                	<Button.Background>
                 		<SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
-                	</RepeatButton.Background>
-                </RepeatButton>
+                	</Button.Background>
+                </Button>
                 <TextBlock x:Name="volumeIcon" Margin="0,0,121.37,11.697" TextWrapping="Wrap" Foreground="#FFDFE1E5" RenderTransformOrigin="1.673,0.443" FontSize="13.333" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" Text="&#xF028;" Height="13.444" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="12.38"/>
                 <Slider x:Name="volumeSlider" IsMoveToPointEnabled="true"  Margin="0,0,10,9" Minimum="0" Foreground="{x:Null}"  Style="{StaticResource Horizontal_Slider}" Panel.ZIndex="99" Height="21" VerticalAlignment="Bottom" Maximum="100" Value="50" HorizontalAlignment="Right" Width="60"/>
                 <RepeatButton x:Name="previousButton" Command="{Binding reverseCommand}" Content="&#xF049;" HorizontalAlignment="Left" Width="42" FontFamily="FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="10,6.832,0,3.167" Height="30" BorderBrush="{x:Null}">
