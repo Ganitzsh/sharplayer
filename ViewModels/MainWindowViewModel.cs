@@ -22,9 +22,9 @@ namespace MediaPlayer
 
         #region Properties
 
-        private List<Media.Media> playQueue;
+        private Library.PlayList playQueue;
 
-        public List<Media.Media> PlayQueue
+        public Library.PlayList PlayQueue
         {
             get { return playQueue; }
             set { playQueue = value; }
@@ -194,6 +194,10 @@ namespace MediaPlayer
             this.mediaPlaying = false;
             this.SearchBarContent = "";
 
+            PlayQueue = new Library.PlayList();
+            PlayQueue.MediaType = Media.MediaTypes.Generic;
+            PlayQueue.Name = "Play queue";
+
             SliderMaxValue = 100;
             SliderValue = 0;
 
@@ -304,15 +308,17 @@ namespace MediaPlayer
         private void StopMediaHandler(object sender, RoutedEventArgs e)
         {
             CancelMedia();
-            if (PlayQueue != null && PlayQueue[0] != null && PlayQueue.Count > 1)
+            if (PlayQueue.Content != null && PlayQueue.Content[0] != null && PlayQueue.Content.Count > 1)
             {
-                PlayQueue.Remove(PlayQueue[0]);
-                Console.WriteLine("Music left in queue: " + PlayQueue.Count);
-                this._myMediaElement.Source = new Uri(PlayQueue[0].File);
+                Console.WriteLine("Removed: " + PlayQueue.Content.Remove(PlayQueue.Content[0]));
+                Console.WriteLine("Music left in queue: " + PlayQueue.Content.Count);
+                this._myMediaElement.Source = new Uri(PlayQueue.Content[0].File);
                 InitSlider();
                 StartTimer();
                 PlayMedia(null);
             }
+            else
+                this.playIcon = "\uf04b";
         }
 
         private void CancelMedia()
@@ -468,12 +474,9 @@ namespace MediaPlayer
                 OnPropertyChanged("NowPlayingTitle");
                 OnPropertyChanged("NowPlayingArtist");
                 Console.WriteLine("File Path: " + CurrentAlbum[(int)param].File);
-                if (PlayQueue == null)
-                {
-                    PlayQueue = CurrentAlbum.GetRange(((int)param), CurrentAlbum.Count - ((int)param));
-                }
+                PlayQueue.Content = CurrentAlbum.GetRange(((int)param), CurrentAlbum.Count - ((int)param));
                 CancelMedia();
-                this._myMediaElement.Source = new Uri(CurrentAlbum[(int)param].File);
+                this._myMediaElement.Source = new Uri(PlayQueue.Content[0].File);
                 InitSlider();
                 StartTimer();
                 PlayMedia(null);
