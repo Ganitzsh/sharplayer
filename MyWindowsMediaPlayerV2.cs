@@ -42,6 +42,13 @@ namespace MediaPlayer
          * =========================
          */
 
+        private Dictionary<Media.MediaTypes, string> libraryIcons;
+        public Dictionary<Media.MediaTypes, string> LibIcons
+        {
+            get { return libraryIcons; }
+            set { libraryIcons = value; }
+        }
+
         private MediaList videoList = new MediaList();
         public MediaList VideoList
         {
@@ -185,6 +192,10 @@ namespace MediaPlayer
 
         public MyWindowsMediaPlayerV2()
         {
+            LibIcons = new Dictionary<Media.MediaTypes, string>();
+            LibIcons.Add(Media.MediaTypes.Music, "\uF001");
+            LibIcons.Add(Media.MediaTypes.Image, "\uF030");
+            LibIcons.Add(Media.MediaTypes.Video, "\uF008");
         }
 
         public void ReadSpecific(MediaList list, string folder)
