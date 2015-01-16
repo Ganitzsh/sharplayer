@@ -178,6 +178,7 @@ namespace MediaPlayer
             this.switchToQueue = new DelegateCommand<object>(SwitchToQueue);
             this.playIcon = "\uf04b";
             this.mediaPlaying = false;
+            this.SearchBarContent = "";
 
             SliderMaxValue = 100;
             SliderValue = 0;
@@ -381,7 +382,9 @@ namespace MediaPlayer
 
         public void DummyStuff(object param)
         {
-            Console.WriteLine(((string)param));
+            Console.WriteLine(SearchBarContent);
+            ArtistsList = mediaPlayer.AudioList.FilterByArtist(SearchBarContent);
+            OnPropertyChanged("ArtistsList");
             SelectedIndex = 1;
         }
 

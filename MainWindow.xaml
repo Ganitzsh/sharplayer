@@ -373,15 +373,15 @@
                         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="#FFC19BEB" Panel.ZIndex="90" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" Margin="9,8.176,0,0" Width="15.143" FontSize="13.333" Height="18.824" VerticalAlignment="Top"><Span><Run Text="&#xF002;"/></Span></TextBlock>
 
 
-                        <TextBox x:Name="musicSearchTextBox" TextWrapping="Wrap" Grid.Row="0" Grid.ColumnSpan="5" Background="Black" BorderBrush="#FF303030" BorderThickness="0,0,0,1" Foreground="#FFDFE1E5" Padding="28,8,8,8">
+                        <TextBox x:Name="musicSearchTextBox" TextWrapping="Wrap" Grid.Row="0" Grid.ColumnSpan="5" Background="Black" BorderBrush="#FF303030" BorderThickness="0,0,0,1" Foreground="#FFDFE1E5" Padding="28,8,8,8" Text="{ Binding SearchBarContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }">
                             <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="KeyDown">
+                                <i:EventTrigger EventName="TextChanged">
                                     <i:InvokeCommandAction Command="{ Binding writeStuff }" CommandParameter="Lol"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </TextBox>
 
-                        <TextBlock IsHitTestVisible="False"  TextAlignment="Left" Grid.ColumnSpan="3" Padding="5, 5, 5, 5"  Foreground="LightGray" Panel.ZIndex="99" Margin="26.143,3,62.357,4" Text="{ Binding SeatchBarContent, UpdateSourceTrigger=PropertyChanged }">
+                        <TextBlock IsHitTestVisible="False" TextAlignment="Left" Grid.ColumnSpan="3" Padding="5, 5, 5, 5"  Foreground="LightGray" Panel.ZIndex="99" Margin="26.143,3,62.357,4">
                             <TextBlock.Style>
                                 <Style TargetType="{x:Type TextBlock}">
                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -395,7 +395,7 @@
                                     </Style.Triggers>
                                 </Style>
                             </TextBlock.Style>
-                            <Run Language="fr-fr" Text="Search an Artist, an Album or a Track"/>
+                            <Run Language="fr-fr" />
                         </TextBlock>
 
                         <ListBox Grid.Column="0" Grid.Row="1" x:Name="artistsListView" ItemsSource="{Binding ArtistsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedArtist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Black" Foreground="#FFDFE1E5" BorderBrush="#FF303030" BorderThickness="0,0,1,0"  UseLayoutRounding="False" Padding="-2" ItemContainerStyle="{DynamicResource PlayListListBoxItem}" >
