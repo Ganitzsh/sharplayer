@@ -337,7 +337,7 @@
                     <Grid Background="Black" Margin="0,0,0,0.5">
                         <TextBlock x:Name="artist" Margin="0,0,10,10" TextWrapping="Wrap" TextAlignment="Right" FontSize="16" Foreground="#FFDFE1E5" Height="19.2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="142"><Run Language="fr-fr" Text="{ Binding Path=NowPlayingArtist, Mode=OneWay, UpdateSourceTrigger=PropertyChanged }"/></TextBlock>
                         <TextBlock x:Name="title" Margin="0,0,10,29.2" TextWrapping="Wrap" TextAlignment="Right" FontSize="18.667" FontWeight="SemiBold" Foreground="#FFC19BEB" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="51"><Run Language="fr-fr" Text="{ Binding Path=NowPlayingTitle, Mode=OneWay, UpdateSourceTrigger=PropertyChanged }"/></TextBlock>
-                        <TextBlock x:Name="musicIcon" Margin="130.834,105.648,130.833,105.648" TextWrapping="Wrap" Foreground="#FFC19BEB" FontSize="96" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" TextAlignment="Center" LineHeight="29.333"><Span><Run Text="&#xF001;"/></Span></TextBlock>
+                        <TextBlock x:Name="musicIcon" Margin="96.834,125.648,164.833,85.648" TextWrapping="Wrap" Foreground="#FFC19BEB" FontSize="96" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" TextAlignment="Center" LineHeight="29.333"><Span><Run Text="&#xF001;"/></Span></TextBlock>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Playlist" BorderBrush="{x:Null}" Margin="-1.5,-2,0,0.5" IsSelected="{Binding DisplayXamlTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="52" Height="22" VerticalAlignment="Bottom">
@@ -360,9 +360,22 @@
                         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="#FFC19BEB" Panel.ZIndex="90" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" Margin="9,8.176,0,0" Width="15.143" FontSize="13.333" Height="18.824" VerticalAlignment="Top"><Span><Run Text="&#xF002;"/></Span></TextBlock>
 
 
-                        <TextBox TextWrapping="Wrap" Text="Search an Artist" Grid.Row="0" Grid.ColumnSpan="5" Background="Black" BorderBrush="#FF303030" BorderThickness="0,0,0,1" Foreground="#FFDFE1E5" Padding="28,8,8,8" />
+                        <TextBox x:Name="musicSearchTextBox" TextWrapping="Wrap" Grid.Row="0" Grid.ColumnSpan="5" Background="Black" BorderBrush="#FF303030" BorderThickness="0,0,0,1" Foreground="#FFDFE1E5" Padding="28,8,8,8" />
 
+                        <TextBlock IsHitTestVisible="False"  TextAlignment="Left" Grid.ColumnSpan="3" Padding="5, 5, 5, 5"  Foreground="LightGray" Panel.ZIndex="99" Margin="26.143,3,62.357,4"><TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Text, ElementName=musicSearchTextBox}" Value="">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsFocused, ElementName=musicSearchTextBox}" Value="True">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
 
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style><Run Language="fr-fr" Text="Search an Artist, an Album or a Track"/></TextBlock>
 
                         <ListBox Grid.Column="0" Grid.Row="1" x:Name="artistsListView" ItemsSource="{Binding ArtistsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedArtist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Black" Foreground="#FFDFE1E5" BorderBrush="#FF303030" BorderThickness="0,0,1,0"  UseLayoutRounding="False" Padding="-2" ItemContainerStyle="{DynamicResource PlayListListBoxItem}" >
 
