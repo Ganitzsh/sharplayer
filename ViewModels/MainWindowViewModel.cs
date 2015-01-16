@@ -632,6 +632,28 @@ namespace MediaPlayer
             PlayMedia(null);
         }
 
+        public ICommand addMusicToPlaylist { get; set; }
+
+        private void addMusicToPlaylist(object param)
+        {
+            var playlist = mediaPlayer.Playlists.Find(pl => pl.Name == (string)param);
+            try
+            {
+                playlist.Add(CurrentAlbum[selectedTrack]);
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                Console.WriteLine("It's a trap : " + e);
+            }
+        }
+
+        public ICommand addMusicPlaylist { get; set; }
+
+        private void addMusicPlaylist(object param)
+        {
+            mediaPlayer.Playlists.Add(new Library.PlayList("New Playlist", Media.MediaTypes.Music));
+        }
+
         #endregion
     }
 }
