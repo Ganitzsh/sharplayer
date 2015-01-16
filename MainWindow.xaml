@@ -480,12 +480,12 @@
                 </Button>
                 <TextBlock x:Name="volumeIcon" Margin="0,0,121.37,11.697" TextWrapping="Wrap" Foreground="#FFDFE1E5" RenderTransformOrigin="1.673,0.443" FontSize="13.333" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" Text="&#xF028;" Height="13.444" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="12.38"/>
                 <Slider x:Name="volumeSlider" IsMoveToPointEnabled="true"  Margin="0,0,10,9" Minimum="0" Foreground="{x:Null}"  Style="{StaticResource Horizontal_Slider}" Panel.ZIndex="99" Height="21" VerticalAlignment="Bottom" Maximum="100" Value="50" HorizontalAlignment="Right" Width="60"/>
-                <Button x:Name="previousButton" Command="{Binding reverseCommand}" Content="&#xF049;" HorizontalAlignment="Left" Width="42" FontFamily="FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="10,6.833,0,3.167" Height="30" BorderBrush="{x:Null}" RenderTransformOrigin="1.845,0.206">
+                <Button x:Name="previousButton" Command="{Binding prevCommand}" Content="&#xF049;" HorizontalAlignment="Left" Width="42" FontFamily="FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="10,6.833,0,3.167" Height="30" BorderBrush="{x:Null}" RenderTransformOrigin="1.845,0.206">
                 	<Button.Background>
                 		<SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                 	</Button.Background>
                 </Button>
-                <Button x:Name="nextButton" Command="{Binding fastCommand}" Content="&#xF050;" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="221,6.832,0,3.167" Height="30" BorderBrush="{x:Null}">
+                <Button x:Name="nextButton" Command="{Binding nextCommand}" Content="&#xF050;" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="221,6.832,0,3.167" Height="30" BorderBrush="{x:Null}">
                 	<Button.Background>
                 		<SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                 	</Button.Background>
