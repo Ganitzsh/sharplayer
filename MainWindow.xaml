@@ -5,7 +5,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="MediaPlayer.MainWindow"
-        Title="Sharplayer" Height="450" Width="700" MinWidth="600" MinHeight="400" FontFamily="FontAw" Background="Black">
+        Title="Sharplayer" Height="450" Width="700" MinWidth="700" MinHeight="450" FontFamily="FontAw" Background="Black">
     <Window.Resources>
 
         <Style x:Key="SliderRepeatButton" TargetType="RepeatButton">
@@ -434,7 +434,7 @@
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                     </RepeatButton.Background>
                 </RepeatButton>
-                <Button x:Name="playButton" Command="{Binding playCommand}" Content="{Binding PlayIcon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFC19BEB" BorderThickness="0" Margin="42,6.332,0,2.667" Height="30">
+                <Button x:Name="playButton" Command="{Binding playCommand}" Content="{Binding PlayIcon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFC19BEB" BorderThickness="0" Margin="42,6.832,0,3.167" Height="30">
                     <Button.BorderBrush>
                         <SolidColorBrush Color="#FF707070" Opacity="0"/>
                     </Button.BorderBrush>
@@ -442,7 +442,7 @@
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                     </Button.Background>
                 </Button>
-                <Button x:Name="stopButton" Command="{Binding stopCommand}" Content="&#xF04D;" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="84,6.332,0,2.667" Height="30">
+                <Button x:Name="stopButton" Command="{Binding stopCommand}" Content="&#xF04D;" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="84,6.832,0,3.167" Height="30">
                     <Button.BorderBrush>
                         <SolidColorBrush Color="#FF707070" Opacity="0"/>
                     </Button.BorderBrush>
@@ -458,9 +458,27 @@
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                     </RepeatButton.Background>
                 </RepeatButton>
+                <RepeatButton x:Name="forwardButton_Copy" Command="{Binding fastCommand}" Content="&#xF01E;" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,0,188.998,3.167" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="25">
+                	<RepeatButton.BorderBrush>
+                		<SolidColorBrush Color="#FF707070" Opacity="0"/>
+                	</RepeatButton.BorderBrush>
+                	<RepeatButton.Background>
+                		<SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
+                	</RepeatButton.Background>
+                </RepeatButton>
+                <RepeatButton x:Name="forwardButton_Copy1" Command="{Binding fastCommand}" Content="&#xF074;" HorizontalAlignment="Right" Width="25" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,0,158.998,3.168" RenderTransformOrigin="-0.54,0.539" Height="30" VerticalAlignment="Bottom">
+                	<RepeatButton.BorderBrush>
+                		<SolidColorBrush Color="#FF707070" Opacity="0"/>
+                	</RepeatButton.BorderBrush>
+                	<RepeatButton.Background>
+                		<SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
+                	</RepeatButton.Background>
+                </RepeatButton>
+                <TextBlock Margin="0,0,123.62,11.697" TextWrapping="Wrap" Foreground="#FFDFE1E5" RenderTransformOrigin="1.673,0.443" FontSize="13.333" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" Text="&#xF028;" Height="13.444" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="12.38"/>
             </Grid>
         </Border>
         <ContentControl Content="{Binding MyMediaElement}" HorizontalAlignment="Left" Margin="27.5,45.5,0,0" VerticalAlignment="Top" Height="110.4" Width="138.877" Foreground="Red" Background="Black"/>
+        <Slider x:Name="progressSlider_Copy" IsMoveToPointEnabled="true"  Margin="0,0,10,8.835" Minimum="0" Foreground="{x:Null}"  Style="{StaticResource Horizontal_Slider}" Panel.ZIndex="99" Height="21" VerticalAlignment="Bottom" Maximum="100" Value="50" HorizontalAlignment="Right" Width="60"/>
 
     </Grid>
 </Window>
