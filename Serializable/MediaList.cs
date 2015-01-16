@@ -87,27 +87,19 @@ namespace MediaPlayer.Serializable
         {
         }
 
-        public Tuple<List<string>, List<string>, List<string>> FilterByName(string query)
+        public List<string> FilterByArtist(string query)
         {
             Library.PlayList playlist = ToPlaylist();
 
             if (playlist.MediaType == Media.MediaTypes.Music)
             {
-                List<string> artists, albums, tracknames;
+                List<string> artists;
 
                 artists = playlist.FilterBy<Media.Audio>(new Dictionary<string, string>
                     {
                         { "Artist", query }
                     }).Select(med => ((Media.Audio)med).Artist).Distinct().ToList();
-                albums = playlist.FilterBy<Media.Audio>(new Dictionary<string, string>
-                    {
-                        { "Album", query }
-                    }).Select(med => ((Media.Audio)med).Album).Distinct().ToList();
-                tracknames = playlist.FilterBy<Media.Audio>(new Dictionary<string, string>
-                    {
-                        { "TrackName", query }
-                    }).Select(med => ((Media.Audio)med).TrackName).Distinct().ToList();
-                return new Tuple<List<string>, List<string>, List<string>>(artists, albums, tracknames);
+                return artists;
             }
             return null;
         }
