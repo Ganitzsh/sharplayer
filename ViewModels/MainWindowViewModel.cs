@@ -423,7 +423,6 @@ namespace MediaPlayer
 
         public ICommand artistSelected { get; set; }
 
-
         public void ArtistSelected(object param)
         {
 
