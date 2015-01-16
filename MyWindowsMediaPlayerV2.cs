@@ -231,6 +231,14 @@ namespace MediaPlayer
             videoList = ExploreDirectory(defaultVideoLibraryFolder);
             videoList.RootDirectory = defaultVideoLibraryFolder;
             SerializeList(videoList, defaultVideoLibraryFolder + "\\" + MyWindowsMediaPlayerV2.IndexerFileName);
+
+            imageList = ExploreDirectory(defaultImageLibraryFolder);
+            foreach (var item in imageList.Content)
+            {
+                KeepType(Media.MediaTypes.Image, item.List);
+            }
+            imageList.RootDirectory = defaultImageLibraryFolder;
+            SerializeList(imageList, defaultImageLibraryFolder + "\\" + MyWindowsMediaPlayerV2.IndexerFileName);
             //ReadSpecific(imageList, defaultImageLibraryFolder);
             //ReadSpecific(videoList, defaultVideoLibraryFolder);
             //updatedisplayablemedialist();

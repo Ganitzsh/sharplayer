@@ -13,6 +13,14 @@ namespace MediaPlayer.Library
     [Serializable]
     public class PlayList : Library
     {
+        private string icon;
+
+        public string Icon
+        {
+            get { return icon; }
+            set { icon = value; }
+        }
+        
         public string Name { get; set; }
 
         public Media.MediaTypes MediaType { get; set; }
