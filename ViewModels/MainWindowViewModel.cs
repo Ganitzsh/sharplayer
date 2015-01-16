@@ -149,7 +149,6 @@ namespace MediaPlayer
             this._myMediaElement.MediaEnded += StopMediaHandler;
             this._myMediaElement.LoadedBehavior = MediaState.Manual;
             this._myMediaElement.UnloadedBehavior = MediaState.Stop;
-            this._myMediaElement.MediaOpened += MediaOpenedHandler;
             SliderMaxValue = 100;
             SliderValue = 0;
             this.playCommand = new DelegateCommand<object>(PlayMedia, CanPlayMedia);
@@ -164,7 +163,7 @@ namespace MediaPlayer
             this.mediaPlaying = false;
 
             timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(500);
+            timer.Interval = TimeSpan.FromMilliseconds(100);
             timer.Tick += timer_tick;
             worker.ProgressChanged += worker_ProgressChanged;
             worker.DoWork += worker_DoWork;
@@ -241,34 +240,28 @@ namespace MediaPlayer
 
         private void StartTimer()
         {
-            Console.WriteLine("TESTLOL");
-            this._myMediaElement.Play();
             timer.Start();
         }
 
         private void timer_tick(object ender, object e)
         {
             SliderValue = _myMediaElement.Position.TotalSeconds;
-            Console.WriteLine(sliderValue);
         }
 
         #endregion
 
         #region MediaOpenedHandler
 
-        private void MediaOpenedHandler(object sender, RoutedEventArgs e)
+        private void InitSlider()
         {
-            InitTimer();
-        }
+            if (_myMediaElement.NaturalDuration.HasTimeSpan)
+            {
+                double absvalue = (int)Math.Round(
+                _myMediaElement.NaturalDuration.TimeSpan.TotalSeconds,
+                MidpointRounding.AwayFromZero);
 
-        private void InitTimer()
-        {
-            double absvalue = (int)Math.Round(
-            _myMediaElement.NaturalDuration.TimeSpan.TotalSeconds,
-            MidpointRounding.AwayFromZero);
-
-            SliderMaxValue = absvalue;
-            StartTimer();
+                SliderMaxValue = absvalue;
+            }
         }
 
         #endregion
@@ -417,8 +410,10 @@ namespace MediaPlayer
                 OnPropertyChanged("NowPlayingTitle");
                 OnPropertyChanged("NowPlayingArtist");
                 Console.WriteLine("File Path: " + CurrentAlbum[(int)param].File);
-                this._myMediaElement.Source = new Uri(CurrentAlbum[(int)param].File);
                 CancelMedia();
+                this._myMediaElement.Source = new Uri(CurrentAlbum[(int)param].File);
+                InitSlider();
+                StartTimer();
                 PlayMedia(null);
             }
         }
