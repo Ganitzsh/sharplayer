@@ -5,7 +5,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="MediaPlayer.MainWindow"
-        Title="Sharplayer" Height="174" Width="248" MinWidth="600" MinHeight="400" FontFamily="FontAw" Background="Black">
+        Title="Sharplayer" Height="450" Width="700" MinWidth="700" MinHeight="450" FontFamily="FontAw" Background="Black">
     <Window.Resources>
 
         <Style x:Key="SliderRepeatButton" TargetType="RepeatButton">
@@ -322,7 +322,13 @@
                             <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="#FFC19BEB" Panel.ZIndex="90" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" Margin="9,8.176,0,0" Width="15.143" FontSize="13.333" Height="18.824" VerticalAlignment="Top"><Span><Run Text="&#xF002;"/></Span></TextBlock>
 
 
-                            <TextBox x:Name="musicSearchTextBox" TextWrapping="Wrap" Text="Search an Artist, an Album or a Song ..." Grid.Row="0" Grid.ColumnSpan="5" Background="Black" BorderBrush="#FF303030" BorderThickness="0,0,0,1" Foreground="#FFDFE1E5" Padding="28,8,8,8" />
+                            <TextBox x:Name="musicSearchTextBox" TextWrapping="Wrap" Text="{ Binding SearchBarContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" Grid.Row="0" Grid.ColumnSpan="5" Background="Black" BorderBrush="#FF303030" BorderThickness="0,0,0,1" Foreground="#FFDFE1E5" Padding="28,8,8,8">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="TextChanged">
+                                        <i:InvokeCommandAction Command="{ Binding writeStuff }" CommandParameter="Lol"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
 
                             <TextBlock x:Name="searchTextBlox" IsHitTestVisible="False" Text="Men att läsa" Width="300"  TextAlignment="Left" Height="30" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" Padding="5, 5, 5, 5"  Foreground="LightGray" Panel.ZIndex="99" Background="#FFFC1414">
                                 <TextBlock.Style>
@@ -335,7 +341,6 @@
                                             <DataTrigger Binding="{Binding IsFocused, ElementName=musicSearchTextBox}" Value="True">
                                                 <Setter Property="Visibility" Value="Collapsed"/>
                                             </DataTrigger>
-
                                         </Style.Triggers>
                                     </Style>
                                 </TextBlock.Style>
@@ -402,38 +407,38 @@
                 <Grid.Background>
                     <SolidColorBrush Color="Black" Opacity="0"/>
                 </Grid.Background>
-                <RepeatButton x:Name="backwardButton" Command="{Binding reverseCommand}" Content="&#xF04A;" HorizontalAlignment="Left" Width="42" FontFamily="FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,6.332,0,2.667" Height="30">
-                    <RepeatButton.BorderBrush>
-                        <SolidColorBrush Color="#FF707070" Opacity="0"/>
-                    </RepeatButton.BorderBrush>
+                <RepeatButton x:Name="backwardButton" Command="{Binding reverseCommand}" Content="&#xF04A;" HorizontalAlignment="Left" Width="42" FontFamily="FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,6.332,0,2.667" Height="30" BorderBrush="{x:Null}">
                     <RepeatButton.Background>
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                     </RepeatButton.Background>
                 </RepeatButton>
-                <Button x:Name="playButton" Command="{Binding playCommand}" Content="{Binding PlayIcon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFC19BEB" BorderThickness="0" Margin="42,6.332,0,2.667" Height="30">
-                    <Button.BorderBrush>
-                        <SolidColorBrush Color="#FF707070" Opacity="0"/>
-                    </Button.BorderBrush>
+                <Button x:Name="playButton" Command="{Binding playCommand}" Content="{Binding PlayIcon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFC19BEB" BorderThickness="0" Margin="42,6.832,0,3.167" Height="30" BorderBrush="{x:Null}">
                     <Button.Background>
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                     </Button.Background>
                 </Button>
-                <Button x:Name="stopButton" Command="{Binding stopCommand}" Content="&#xF04D;" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="84,6.332,0,2.667" Height="30">
-                    <Button.BorderBrush>
-                        <SolidColorBrush Color="#FF707070" Opacity="0"/>
-                    </Button.BorderBrush>
+                <Button x:Name="stopButton" Command="{Binding stopCommand}" Content="&#xF04D;" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="84,6.832,0,3.167" Height="30" BorderBrush="{x:Null}">
                     <Button.Background>
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                     </Button.Background>
                 </Button>
-                <RepeatButton x:Name="forwardButton" Command="{Binding fastCommand}" Content="&#xF04E;" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="126,6.332,0,2.667" Height="30">
-                    <RepeatButton.BorderBrush>
-                        <SolidColorBrush Color="#FF707070" Opacity="0"/>
-                    </RepeatButton.BorderBrush>
+                <RepeatButton x:Name="forwardButton" Command="{Binding fastCommand}" Content="&#xF04E;" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="126,6.332,0,2.667" Height="30" BorderBrush="{x:Null}">
                     <RepeatButton.Background>
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                     </RepeatButton.Background>
                 </RepeatButton>
+                <RepeatButton x:Name="Repeat" Command="{Binding fastCommand}" Content="&#xF01E;" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,0,188.998,3.167" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="25" BorderBrush="{x:Null}">
+                	<RepeatButton.Background>
+                		<SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
+                	</RepeatButton.Background>
+                </RepeatButton>
+                <RepeatButton x:Name="Shuffle" Command="{Binding fastCommand}" Content="&#xF074;" HorizontalAlignment="Right" Width="25" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,0,158.998,3.168" RenderTransformOrigin="-0.54,0.539" Height="30" VerticalAlignment="Bottom" BorderBrush="{x:Null}">
+                	<RepeatButton.Background>
+                		<SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
+                	</RepeatButton.Background>
+                </RepeatButton>
+                <TextBlock x:Name="volumeIcon" Margin="0,0,121.37,11.697" TextWrapping="Wrap" Foreground="#FFDFE1E5" RenderTransformOrigin="1.673,0.443" FontSize="13.333" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" Text="&#xF028;" Height="13.444" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="12.38"/>
+                <Slider x:Name="volumeSlider" IsMoveToPointEnabled="true"  Margin="0,0,10,9" Minimum="0" Foreground="{x:Null}"  Style="{StaticResource Horizontal_Slider}" Panel.ZIndex="99" Height="21" VerticalAlignment="Bottom" Maximum="100" Value="50" HorizontalAlignment="Right" Width="60"/>
             </Grid>
         </Border>
         <ContentControl Content="{Binding MyMediaElement}" HorizontalAlignment="Left" Margin="27.5,45.5,0,0" VerticalAlignment="Top" Height="110.4" Width="138.877" Foreground="Red" Background="Black"/>
