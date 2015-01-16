@@ -231,12 +231,9 @@ namespace MediaPlayer
             this.trackSelected = new DelegateCommand<object>(TrackSelected);
             this.switchToQueue = new DelegateCommand<object>(SwitchToQueue);
             this.repeatCommand = new DelegateCommand<object>(RepeatMedia);
-<<<<<<< HEAD
             this.addPlaylist = new DelegateCommand<object>(AddPlaylist);
-=======
             this.nextCommand = new DelegateCommand<object>(NextMedia);
             this.prevCommand = new DelegateCommand<object>(PrevMedia);
->>>>>>> 0d6b1084dc71e00a5e141a7bbc04d021ab432f9a
                 
             this.playIcon = "\uf04b";
             this.mediaPlaying = false;
