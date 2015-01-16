@@ -607,5 +607,7 @@ namespace MediaPlayer
             StartTimer();
             PlayMedia(null);
         }
+
+        #endregion
     }
 }
