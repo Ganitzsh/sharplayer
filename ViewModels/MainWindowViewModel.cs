@@ -9,7 +9,6 @@ using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using System.Windows.Threading;
 using System.Windows;
-using System.IO;
 
 namespace MediaPlayer
 {
@@ -22,15 +21,6 @@ namespace MediaPlayer
         private readonly BackgroundWorker worker = new BackgroundWorker();
 
         #region Properties
-
-        private Dictionary<Media.MediaTypes, string> libraryIcons;
-
-        public Dictionary<Media.MediaTypes, string> LibIcons
-        {
-            get { return libraryIcons; }
-            set { libraryIcons = value; }
-        }
-        
 
         private Library.PlayList playQueue;
 
@@ -248,18 +238,7 @@ namespace MediaPlayer
             SliderValue = 0;
             VolumeValue = 50;
 
-            LibIcons = new Dictionary<Media.MediaTypes, string>();
-            LibIcons.Add(Media.MediaTypes.Music, "\uF001");
-            LibIcons.Add(Media.MediaTypes.Image, "\uF030");
-            LibIcons.Add(Media.MediaTypes.Video, "\uF008");
-
-            PlayLists = new List<Library.PlayList>();
-            Library.PlayList lol = new Library.PlayList();
-            lol.Name = "Test Music";
-            lol.Icon = LibIcons[Media.MediaTypes.Music];
-            PlayLists.Add(lol);
-            if (!Directory.Exists(Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments) + "\\MWMPV2\\"))
-                Directory.CreateDirectory(Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments) + "\\MWMPV2\\");
+            
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(100);
@@ -278,11 +257,9 @@ namespace MediaPlayer
             try
             {
                 ArtistsList = MediaPlayer.AudioList.GetAll<Media.Audio>("Artist");
+                PlayLists = this.mediaPlayer.Playlists;
                 OnPropertyChanged("ArtistsList");
-                PlayLists[0].Content = new List<Media.Media>();
-                PlayLists[0].Content.Add(MediaPlayer.AudioList.Content[0].List[0]);
-                Console.WriteLine("LOL: " + PlayLists[0].Content[0]);
-                PlayLists[0].SerializeInto(Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments) + "\\MWMPV2\\");
+                OnPropertyChanged("PlayLists");
             }
             catch (System.Reflection.TargetException ex)
             {
