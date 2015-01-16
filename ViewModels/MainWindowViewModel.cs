@@ -373,7 +373,6 @@ namespace MediaPlayer
 
         public void DummyStuff(object param)
         {
-            Console.WriteLine(SearchBarContent);
             ArtistsList = mediaPlayer.AudioList.FilterByArtist(SearchBarContent);
             OnPropertyChanged("ArtistsList");
             SelectedIndex = 1;
