@@ -637,6 +637,7 @@ namespace MediaPlayer
         private void addMusicToPlaylist(object param)
         {
             var playlist = mediaPlayer.Playlists.Find(pl => pl.Name == (string)param);
+
             try
             {
                 playlist.Add(CurrentAlbum[selectedTrack]);
@@ -654,6 +655,33 @@ namespace MediaPlayer
             mediaPlayer.Playlists.Add(new Library.PlayList("New Playlist", Media.MediaTypes.Music));
         }
 
+        public ICommand addImageToPlaylist { get; set; }
+
+        private void addImageToPlaylist(object param)
+        {
+
+        }
+
+        public ICommand addImagePlaylist { get; set; }
+
+        private void addImagePlaylist(object param)
+        {
+            mediaPlayer.Playlists.Add(new Library.PlayList("New Playlist", Media.MediaTypes.Image));
+        }
+
+        public ICommand addVideoToPlaylist { get; set; }
+
+        private void addVideoToPlaylist(object param)
+        {
+
+        }
+
+        public ICommand addVideoPlaylist { get; set; }
+
+        private void addVideoPlaylist(object param)
+        {
+            mediaPlayer.Playlists.Add(new Library.PlayList("New Playlist", Media.MediaTypes.Video));
+        }
         #endregion
     }
 }
