@@ -22,6 +22,21 @@ namespace MediaPlayer
 
         #region Properties
 
+        private List<Media.Media> playQueue;
+
+        public List<Media.Media> PlayQueue
+        {
+            get { return playQueue; }
+            set { playQueue = value; }
+        }
+
+        private List<Library.PlayList> playlists;
+        public List<Library.PlayList> PlayLists
+        {
+            get { return playlists; }
+            set { playlists = value; }
+        }
+
         private int selectedPlaylist;
         public int SelectedPlaylist
         {
@@ -154,7 +169,6 @@ namespace MediaPlayer
             get { return searchBarContent; }
             set { searchBarContent = value; }
         }
-        
 
         #endregion
 
@@ -186,6 +200,7 @@ namespace MediaPlayer
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(100);
             timer.Tick += timer_tick;
+
             worker.ProgressChanged += worker_ProgressChanged;
             worker.DoWork += worker_DoWork;
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
@@ -289,6 +304,15 @@ namespace MediaPlayer
         private void StopMediaHandler(object sender, RoutedEventArgs e)
         {
             CancelMedia();
+            if (PlayQueue != null && PlayQueue[0] != null && PlayQueue.Count > 1)
+            {
+                PlayQueue.Remove(PlayQueue[0]);
+                Console.WriteLine("Music left in queue: " + PlayQueue.Count);
+                this._myMediaElement.Source = new Uri(PlayQueue[0].File);
+                InitSlider();
+                StartTimer();
+                PlayMedia(null);
+            }
         }
 
         private void CancelMedia()
@@ -444,6 +468,10 @@ namespace MediaPlayer
                 OnPropertyChanged("NowPlayingTitle");
                 OnPropertyChanged("NowPlayingArtist");
                 Console.WriteLine("File Path: " + CurrentAlbum[(int)param].File);
+                if (PlayQueue == null)
+                {
+                    PlayQueue = CurrentAlbum.GetRange(((int)param), CurrentAlbum.Count - ((int)param));
+                }
                 CancelMedia();
                 this._myMediaElement.Source = new Uri(CurrentAlbum[(int)param].File);
                 InitSlider();
