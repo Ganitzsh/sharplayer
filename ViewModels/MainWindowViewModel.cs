@@ -147,7 +147,6 @@ namespace MediaPlayer
             this.mediaPlayer = new MyWindowsMediaPlayerV2(); // <-- worker.ReportProgress(0);
             this._myMediaElement = new MediaElement();
             this._myMediaElement.MediaEnded += StopMediaHandler;
-            this._myMediaElement.ScrubbingEnabled = true;
             this._myMediaElement.LoadedBehavior = MediaState.Manual;
             this._myMediaElement.UnloadedBehavior = MediaState.Stop;
             this._myMediaElement.MediaOpened += MediaOpenedHandler;
@@ -249,11 +248,8 @@ namespace MediaPlayer
 
         private void timer_tick(object ender, object e)
         {
-            if (_myMediaElement.NaturalDuration.TimeSpan.TotalSeconds > 0)
-            {
-                SliderValue = _myMediaElement.Position.TotalSeconds;
-                Console.WriteLine(sliderValue);
-            }
+            SliderValue = _myMediaElement.Position.TotalSeconds;
+            Console.WriteLine(sliderValue);
         }
 
         #endregion
@@ -289,6 +285,7 @@ namespace MediaPlayer
             this._myMediaElement.Stop();
             this.timer.Stop();
             SliderValue = 0;
+            this.mediaPlaying = false;
         }
 
         #endregion
@@ -421,6 +418,7 @@ namespace MediaPlayer
                 OnPropertyChanged("NowPlayingArtist");
                 Console.WriteLine("File Path: " + CurrentAlbum[(int)param].File);
                 this._myMediaElement.Source = new Uri(CurrentAlbum[(int)param].File);
+                CancelMedia();
                 PlayMedia(null);
             }
         }
