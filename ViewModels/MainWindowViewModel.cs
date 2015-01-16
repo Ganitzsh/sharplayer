@@ -9,6 +9,7 @@ using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using System.Windows.Threading;
 using System.Windows;
+using System.IO;
 
 namespace MediaPlayer
 {
@@ -209,6 +210,7 @@ namespace MediaPlayer
             this.trackSelected = new DelegateCommand<object>(TrackSelected);
             this.switchToQueue = new DelegateCommand<object>(SwitchToQueue);
             this.repeatCommand = new DelegateCommand<object>(RepeatMedia);
+            this.addPlaylist = new DelegateCommand<object>(AddPlaylist);
                 
             this.playIcon = "\uf04b";
             this.mediaPlaying = false;
@@ -226,6 +228,14 @@ namespace MediaPlayer
             LibIcons.Add(Media.MediaTypes.Music, "\uF001");
             LibIcons.Add(Media.MediaTypes.Image, "\uF030");
             LibIcons.Add(Media.MediaTypes.Video, "\uF008");
+
+            PlayLists = new List<Library.PlayList>();
+            Library.PlayList lol = new Library.PlayList();
+            lol.Name = "Test Music";
+            lol.Icon = LibIcons[Media.MediaTypes.Music];
+            PlayLists.Add(lol);
+            if (!Directory.Exists(Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments) + "\\MWMPV2\\"))
+                Directory.CreateDirectory(Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments) + "\\MWMPV2\\");
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(100);
@@ -252,6 +262,10 @@ namespace MediaPlayer
             {
                 ArtistsList = MediaPlayer.AudioList.GetAll<Media.Audio>("Artist");
                 OnPropertyChanged("ArtistsList");
+                PlayLists[0].Content = new List<Media.Media>();
+                PlayLists[0].Content.Add(MediaPlayer.AudioList.Content[0].List[0]);
+                Console.WriteLine("LOL: " + PlayLists[0].Content[0]);
+                PlayLists[0].SerializeInto(Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments) + "\\MWMPV2\\");
             }
             catch (System.Reflection.TargetException ex)
             {
@@ -444,6 +458,20 @@ namespace MediaPlayer
             ArtistsList = mediaPlayer.AudioList.FilterByArtist(SearchBarContent);
             OnPropertyChanged("ArtistsList");
             SelectedIndex = 1;
+        }
+
+        #endregion
+
+        #region PlaylistAdd
+
+        public ICommand addPlaylist { get; set; }
+
+        public void AddPlaylist(object type)
+        {
+            Library.PlayList tmp = new Library.PlayList();
+
+            tmp.Icon = LibIcons[((Media.MediaTypes)type)];
+            tmp.Name = "New playlist";
         }
 
         #endregion

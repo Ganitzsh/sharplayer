@@ -45,9 +45,6 @@ namespace MediaPlayer.Library
 
         public void SerializeInto(string directory)
         {
-            if (!File.Exists(directory + this.Name + ".xml"))
-                File.Create(directory + this.Name + ".xml");
-
             try
             {
                 XmlSerializer xs = new XmlSerializer(typeof(PlayList));
