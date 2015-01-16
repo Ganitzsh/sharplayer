@@ -238,30 +238,6 @@
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
-                    <ListBoxItem Margin="0,10">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock FontFamily="Arial" Padding="0" FontWeight="SemiBold" Foreground="#FFC19BEB"><Run Language="fr-fr" Text="PLAYLISTS"/></TextBlock>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="11" Margin="0,2,0,0" Text="&#xF001;" Width="12" Height="12"/>
-                            <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Language="fr-fr" Text="New Year Eve"/></TextBlock>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="11" Margin="0,2,0,0" Width="12" Height="12"><Run Text="&#xF030;"/></TextBlock>
-                            <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Language="fr-fr" Text="Summer 2014"/></TextBlock>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="11" Margin="0,2,0,0" Height="12" Width="12"><Run Text="&#xF008;"/></TextBlock>
-                            <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Language="fr-fr" Text="Skateboard"/></TextBlock>
-                        </StackPanel>
-                    </ListBoxItem>
-
                 </ListBox>
                 <ListBox Foreground="#FFDFE1E5" BorderBrush="{x:Null}" BorderThickness="0" Padding="5,0,0,0" Height="99" VerticalAlignment="Top">
                     <ListBox.Background>

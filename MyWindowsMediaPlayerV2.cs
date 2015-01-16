@@ -178,7 +178,6 @@ namespace MediaPlayer
         public void KeepType(Media.MediaTypes type, List<Media.Media> list)
         {
             int lol = list.RemoveAll(med => med.Type != type);
-            Console.WriteLine("Removed: " + lol);
         }
 
         public long CountFileInDirectory(string path)

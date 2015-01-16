@@ -33,8 +33,8 @@ namespace MediaPlayer.Media
         {
             TagLib.File tmp = TagLib.File.Create(file); 
             this.Type = MediaTypes.Image;
-            this.width = (uint) tmp.Properties.VideoWidth;
-            this.height = (uint) tmp.Properties.VideoHeight;
+            this.width = (uint)tmp.Properties.PhotoWidth;
+            this.height = (uint)tmp.Properties.PhotoHeight;
         }
     }
 }
