@@ -185,11 +185,19 @@ namespace MediaPlayer.Library
             if (this.MediaType == Media.MediaTypes.Generic)
                 throw new PlayListMixedMediaTypesException();
             */
-            }
+        }
+
+        public PlayList(string name, Media.MediaTypes type)
+            : base(new List<Media.Media>())
+        {
+            this.Name = name;
+            this.Type = LibraryType.PlayList;
+            this.MediaType = type;
+        }
 
         public PlayList()
         {
-
+            this.Type = LibraryType.PlayList;
         }
     }
 
