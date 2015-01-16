@@ -105,8 +105,6 @@ namespace MediaPlayer
             }
         }
 
-        public string SearchBar { get; set; }
-
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -171,6 +169,7 @@ namespace MediaPlayer
             this.trackSelected = new DelegateCommand<object>(TrackSelected);
             this.playIcon = "\uf04b";
             this.mediaPlaying = false;
+            this.SearchBarContent = "";
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(100);
@@ -374,7 +373,9 @@ namespace MediaPlayer
 
         public void DummyStuff(object param)
         {
-            Console.WriteLine(((string)param));
+            Console.WriteLine(SearchBarContent);
+            ArtistsList = mediaPlayer.AudioList.FilterByArtist(SearchBarContent);
+            OnPropertyChanged("ArtistsList");
             SelectedIndex = 1;
         }
 
