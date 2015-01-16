@@ -185,6 +185,27 @@ namespace MediaPlayer
             get { return mustRepeat; }
             set { mustRepeat = value; }
         }
+
+        private double sliderMaxValue;
+        public double SliderMaxValue
+        {
+            get { return sliderMaxValue; }
+            set { this.sliderMaxValue = value; OnPropertyChanged("SliderMaxValue"); }
+        }
+
+        private double sliderValue;
+        public double SliderValue
+        {
+            get { return sliderValue; }
+            set { this.sliderValue = value; OnPropertyChanged("SliderValue"); ChangeMediaPosition(); }
+        }
+
+        private double volumeValue;
+        public double VolumeValue
+        {
+            get { return volumeValue; }
+            set { volumeValue = value; OnPropertyChanged("VolumeValue"); ChangeVolumeValue(); }
+        }
         
 
         #endregion
@@ -209,6 +230,8 @@ namespace MediaPlayer
             this.trackSelected = new DelegateCommand<object>(TrackSelected);
             this.switchToQueue = new DelegateCommand<object>(SwitchToQueue);
             this.repeatCommand = new DelegateCommand<object>(RepeatMedia);
+            this.nextCommand = new DelegateCommand<object>(NextMedia);
+            this.prevCommand = new DelegateCommand<object>(PrevMedia);
                 
             this.playIcon = "\uf04b";
             this.mediaPlaying = false;
@@ -221,6 +244,7 @@ namespace MediaPlayer
 
             SliderMaxValue = 100;
             SliderValue = 0;
+            VolumeValue = 50;
 
             LibIcons = new Dictionary<Media.MediaTypes, string>();
             LibIcons.Add(Media.MediaTypes.Music, "\uF001");
@@ -236,13 +260,6 @@ namespace MediaPlayer
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
             worker.RunWorkerAsync();
         }
-
-        /*
-        public void SearchMedia(string query)
-        {
-            mediaPlayer.FilterByName(query);
-        }
-        */
 
         #region WorkerStatus
 
@@ -274,23 +291,14 @@ namespace MediaPlayer
 
         #region SliderValues
 
-        private double sliderValue;
-        public double SliderValue
+        private void ChangeVolumeValue()
         {
-            get { return sliderValue; }
-            set { this.sliderValue = value; OnPropertyChanged("SliderValue"); ChangeMediaPosition(); }
+            this._myMediaElement.Volume = VolumeValue;
         }
 
         private void ChangeMediaPosition()
         {
             this._myMediaElement.Position = TimeSpan.FromSeconds(sliderValue);
-        }
-
-        private double sliderMaxValue;
-        public double SliderMaxValue
-        {
-            get { return sliderMaxValue; }
-            set { this.sliderMaxValue = value; OnPropertyChanged("SliderMaxValue"); }
         }
 
         #endregion
@@ -564,12 +572,40 @@ namespace MediaPlayer
 
         public ICommand repeatCommand { get; set; }
 
-        public void RepeatMedia(object param)
+        private void RepeatMedia(object param)
         {
             if (this.mustRepeat == false)
                 this.mustRepeat = true;
             else
                 this.mustRepeat = false;
+        }
+
+        #endregion
+
+        #region ChangeMedia
+
+        public ICommand nextCommand { get; set; }
+
+        private void NextMedia(object param)
+        {
+            CancelMedia();
+            if (PlayQueue.Content != null && PlayQueue.Content[0] != null && PlayQueue.Content.Count > 1)
+            {
+                Console.WriteLine("Removed: " + PlayQueue.Content.Remove(PlayQueue.Content[0]));
+                Console.WriteLine("Music left in queue: " + PlayQueue.Content.Count);
+                this._myMediaElement.Source = new Uri(PlayQueue.Content[0].File);
+                StartTimer();
+                PlayMedia(null);
+            }
+        }
+
+        public ICommand prevCommand { get; set; }
+
+        private void PrevMedia(object param)
+        {
+            CancelMedia();
+            StartTimer();
+            PlayMedia(null);
         }
 
         #endregion
