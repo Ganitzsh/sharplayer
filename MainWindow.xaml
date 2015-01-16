@@ -5,7 +5,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="MediaPlayer.MainWindow"
-        Title="Sharplayer" Height="174" Width="248" MinWidth="600" MinHeight="400" FontFamily="FontAw" Background="Black">
+        Title="Sharplayer" Height="450" Width="700" MinWidth="600" MinHeight="400" FontFamily="FontAw" Background="Black">
     <Window.Resources>
 
         <Style x:Key="SliderRepeatButton" TargetType="RepeatButton">
