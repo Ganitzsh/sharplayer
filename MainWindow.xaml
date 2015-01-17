@@ -569,6 +569,11 @@
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                     </Button.Background>
                 </Button>
+                <Button x:Name="URL" Command="{Binding urlCommand}" Content="&#xf0ac;" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="{Binding RepeatColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="0,0,218.998,3.167" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="25">
+                	<Button.Background>
+                		<SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
+                	</Button.Background>
+                </Button>
             </Grid>
         </Border>
 

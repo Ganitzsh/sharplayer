@@ -327,6 +327,7 @@ namespace MediaPlayer
             this.playlistClicked = new DelegateCommand<object>(PlaylistClicked);
             this.addMusicToPlaylist = new DelegateCommand<object>(AddMusicToPlaylist);
             this.playlistElementClicked = new DelegateCommand<object>(PlaylistElementClicked);
+            this.urlCommand = new DelegateCommand<object>(LoadURL);
                 
             this.playIcon = "\uf04b";
             this.mediaPlaying = false;
@@ -955,6 +956,40 @@ namespace MediaPlayer
                 Console.WriteLine("Number of tracks: " + CurrentPlaylist.Count);
                 OnPropertyChanged("CurrentPlaylist");
                 OnPropertyChanged("SelectedIndex");
+            }
+        }
+
+        #endregion
+
+        #region LoadURL
+
+        public ICommand urlCommand { get; set; }
+
+        private void LoadURL(object param)
+        {
+            string answer = null;
+            DialogBox inputDialog = new DialogBox("Please enter the url of the media: ", "URL");
+            if (inputDialog.ShowDialog() == true)
+            {
+                answer = inputDialog.Answer;
+                Console.WriteLine(answer);
+            }
+            if (answer != null)
+            {
+                try
+                {
+                    CancelMedia();
+                    SelectedIndex = 1;
+                    this._myMediaElement.Source = new Uri(@answer, UriKind.Absolute);
+                    PlayMedia(null);
+                    StartTimer();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                    this.mediaPlaying = false;
+                    this.PlayIcon = "\uf04b";
+                }
             }
         }
 
