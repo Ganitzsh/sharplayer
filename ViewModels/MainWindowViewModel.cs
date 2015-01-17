@@ -24,6 +24,24 @@ namespace MediaPlayer
 
         #region Properties
 
+        private int selectedVideo;
+
+        public int SelectdVideo
+        {
+            get { return selectedVideo; }
+            set { selectedVideo = value; }
+        }
+        
+
+        private List<Media.Video> videosList;
+
+        public List<Media.Video> VideosList
+        {
+            get { return videosList; }
+            set { videosList = value; }
+        }
+        
+
         private Library.PlayList playQueue;
 
         public Library.PlayList PlayQueue
@@ -233,6 +251,7 @@ namespace MediaPlayer
             this.addPlaylist = new DelegateCommand<object>(AddPlaylist);
             this.nextCommand = new DelegateCommand<object>(NextMedia);
             this.prevCommand = new DelegateCommand<object>(PrevMedia);
+            this.videoClicked = new DelegateCommand<object>(VideoClicked);
                 
             this.playIcon = "\uf04b";
             this.mediaPlaying = false;
@@ -247,8 +266,6 @@ namespace MediaPlayer
             SliderValue = 0;
             VolumeValue = 0.5;
             RepeatColor = "#FFDFE1E5";
-
-            
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(100);
@@ -475,6 +492,23 @@ namespace MediaPlayer
 
             tmp.Icon = this.mediaPlayer.LibIcons[((Media.MediaTypes)type)];
             tmp.Name = "New playlist";
+        }
+
+        #endregion
+
+        #region VideoListCommand
+
+        public ICommand videoClicked { get; set; }
+
+        public void VideoClicked(object param)
+        {
+            if (((int)param) < this.mediaPlayer.VideoList.GetAll<string>("File").Count)
+            {
+                this._myMediaElement.Source = new Uri(this.mediaPlayer.VideoList.GetAll<string>("File")[(int)param]);
+                SelectedIndex = 1;
+                OnPropertyChanged("SelectedIndex");
+                PlayMedia(null);
+            }
         }
 
         #endregion
