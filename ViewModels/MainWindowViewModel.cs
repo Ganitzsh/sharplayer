@@ -24,18 +24,40 @@ namespace MediaPlayer
 
         #region Properties
 
-        private int selectedVideo;
+        private bool displayingImage;
 
-        public int SelectdVideo
+        public bool DisplayingImage
+        {
+            get { return displayingImage; }
+            set { displayingImage = value; }
+        }
+        
+
+        private int selectedImage;
+        public int SelectedImage
+        {
+            get { return selectedImage; }
+            set { selectedImage = value; }
+        }
+
+        private List<string> imagesList;
+        public List<string> ImagesList
+        {
+            get { return imagesList; }
+            set { imagesList = value; }
+        }
+        
+
+        private int selectedVideo;
+        public int SelectedVideo
         {
             get { return selectedVideo; }
             set { selectedVideo = value; }
         }
         
 
-        private List<Media.Video> videosList;
-
-        public List<Media.Video> VideosList
+        private List<string> videosList;
+        public List<string> VideosList
         {
             get { return videosList; }
             set { videosList = value; }
@@ -43,7 +65,6 @@ namespace MediaPlayer
         
 
         private Library.PlayList playQueue;
-
         public Library.PlayList PlayQueue
         {
             get { return playQueue; }
@@ -252,6 +273,9 @@ namespace MediaPlayer
             this.nextCommand = new DelegateCommand<object>(NextMedia);
             this.prevCommand = new DelegateCommand<object>(PrevMedia);
             this.videoClicked = new DelegateCommand<object>(VideoClicked);
+            this.imageClicked = new DelegateCommand<object>(ImageClicked);
+            this.displayImageTab = new DelegateCommand<object>(DisplayImageTab);
+            this.displayVideoTab = new DelegateCommand<object>(DisplayVideoTab);
                 
             this.playIcon = "\uf04b";
             this.mediaPlaying = false;
@@ -285,6 +309,11 @@ namespace MediaPlayer
             {
                 ArtistsList = MediaPlayer.AudioList.GetAll<Media.Audio>("Artist");
                 PlayLists = this.mediaPlayer.Playlists;
+                VideosList = this.mediaPlayer.VideoList.GetAll<Media.Media>("File");
+                ImagesList = this.mediaPlayer.ImageList.GetAll<Media.Media>("File");
+                Console.WriteLine("Images: " + VideosList.Count);
+                OnPropertyChanged("ImagesList");
+                OnPropertyChanged("VideosList");
                 OnPropertyChanged("ArtistsList");
                 OnPropertyChanged("PlayLists");
             }
@@ -350,11 +379,15 @@ namespace MediaPlayer
 
         private void InitSlider(object sender, RoutedEventArgs e)
         {
+            if (!DisplayingImage)
+            {
+                Console.WriteLine("Setting timer!");
                 double absvalue = (int)Math.Round(
                 _myMediaElement.NaturalDuration.TimeSpan.TotalSeconds,
                 MidpointRounding.AwayFromZero);
 
                 SliderMaxValue = absvalue;
+            }
         }
 
         #endregion
@@ -477,7 +510,8 @@ namespace MediaPlayer
         {
             ArtistsList = mediaPlayer.AudioList.FilterByArtist(SearchBarContent);
             OnPropertyChanged("ArtistsList");
-            SelectedIndex = 1;
+            SelectedIndex = 0;
+            OnPropertyChanged("SelectedIndex");
         }
 
         #endregion
@@ -509,6 +543,49 @@ namespace MediaPlayer
                 OnPropertyChanged("SelectedIndex");
                 PlayMedia(null);
             }
+        }
+
+        #endregion
+
+        #region ImageListCommand
+
+        public ICommand imageClicked { get; set; }
+
+        public void ImageClicked(object param)
+        {
+            Console.WriteLine("Clicked: " + SelectedImage);
+            if (SelectedImage < ImagesList.Count)
+            {
+                this._myMediaElement.Source = new Uri(ImagesList[SelectedImage]);
+                SelectedIndex = 1;
+                OnPropertyChanged("SelectedIndex");
+                DisplayingImage = true;
+                this._myMediaElement.Play();
+            }
+        }
+
+        #endregion
+
+        #region DisplayImageTab
+
+        public ICommand displayImageTab { get; set; }
+
+        public void DisplayImageTab(object param)
+        {
+            SelectedIndex = 2;
+            OnPropertyChanged("SelectedIndex");
+        }
+
+        #endregion
+
+        #region DisplayVideoTab
+
+        public ICommand displayVideoTab { get; set; }
+
+        public void DisplayVideoTab(object param)
+        {
+            SelectedIndex = 3;
+            OnPropertyChanged("SelectedIndex");
         }
 
         #endregion
@@ -562,12 +639,15 @@ namespace MediaPlayer
         {
             if ((int)param < CurrentAlbum.Count())
             {
+                DisplayingImage = false;
                 mediaPlayer.NowPlaying = CurrentAlbum[(int)param];
                 OnPropertyChanged("NowPlayingTitle");
                 OnPropertyChanged("NowPlayingArtist");
                 Console.WriteLine("File Path: " + CurrentAlbum[(int)param].File);
                 PlayQueue.Content = CurrentAlbum.GetRange(((int)param), CurrentAlbum.Count - ((int)param));
                 CancelMedia();
+                SelectedIndex = 4;
+                OnPropertyChanged("SelectedIndex");
                 this._myMediaElement.Source = new Uri(PlayQueue.Content[0].File);
                 PlayMedia(null);
                 StartTimer();

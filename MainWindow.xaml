@@ -265,7 +265,7 @@
                     <ListBoxItem>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="PreviewMouseDown">
-                                <i:InvokeCommandAction Command="{Binding writeStuff}" CommandParameter="ComputerPhoto"/>
+                                <i:InvokeCommandAction Command="{Binding displayImageTab}" CommandParameter="ComputerPhoto"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <StackPanel Orientation="Horizontal">
@@ -278,7 +278,7 @@
                     <ListBoxItem>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="PreviewMouseDown">
-                                <i:InvokeCommandAction Command="{Binding writeStuff}" CommandParameter="ComputerVideo"/>
+                                <i:InvokeCommandAction Command="{Binding displayVideoTab}" CommandParameter=""/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <StackPanel Orientation="Horizontal">
@@ -433,12 +433,12 @@
                     </TabItem>
                     <TabItem Header="Images" BorderBrush="{x:Null}" Height="20.4" VerticalAlignment="Bottom" Margin="-2,0" >
                     	<Grid Background="Black" Margin="0,0,0,0.5">
-                    		<ListBox Grid.Column="0" x:Name="artistsListView_Copy" ItemsSource="{Binding ArtistsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedArtist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Black" Foreground="#FFDFE1E5" BorderBrush="{x:Null}" BorderThickness="0"  UseLayoutRounding="False" Padding="-2" ItemContainerStyle="{DynamicResource PlayListListBoxItem}" >
+                    		<ListBox Grid.Column="0" x:Name="imageListView" ItemsSource="{Binding ImagesList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Black" Foreground="#FFDFE1E5" BorderBrush="{x:Null}" BorderThickness="0"  UseLayoutRounding="False" Padding="-2" ItemContainerStyle="{DynamicResource PlayListListBoxItem}" >
 
                     			<i:Interaction.Triggers>
                     				<i:EventTrigger EventName="MouseDoubleClick">
-                    					<i:InvokeCommandAction  Command="{Binding artistSelected}" 
-                    						CommandParameter="{Binding SelectedItem, ElementName=artistsListView}" />
+                    					<i:InvokeCommandAction  Command="{Binding imageClicked}" 
+                    						CommandParameter="{Binding SelectedItem, ElementName=imageListView}" />
                     				</i:EventTrigger>
                     			</i:Interaction.Triggers>
 
@@ -450,12 +450,12 @@
                     </TabItem>
                     <TabItem Header="Videos" BorderBrush="{x:Null}" Height="20.4" VerticalAlignment="Bottom" Margin="-2,0" >
                     	<Grid Background="Black" Margin="0,0,0,0.5">
-                    		<ListBox Grid.Column="0" x:Name="artistsListView_Copy1" ItemsSource="{Binding ArtistsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedArtist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Black" Foreground="#FFDFE1E5" BorderBrush="{x:Null}" BorderThickness="0"  UseLayoutRounding="False" Padding="-2" ItemContainerStyle="{DynamicResource PlayListListBoxItem}" >
+                    		<ListBox Grid.Column="0" x:Name="videoListView" ItemsSource="{Binding VideosList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedVideo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Black" Foreground="#FFDFE1E5" BorderBrush="{x:Null}" BorderThickness="0"  UseLayoutRounding="False" Padding="-2" ItemContainerStyle="{DynamicResource PlayListListBoxItem}" >
 
                     			<i:Interaction.Triggers>
                     				<i:EventTrigger EventName="MouseDoubleClick">
-                    					<i:InvokeCommandAction  Command="{Binding artistSelected}" 
-                    						CommandParameter="{Binding SelectedItem, ElementName=artistsListView}" />
+                    					<i:InvokeCommandAction  Command="{Binding videoClicked}" 
+                    						CommandParameter="{Binding SelectedItem, ElementName=videoListView}" />
                     				</i:EventTrigger>
                     			</i:Interaction.Triggers>
 
