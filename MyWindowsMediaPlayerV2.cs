@@ -74,7 +74,7 @@ namespace MediaPlayer
         #region Playlists
 
         private List<Library.PlayList> playlists = new List<Library.PlayList>();
-        public List<Library.PlayList> Playlists { get { return playlists; } }
+        public List<Library.PlayList> Playlists { get { return playlists; } set { playlists = value; } }
 
         public void TestPlaylist()
         {

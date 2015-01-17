@@ -302,11 +302,18 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="11" Margin="0,2,0,0" Width="12" Height="12"><Run Text="{Binding Icon}"/></TextBlock>
-                                <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Text="{Binding Name}"/></TextBlock>
+                                <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/></TextBlock>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
+                    <ListBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Rename" Command="{Binding renameSelectedPlaylist}"/>
+                            <MenuItem Header="Delete" Command="{Binding deleteSelectedPlaylist}"/>
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
                 </ListBox>
+               
                 <RepeatButton x:Name="addPlaylistButton" Command="{Binding fastCommand}" Content="&#xF196;" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,0,10,8" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="20" BorderBrush="{x:Null}" Panel.ZIndex="99">
                     <RepeatButton.Background>
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
