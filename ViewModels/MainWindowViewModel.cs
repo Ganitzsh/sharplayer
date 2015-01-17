@@ -328,6 +328,8 @@ namespace MediaPlayer
             this.addMusicToPlaylist = new DelegateCommand<object>(AddMusicToPlaylist);
             this.playlistElementClicked = new DelegateCommand<object>(PlaylistElementClicked);
             this.urlCommand = new DelegateCommand<object>(LoadURL);
+            this.speedCommand = new DelegateCommand<object>(SpeedMedia);
+            this.slowCommand = new DelegateCommand<object>(SlowMedia);
                 
             this.playIcon = "\uf04b";
             this.mediaPlaying = false;
@@ -994,5 +996,25 @@ namespace MediaPlayer
         }
 
         #endregion
+
+        public ICommand speedCommand { get; set; }
+
+        private void SpeedMedia(object param)
+        {
+            if (this._myMediaElement.SpeedRatio != 2)
+                this._myMediaElement.SpeedRatio = 2;
+            else
+                this._myMediaElement.SpeedRatio = 1;
+        }
+
+        public ICommand slowCommand { get; set; }
+
+        private void SlowMedia(object param)
+        {
+            if (this._myMediaElement.SpeedRatio != 0.5)
+                this._myMediaElement.SpeedRatio = 0.5;
+            else
+                this._myMediaElement.SpeedRatio = 1;
+        }
     }
 }

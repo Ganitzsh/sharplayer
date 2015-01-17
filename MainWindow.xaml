@@ -574,6 +574,16 @@
                 		<SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                 	</Button.Background>
                 </Button>
+                <Button x:Name="x2" Command="{Binding speedCommand}" Content="x2" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="{Binding RepeatColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="0,0,248.998,3.167" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="25">
+                	<Button.Background>
+                		<SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
+                	</Button.Background>
+                </Button>
+                <Button x:Name="x0_5" Command="{Binding slowCommand}" Content="x0.5" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="{Binding RepeatColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="0,0,278.998,3.167" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="32.333">
+                	<Button.Background>
+                		<SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
+                	</Button.Background>
+                </Button>
             </Grid>
         </Border>
 
