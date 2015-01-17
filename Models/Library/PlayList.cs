@@ -83,6 +83,8 @@ namespace MediaPlayer.Library
                 reader = new StreamReader(file);
 
                 tmp = (PlayList)serializer.Deserialize(reader);
+                Console.WriteLine("Deserialized playlist: " + tmp.Name + " Object: " + tmp.Content.Count);
+
             }
             catch (InvalidOperationException e)
             {

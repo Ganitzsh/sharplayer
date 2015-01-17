@@ -491,7 +491,7 @@
                     </TabItem>
                     <TabItem Header="Playlist" BorderBrush="{x:Null}" Height="20.4" VerticalAlignment="Bottom" Margin="-2,0" >
                         <Grid Background="Black" Margin="0,0,0,0.5">
-                            <ListBox Grid.Column="0" x:Name="playlistElementView" ItemsSource="{Binding CurrentPlaylist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Black" Foreground="#FFDFE1E5" BorderBrush="{x:Null}" BorderThickness="0"  UseLayoutRounding="False" Padding="-2" ItemContainerStyle="{DynamicResource PlayListListBoxItem}" >
+                            <ListBox Grid.Column="0" x:Name="playlistElementView" ItemsSource="{Binding CurrentPlaylist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedPlaylistElem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Black" Foreground="#FFDFE1E5" BorderBrush="{x:Null}" BorderThickness="0"  UseLayoutRounding="False" Padding="-2" ItemContainerStyle="{DynamicResource PlayListListBoxItem}" >
 
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseDoubleClick">
@@ -499,6 +499,17 @@
                     						CommandParameter="{Binding SelectedItem, ElementName=playlistElementView}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
+
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Language="fr-fr" Text="{ Binding TrackName }"/></TextBlock>
+                                            <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Language="fr-fr" Text="{ Binding Artist }"/></TextBlock>
+                                            <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Language="fr-fr" Text="{ Binding Album }"/></TextBlock>
+                                            <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Language="fr-fr" Text="{ Binding Year }"/></TextBlock>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
 
 
 

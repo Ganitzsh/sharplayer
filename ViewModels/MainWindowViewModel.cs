@@ -26,6 +26,15 @@ namespace MediaPlayer
 
         #region Properties
 
+        private int selectedPlaylistElem;
+
+        public int SelectedPlaylistElem
+        {
+            get { return selectedPlaylistElem; }
+            set { selectedPlaylistElem = value; }
+        }
+        
+
         private int selectedContextPlaylist;
 
         public int SelectedContextPlaylist
@@ -317,6 +326,7 @@ namespace MediaPlayer
             this.addVideoPlaylist = new DelegateCommand<object>(AddVideoPlaylist);
             this.playlistClicked = new DelegateCommand<object>(PlaylistClicked);
             this.addMusicToPlaylist = new DelegateCommand<object>(AddMusicToPlaylist);
+            this.playlistElementClicked = new DelegateCommand<object>(PlaylistElementClicked);
                 
             this.playIcon = "\uf04b";
             this.mediaPlaying = false;
@@ -689,7 +699,7 @@ namespace MediaPlayer
         {
             if ((int)param < CurrentAlbum.Count())
             {
-                DisplayingImage = true;
+                DisplayingImage = false;
                 mediaPlayer.NowPlaying = CurrentAlbum[(int)param];
                 OnPropertyChanged("NowPlayingTitle");
                 OnPropertyChanged("NowPlayingArtist");
@@ -828,6 +838,8 @@ namespace MediaPlayer
             tmp.Name = name;
             tmp.Type = Library.LibraryType.PlayList;
             tmp.MediaType = Media.MediaTypes.Music;
+            tmp.Content = new List<Media.Media>();
+            tmp.Content.Add(mediaPlayer.AudioList.Content[0].List[0]);
             MusicPlayList.Add(tmp);
             OnPropertyChanged("MusicPlayList");
             PlayLists.Add(tmp);
@@ -914,8 +926,24 @@ namespace MediaPlayer
 
         #region PlaylistSelectCommand
 
-        public ICommand playlistClicked { get; set; }
+        public ICommand playlistElementClicked { get; set; }
+        private void PlaylistElementClicked(object param)
+        {
+            PlayQueue.Content = CurrentPlaylist.GetRange(SelectedPlaylistElem, CurrentPlaylist.Count - SelectedPlaylistElem);
+            DisplayingImage = false;
+            mediaPlayer.NowPlaying = PlayQueue.Content[0];
+            OnPropertyChanged("NowPlayingTitle");
+            OnPropertyChanged("NowPlayingArtist");
+            Console.WriteLine("Music in queue: " + PlayQueue.Content.Count);
+            CancelMedia();
+            this._myMediaElement.Source = new Uri(PlayQueue.Content[0].File);
+            Console.WriteLine("New source: " + this._myMediaElement.Source);
+            PlayMedia(null);
+            StartTimer();
+        }
 
+        public ICommand playlistClicked { get; set; }
+        
         private void PlaylistClicked(object param)
         {
             if (PlayLists[SelectedPlaylist] != null)
@@ -929,6 +957,8 @@ namespace MediaPlayer
             }
         }
 
+        #endregion
+
         #region PlaylistSelectCommand
 
         public ICommand getMusicPlaylist { get; set; }
@@ -939,8 +969,6 @@ namespace MediaPlayer
             tmp.RemoveAll(lib => lib.MediaType != Media.MediaTypes.Music);
             return (tmp);
         }
-
-        #endregion
 
         #endregion
     }
