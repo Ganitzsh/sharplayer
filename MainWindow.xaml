@@ -417,7 +417,8 @@
                             <ListBox x:Name="titleListView" Grid.Column="4" Grid.Row="1" ItemsSource="{Binding TrackList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Black" Foreground="#FFDFE1E5" BorderBrush="{x:Null}" BorderThickness="0" Padding="-2" ItemContainerStyle="{DynamicResource PlayListListBoxItem}" >
                                 <ListBox.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem Header="Add to"  ItemsSource="{Binding MusicPlayList}">
+                                        <MenuItem Header="Add to"  ItemsSource="{Binding MusicPlayList}" Command="{ Binding Path=addMusicToPlaylist }"
+                                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}">
                                             <MenuItem.ItemTemplate>
                                                 <DataTemplate>
                                                     <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Text="{Binding Name}"/></TextBlock>

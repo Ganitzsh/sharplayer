@@ -44,9 +44,9 @@ namespace MediaPlayer
         }
         
 
-        private List<Library.PlayList> musicPlayList;
+        private ObservableCollection<Library.PlayList> musicPlayList;
 
-        public List<Library.PlayList> MusicPlayList
+        public ObservableCollection<Library.PlayList> MusicPlayList
         {
             get { return musicPlayList; }
             set { musicPlayList = value; }
@@ -337,7 +337,7 @@ namespace MediaPlayer
             PlayQueue.MediaType = Media.MediaTypes.Generic;
             PlayQueue.Name = "Play queue";
 
-            MusicPlayList = new List<Library.PlayList>();
+            
 
             SliderMaxValue = 100;
             SliderValue = 0;
@@ -364,6 +364,7 @@ namespace MediaPlayer
                 PlayLists = new ObservableCollection<Library.PlayList>(this.mediaPlayer.Playlists);
                 VideosList = this.mediaPlayer.VideoList.GetAll<Media.Media>("File");
                 ImagesList = this.mediaPlayer.ImageList.GetAll<Media.Media>("File");
+                MusicPlayList = new ObservableCollection<Library.PlayList>(mediaPlayer.Playlists);
                 Console.WriteLine("Images: " + VideosList.Count);
                 OnPropertyChanged("PlayLists");
                 OnPropertyChanged("ImagesList");
@@ -955,19 +956,6 @@ namespace MediaPlayer
                 OnPropertyChanged("CurrentPlaylist");
                 OnPropertyChanged("SelectedIndex");
             }
-        }
-
-        #endregion
-
-        #region PlaylistSelectCommand
-
-        public ICommand getMusicPlaylist { get; set; }
-
-        private List<Library.PlayList> GetMusicPlaylist(object param)
-        {
-            List<Library.PlayList> tmp = new List<Library.PlayList>(PlayLists);
-            tmp.RemoveAll(lib => lib.MediaType != Media.MediaTypes.Music);
-            return (tmp);
         }
 
         #endregion
