@@ -327,6 +327,8 @@ namespace MediaPlayer
             this.playlistClicked = new DelegateCommand<object>(PlaylistClicked);
             this.addMusicToPlaylist = new DelegateCommand<object>(AddMusicToPlaylist);
             this.playlistElementClicked = new DelegateCommand<object>(PlaylistElementClicked);
+            this.renameSelectedPlaylist = new DelegateCommand<object>(RenameSelectedPlaylist);
+            this.deleteSelectedPlaylist = new DelegateCommand<object>(DeleteSelectedPlaylist);
             this.urlCommand = new DelegateCommand<object>(LoadURL);
                 
             this.playIcon = "\uf04b";
@@ -337,8 +339,6 @@ namespace MediaPlayer
             PlayQueue = new Library.PlayList();
             PlayQueue.MediaType = Media.MediaTypes.Generic;
             PlayQueue.Name = "Play queue";
-
-            
 
             SliderMaxValue = 100;
             SliderValue = 0;
@@ -928,6 +928,35 @@ namespace MediaPlayer
 
         #region PlaylistSelectCommand
 
+        public ICommand renameSelectedPlaylist { get; set; }
+
+        private void RenameSelectedPlaylist(object param)
+        {
+            if (PlayLists[SelectedPlaylist] != null)
+            {
+                string newName = InputPlaylistName();
+                if (File.Exists(Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + "\\MVMPV2.d\\" + PlayLists[SelectedPlaylist].Name + ".xml"))
+                    File.Delete(Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + "\\MVMPV2.d\\" + PlayLists[SelectedPlaylist].Name + ".xml");
+                if (newName != null)
+                    PlayLists[SelectedPlaylist].Name = newName;
+                this.mediaPlayer.Playlists = PlayLists.ToList<Library.PlayList>();
+                this.mediaPlayer.SerializePlaylists();
+            }
+        }
+
+        public ICommand deleteSelectedPlaylist { get; set; }
+
+        private void DeleteSelectedPlaylist(object param)
+        {
+            if (PlayLists[SelectedPlaylist] != null)
+            {
+                if (File.Exists(Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + "\\MVMPV2.d\\" + PlayLists[SelectedPlaylist].Name + ".xml"))
+                    File.Delete(Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + "\\MVMPV2.d\\" + PlayLists[SelectedPlaylist].Name + ".xml");
+                PlayLists.Remove(PlayLists[SelectedPlaylist]);
+                this.mediaPlayer.Playlists = PlayLists.ToList<Library.PlayList>();
+            }
+        }
+
         public ICommand playlistElementClicked { get; set; }
         private void PlaylistElementClicked(object param)
         {
@@ -948,15 +977,23 @@ namespace MediaPlayer
         
         private void PlaylistClicked(object param)
         {
-            if (PlayLists[SelectedPlaylist] != null)
+            try
             {
-                CurrentPlaylist = PlayLists[SelectedPlaylist].Content;
-                SelectedIndex = 5;
-                Console.WriteLine("Clicked playlist named: " + PlayLists[SelectedPlaylist].Name);
-                Console.WriteLine("Number of tracks: " + CurrentPlaylist.Count);
-                OnPropertyChanged("CurrentPlaylist");
-                OnPropertyChanged("SelectedIndex");
+                if (SelectedPlaylist < PlayLists.Count && PlayLists[SelectedPlaylist] != null)
+                {
+                    CurrentPlaylist = PlayLists[SelectedPlaylist].Content;
+                    SelectedIndex = 5;
+                    Console.WriteLine("Clicked playlist named: " + PlayLists[SelectedPlaylist].Name);
+                    Console.WriteLine("Number of tracks: " + CurrentPlaylist.Count);
+                    OnPropertyChanged("CurrentPlaylist");
+                    OnPropertyChanged("SelectedIndex");
+                }
             }
+            catch (System.ArgumentOutOfRangeException ex)
+            {
+
+            }
+            
         }
 
         #endregion
