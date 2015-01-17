@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:MediaPlayer"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-       xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="MediaPlayer.MainWindow"
         Title="Sharplayer" Height="36" Width="213" MinWidth="700" MinHeight="450" FontFamily="FontAw" Background="Black">
     <Window.Resources>
@@ -288,39 +288,42 @@
                     </ListBoxItem>
 
                 </ListBox>
-                <ListBox Foreground="#FFDFE1E5" BorderBrush="#FF303030" BorderThickness="0,0,0,1" Padding="5,0,0,0" Margin="0,99,0,41.5">
+                <ListBox Name="playlistListBox" ItemsSource="{Binding PlayLists, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Foreground="#FFDFE1E5" SelectedIndex="{Binding SelectedPlaylist,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderBrush="#FF303030" BorderThickness="0,0,0,1" Padding="5,0,0,0" Margin="0,99,0,41.5">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown">
+                            <i:InvokeCommandAction  Command="{Binding playlistClicked}" 
+        									CommandParameter="{Binding SelectedPlaylist, ElementName=playlistListBox}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <ListBox.Background>
                         <SolidColorBrush Color="#FF161616" Opacity="1"/>
                     </ListBox.Background>
-                    <ListBoxItem Margin="0,10">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock FontFamily="Arial" Padding="0" FontWeight="SemiBold" Foreground="#FFC19BEB"><Run Language="fr-fr" Text="PLAYLISTS"/></TextBlock>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="11" Margin="0,2,0,0" Text="&#xF001;" Width="12" Height="12"/>
-                            <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Language="fr-fr" Text="New Year Eve"/></TextBlock>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="11" Margin="0,2,0,0" Width="12" Height="12"><Run Text="&#xF030;"/></TextBlock>
-                            <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Language="fr-fr" Text="Summer 2014"/></TextBlock>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="11" Margin="0,2,0,0" Height="12" Width="12"><Run Text="&#xF008;"/></TextBlock>
-                            <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Language="fr-fr" Text="Skateboard"/></TextBlock>
-                        </StackPanel>
-                    </ListBoxItem>
-
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="11" Margin="0,2,0,0" Width="12" Height="12"><Run Text="{Binding Icon}"/></TextBlock>
+                                <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Text="{Binding Name}"/></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
                 </ListBox>
                 <RepeatButton x:Name="addPlaylistButton" Command="{Binding fastCommand}" Content="&#xF196;" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,0,10,8" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="20" BorderBrush="{x:Null}" Panel.ZIndex="99">
                     <RepeatButton.Background>
                         <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
                     </RepeatButton.Background>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown">
+                            <ei:ChangePropertyAction TargetObject="{Binding ContextMenu, ElementName=addPlaylistButton}" PropertyName="PlacementTarget" Value="{Binding ElementName=addPlaylistButton, Mode=OneWay}"/>
+                            <ei:ChangePropertyAction TargetObject="{Binding ContextMenu, ElementName=addPlaylistButton}" PropertyName="IsOpen" Value="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <RepeatButton.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Command="{Binding addMusicPlaylist}" Header="Add music playlist" />
+                            <MenuItem Command="{Binding addVideoPlaylist}" Header="Add video playlist" />
+                            <MenuItem Command="{Binding addImagePlaylist}" Header="Add image playlist" />
+                        </ContextMenu>
+                    </RepeatButton.ContextMenu>
                 </RepeatButton>
                 <TextBlock TextWrapping="Wrap" Margin="0,0,35,12.6" Foreground="#FFC19BEB" HorizontalAlignment="Right" Width="74.46" Height="14.4" VerticalAlignment="Bottom"><Run Language="fr-fr" Text="Add a playlist"/></TextBlock>
             </Grid>
@@ -412,7 +415,17 @@
 
 
                             <ListBox x:Name="titleListView" Grid.Column="4" Grid.Row="1" ItemsSource="{Binding TrackList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Black" Foreground="#FFDFE1E5" BorderBrush="{x:Null}" BorderThickness="0" Padding="-2" ItemContainerStyle="{DynamicResource PlayListListBoxItem}" >
-
+                                <ListBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Add to"  ItemsSource="{Binding MusicPlayList}">
+                                            <MenuItem.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock FontFamily="Arial" Padding="10,0,0,0"><Run Text="{Binding Name}"/></TextBlock>
+                                                </DataTemplate>
+                                            </MenuItem.ItemTemplate>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </ListBox.ContextMenu>
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseDoubleClick">
                                         <i:InvokeCommandAction  Command="{Binding trackSelected}" 
@@ -474,6 +487,23 @@
                             <TextBlock x:Name="title" Margin="0,0,10,29.5" TextWrapping="Wrap" TextAlignment="Right" FontSize="18.667" FontWeight="SemiBold" Foreground="#FFC19BEB" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="524"><Run Language="fr-fr" Text="{Binding NowPlayingTitle, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/></TextBlock>
 
                             <TextBlock x:Name="musicIcon1" Margin="212,131.75" TextWrapping="Wrap" Foreground="#FFC19BEB" FontSize="96" FontFamily="FontAwesome" TextAlignment="Center" LineHeight="29.333"><Span><Run Text="&#xF001;"/></Span></TextBlock>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Playlist" BorderBrush="{x:Null}" Height="20.4" VerticalAlignment="Bottom" Margin="-2,0" >
+                        <Grid Background="Black" Margin="0,0,0,0.5">
+                            <ListBox Grid.Column="0" x:Name="playlistElementView" ItemsSource="{Binding CurrentPlaylist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Black" Foreground="#FFDFE1E5" BorderBrush="{x:Null}" BorderThickness="0"  UseLayoutRounding="False" Padding="-2" ItemContainerStyle="{DynamicResource PlayListListBoxItem}" >
+
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDoubleClick">
+                                        <i:InvokeCommandAction  Command="{Binding playlistElementClicked}" 
+                    						CommandParameter="{Binding SelectedItem, ElementName=playlistElementView}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
+
+
+
+                            </ListBox>
                         </Grid>
                     </TabItem>
                 </TabControl>

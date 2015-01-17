@@ -93,7 +93,7 @@ namespace MediaPlayer
                 Playlists.Add(Library.PlayList.GetFromFile(file));
         }
 
-        private void SerializePlaylists()
+        public void SerializePlaylists()
         {
             if (!Directory.Exists(defaultAppDataFolder + '\\' + MPFolder))
                 Directory.CreateDirectory(defaultAppDataFolder + '\\' + MPFolder);

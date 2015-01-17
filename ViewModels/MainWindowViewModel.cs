@@ -11,6 +11,8 @@ using System.Windows.Threading;
 using System.Windows;
 using System.Windows.Media;
 using System.IO;
+using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
 
 namespace MediaPlayer
 {
@@ -23,6 +25,33 @@ namespace MediaPlayer
         private readonly BackgroundWorker worker = new BackgroundWorker();
 
         #region Properties
+
+        private int selectedContextPlaylist;
+
+        public int SelectedContextPlaylist
+        {
+            get { return selectedContextPlaylist; }
+            set { selectedContextPlaylist = value; }
+        }
+        
+
+        private List<Library.PlayList> musicPlayList;
+
+        public List<Library.PlayList> MusicPlayList
+        {
+            get { return musicPlayList; }
+            set { musicPlayList = value; }
+        }
+        
+
+        private List<Media.Media> currentPlaylist;
+
+        public List<Media.Media> CurrentPlaylist
+        {
+            get { return currentPlaylist; }
+            set { currentPlaylist = value; }
+        }
+        
 
         private bool displayingImage;
 
@@ -71,8 +100,8 @@ namespace MediaPlayer
             set { playQueue = value; }
         }
 
-        private List<Library.PlayList> playlists;
-        public List<Library.PlayList> PlayLists
+        private ObservableCollection<Library.PlayList> playlists;
+        public ObservableCollection<Library.PlayList> PlayLists
         {
             get { return playlists; }
             set { playlists = value; }
@@ -245,8 +274,15 @@ namespace MediaPlayer
             get { return repeatColor; }
             set { repeatColor = value; OnPropertyChanged("RepeatColor"); }
         }
-        
 
+        private int playlistSelected;
+
+        public int PlaylistSelected
+        {
+            get { return playlistSelected; }
+            set { playlistSelected = value; }
+        }
+        
         #endregion
 
         public MainWindowViewModel()
@@ -276,6 +312,11 @@ namespace MediaPlayer
             this.imageClicked = new DelegateCommand<object>(ImageClicked);
             this.displayImageTab = new DelegateCommand<object>(DisplayImageTab);
             this.displayVideoTab = new DelegateCommand<object>(DisplayVideoTab);
+            this.addImagePlaylist = new DelegateCommand<object>(AddImagePlaylist);
+            this.addMusicPlaylist = new DelegateCommand<object>(AddMusicPlaylist);
+            this.addVideoPlaylist = new DelegateCommand<object>(AddVideoPlaylist);
+            this.playlistClicked = new DelegateCommand<object>(PlaylistClicked);
+            this.addMusicToPlaylist = new DelegateCommand<object>(AddMusicToPlaylist);
                 
             this.playIcon = "\uf04b";
             this.mediaPlaying = false;
@@ -285,6 +326,8 @@ namespace MediaPlayer
             PlayQueue = new Library.PlayList();
             PlayQueue.MediaType = Media.MediaTypes.Generic;
             PlayQueue.Name = "Play queue";
+
+            MusicPlayList = new List<Library.PlayList>();
 
             SliderMaxValue = 100;
             SliderValue = 0;
@@ -308,10 +351,11 @@ namespace MediaPlayer
             try
             {
                 ArtistsList = MediaPlayer.AudioList.GetAll<Media.Audio>("Artist");
-                PlayLists = this.mediaPlayer.Playlists;
+                PlayLists = new ObservableCollection<Library.PlayList>(this.mediaPlayer.Playlists);
                 VideosList = this.mediaPlayer.VideoList.GetAll<Media.Media>("File");
                 ImagesList = this.mediaPlayer.ImageList.GetAll<Media.Media>("File");
                 Console.WriteLine("Images: " + VideosList.Count);
+                OnPropertyChanged("PlayLists");
                 OnPropertyChanged("ImagesList");
                 OnPropertyChanged("VideosList");
                 OnPropertyChanged("ArtistsList");
@@ -765,7 +809,8 @@ namespace MediaPlayer
 
             try
             {
-                playlist.Add(CurrentAlbum[selectedTrack]);
+                Console.WriteLine("Adding to: " + (string)param);
+                //playlist.Add(CurrentAlbum[selectedTrack]);
             }
             catch (IndexOutOfRangeException e)
             {
@@ -777,7 +822,19 @@ namespace MediaPlayer
 
         private void AddMusicPlaylist(object param)
         {
-            mediaPlayer.Playlists.Add(new Library.PlayList("New Playlist", Media.MediaTypes.Music));
+            string name = InputPlaylistName();
+            Library.PlayList tmp = new Library.PlayList();
+            tmp.Icon = this.mediaPlayer.LibIcons[Media.MediaTypes.Music];
+            tmp.Name = name;
+            tmp.Type = Library.LibraryType.PlayList;
+            tmp.MediaType = Media.MediaTypes.Music;
+            MusicPlayList.Add(tmp);
+            OnPropertyChanged("MusicPlayList");
+            PlayLists.Add(tmp);
+            Console.WriteLine("New Playlist: " + tmp);
+            this.mediaPlayer.Playlists.Add(tmp);
+            this.mediaPlayer.SerializePlaylists();
+
         }
 
         public ICommand addImageToPlaylist { get; set; }
@@ -787,11 +844,32 @@ namespace MediaPlayer
 
         }
 
+        public string InputPlaylistName()
+        {
+            string answer = "Default";
+            DialogBox inputDialog = new DialogBox("Please enter the new name: ", "New playlist name");
+            if (inputDialog.ShowDialog() == true)
+            {
+                answer = inputDialog.Answer;
+                Console.WriteLine(answer);
+            }
+            return (answer);
+        }
+
         public ICommand addImagePlaylist { get; set; }
 
         private void AddImagePlaylist(object param)
         {
-            mediaPlayer.Playlists.Add(new Library.PlayList("New Playlist", Media.MediaTypes.Image));
+            string name = InputPlaylistName();
+            Library.PlayList tmp = new Library.PlayList();
+            tmp.Icon = this.mediaPlayer.LibIcons[Media.MediaTypes.Image];
+            tmp.Name = name;
+            tmp.Type = Library.LibraryType.PlayList;
+            tmp.MediaType = Media.MediaTypes.Image;
+            PlayLists.Add(tmp);
+            Console.WriteLine("New Playlist: " + tmp);
+            this.mediaPlayer.Playlists.Add(tmp);
+            this.mediaPlayer.SerializePlaylists();
         }
 
         public ICommand addVideoToPlaylist { get; set; }
@@ -805,7 +883,17 @@ namespace MediaPlayer
 
         private void AddVideoPlaylist(object param)
         {
-            mediaPlayer.Playlists.Add(new Library.PlayList("New Playlist", Media.MediaTypes.Video));
+            string name = InputPlaylistName();
+            Library.PlayList tmp = new Library.PlayList();
+            tmp.Icon = this.mediaPlayer.LibIcons[Media.MediaTypes.Video];
+            tmp.Name = name;
+            tmp.Type = Library.LibraryType.PlayList;
+            tmp.MediaType = Media.MediaTypes.Video;
+            PlayLists.Add(tmp);
+            Console.WriteLine("New Playlist: " + tmp);
+            this.mediaPlayer.Playlists.Add(tmp);
+            this.mediaPlayer.SerializePlaylists();
+            OnPropertyChanged("PlayLists");
         }
         #endregion
 
@@ -821,6 +909,38 @@ namespace MediaPlayer
                 Console.WriteLine(answer);
             }
         }
+
+        #endregion
+
+        #region PlaylistSelectCommand
+
+        public ICommand playlistClicked { get; set; }
+
+        private void PlaylistClicked(object param)
+        {
+            if (PlayLists[SelectedPlaylist] != null)
+            {
+                CurrentPlaylist = PlayLists[SelectedPlaylist].Content;
+                SelectedIndex = 5;
+                Console.WriteLine("Clicked playlist named: " + PlayLists[SelectedPlaylist].Name);
+                Console.WriteLine("Number of tracks: " + CurrentPlaylist.Count);
+                OnPropertyChanged("CurrentPlaylist");
+                OnPropertyChanged("SelectedIndex");
+            }
+        }
+
+        #region PlaylistSelectCommand
+
+        public ICommand getMusicPlaylist { get; set; }
+
+        private List<Library.PlayList> GetMusicPlaylist(object param)
+        {
+            List<Library.PlayList> tmp = new List<Library.PlayList>(PlayLists);
+            tmp.RemoveAll(lib => lib.MediaType != Media.MediaTypes.Music);
+            return (tmp);
+        }
+
+        #endregion
 
         #endregion
     }
