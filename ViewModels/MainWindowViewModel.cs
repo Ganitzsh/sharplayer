@@ -255,7 +255,7 @@ namespace MediaPlayer
 
             this._myMediaElement = new MediaElement();
             this._myMediaElement.LoadedBehavior = MediaState.Manual;
-            this._myMediaElement.UnloadedBehavior = MediaState.Stop;
+            this._myMediaElement.UnloadedBehavior = MediaState.Manual;
             this._myMediaElement.MediaOpened += InitSlider;
             this._myMediaElement.MediaEnded += StopMediaHandler;
             
@@ -379,7 +379,7 @@ namespace MediaPlayer
 
         private void InitSlider(object sender, RoutedEventArgs e)
         {
-            if (this._myMediaElement.NaturalDuration.HasTimeSpan)
+            if (!DisplayingImage)
             {
                 double absvalue = (int)Math.Round(
                 _myMediaElement.NaturalDuration.TimeSpan.TotalSeconds,
@@ -456,12 +456,14 @@ namespace MediaPlayer
             {
                 if (this.mediaPlaying == false)
                 {
+                    Console.WriteLine("Playing: " + this._myMediaElement.Source);
                     this._myMediaElement.Play();
                     this.mediaPlaying = true;
                     this.PlayIcon = "\uf04c";
                 }
                 else
                 {
+                    Console.WriteLine("Pause :|");
                     this._myMediaElement.Pause();
                     this.mediaPlaying = false;
                     this.PlayIcon = "\uf04b";
@@ -537,11 +539,13 @@ namespace MediaPlayer
             Console.WriteLine("Clicked: " + SelectedVideo);
             if (SelectedVideo < VideosList.Count)
             {
+                DisplayingImage = false;
+                CancelMedia();
                 this._myMediaElement.Source = new Uri(VideosList[SelectedVideo]);
                 SelectedIndex = 1;
                 OnPropertyChanged("SelectedIndex");
-                DisplayingImage = false;
                 PlayMedia(null);
+                StartTimer();
             }
         }
 
@@ -553,9 +557,11 @@ namespace MediaPlayer
 
         public void ImageClicked(object param)
         {
+            DisplayingImage = true;
             Console.WriteLine("Clicked: " + SelectedImage);
             if (SelectedImage < ImagesList.Count)
             {
+                CancelMedia();
                 this._myMediaElement.Source = new Uri(ImagesList[SelectedImage]);
                 SelectedIndex = 1;
                 OnPropertyChanged("SelectedIndex");
@@ -639,12 +645,13 @@ namespace MediaPlayer
         {
             if ((int)param < CurrentAlbum.Count())
             {
-                DisplayingImage = false;
+                DisplayingImage = true;
                 mediaPlayer.NowPlaying = CurrentAlbum[(int)param];
                 OnPropertyChanged("NowPlayingTitle");
                 OnPropertyChanged("NowPlayingArtist");
                 Console.WriteLine("File Path: " + CurrentAlbum[(int)param].File);
                 PlayQueue.Content = CurrentAlbum.GetRange(((int)param), CurrentAlbum.Count - ((int)param));
+                Console.WriteLine("Music in queue: " + PlayQueue.Content.Count);
                 CancelMedia();
                 SelectedIndex = 4;
                 OnPropertyChanged("SelectedIndex");
@@ -729,8 +736,12 @@ namespace MediaPlayer
             CancelMedia();
             if (PlayQueue.Content != null && PlayQueue.Content[0] != null && PlayQueue.Content.Count > 1)
             {
+               
                 Console.WriteLine("Removed: " + PlayQueue.Content.Remove(PlayQueue.Content[0]));
                 Console.WriteLine("Music left in queue: " + PlayQueue.Content.Count);
+                mediaPlayer.NowPlaying = PlayQueue.Content[0];
+                OnPropertyChanged("NowPlayingTitle");
+                OnPropertyChanged("NowPlayingArtist");
                 this._myMediaElement.Source = new Uri(PlayQueue.Content[0].File);
                 StartTimer();
                 PlayMedia(null);
