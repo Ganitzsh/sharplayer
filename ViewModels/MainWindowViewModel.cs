@@ -379,13 +379,11 @@ namespace MediaPlayer
 
         private void InitSlider(object sender, RoutedEventArgs e)
         {
-            if (!DisplayingImage)
+            if (this._myMediaElement.NaturalDuration.HasTimeSpan)
             {
-                Console.WriteLine("Setting timer!");
                 double absvalue = (int)Math.Round(
                 _myMediaElement.NaturalDuration.TimeSpan.TotalSeconds,
                 MidpointRounding.AwayFromZero);
-
                 SliderMaxValue = absvalue;
             }
         }
@@ -536,11 +534,13 @@ namespace MediaPlayer
 
         public void VideoClicked(object param)
         {
-            if (((int)param) < this.mediaPlayer.VideoList.GetAll<string>("File").Count)
+            Console.WriteLine("Clicked: " + SelectedVideo);
+            if (SelectedVideo < VideosList.Count)
             {
-                this._myMediaElement.Source = new Uri(this.mediaPlayer.VideoList.GetAll<string>("File")[(int)param]);
+                this._myMediaElement.Source = new Uri(VideosList[SelectedVideo]);
                 SelectedIndex = 1;
                 OnPropertyChanged("SelectedIndex");
+                DisplayingImage = false;
                 PlayMedia(null);
             }
         }
@@ -560,7 +560,7 @@ namespace MediaPlayer
                 SelectedIndex = 1;
                 OnPropertyChanged("SelectedIndex");
                 DisplayingImage = true;
-                this._myMediaElement.Play();
+                PlayMedia(null);
             }
         }
 
@@ -649,6 +649,7 @@ namespace MediaPlayer
                 SelectedIndex = 4;
                 OnPropertyChanged("SelectedIndex");
                 this._myMediaElement.Source = new Uri(PlayQueue.Content[0].File);
+                Console.WriteLine("New source: " + this._myMediaElement.Source);
                 PlayMedia(null);
                 StartTimer();
             }
