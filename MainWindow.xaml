@@ -318,9 +318,9 @@
 
                 </ListBox>
                 <RepeatButton x:Name="addPlaylistButton" Command="{Binding fastCommand}" Content="&#xF196;" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,0,10,8" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="20" BorderBrush="{x:Null}" Panel.ZIndex="99">
-                	<RepeatButton.Background>
-                		<SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
-                	</RepeatButton.Background>
+                    <RepeatButton.Background>
+                        <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
+                    </RepeatButton.Background>
                 </RepeatButton>
                 <TextBlock TextWrapping="Wrap" Margin="0,0,35,12.6" Foreground="#FFC19BEB" HorizontalAlignment="Right" Width="74.46" Height="14.4" VerticalAlignment="Bottom"><Run Language="fr-fr" Text="Add a playlist"/></TextBlock>
             </Grid>
@@ -359,7 +359,8 @@
                                 </i:Interaction.Triggers>
                             </TextBox>
 
-                            <TextBlock x:Name="searchTextBlox" IsHitTestVisible="False"  TextAlignment="Left" Grid.ColumnSpan="3" Padding="5, 5, 5, 5"  Foreground="LightGray" Panel.ZIndex="99" Margin="25.143,3,128.19,4"><TextBlock.Style>
+                            <TextBlock x:Name="searchTextBlox" IsHitTestVisible="False"  TextAlignment="Left" Grid.ColumnSpan="3" Padding="5, 5, 5, 5"  Foreground="LightGray" Panel.ZIndex="99" Margin="25.143,3,128.19,4">
+                                <TextBlock.Style>
                                     <Style TargetType="{x:Type TextBlock}">
                                         <Setter Property="Visibility" Value="Collapsed"/>
                                         <Style.Triggers>
@@ -426,44 +427,52 @@
                         </Grid>
                     </TabItem>
                     <TabItem Header="Video Playing" BorderBrush="{x:Null}" Height="20.4" VerticalAlignment="Bottom" Margin="-2,0,-2,-1" >
-                    	<Grid Background="Black" Margin="0,0,0,0.5">
-                    		<ContentControl Content="{Binding MyMediaElement}" Foreground="Red" Background="Black" Panel.ZIndex="90"/>
-                    		<TextBlock x:Name="musicIcon" Margin="212,131.75" TextWrapping="Wrap" Foreground="#FFC19BEB" FontSize="96" FontFamily="FontAwesome" TextAlignment="Center" LineHeight="29.333"><Span><Run Text="&#xF008;"/></Span></TextBlock>
-                    	</Grid>
+                        <Grid Background="Black" Margin="0,0,0,0.5">
+                            <ContentControl Content="{Binding MyMediaElement}" Foreground="Red" Background="Black" Panel.ZIndex="90"/>
+                            <TextBlock x:Name="musicIcon" Margin="212,131.75" TextWrapping="Wrap" Foreground="#FFC19BEB" FontSize="96" FontFamily="FontAwesome" TextAlignment="Center" LineHeight="29.333"><Span><Run Text="&#xF008;"/></Span></TextBlock>
+                        </Grid>
                     </TabItem>
                     <TabItem Header="Images" BorderBrush="{x:Null}" Height="20.4" VerticalAlignment="Bottom" Margin="-2,0" >
-                    	<Grid Background="Black" Margin="0,0,0,0.5">
-                    		<ListBox Grid.Column="0" x:Name="imageListView" ItemsSource="{Binding ImagesList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Black" Foreground="#FFDFE1E5" BorderBrush="{x:Null}" BorderThickness="0"  UseLayoutRounding="False" Padding="-2" ItemContainerStyle="{DynamicResource PlayListListBoxItem}" >
+                        <Grid Background="Black" Margin="0,0,0,0.5">
+                            <ListBox Grid.Column="0" x:Name="imageListView" ItemsSource="{Binding ImagesList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Black" Foreground="#FFDFE1E5" BorderBrush="{x:Null}" BorderThickness="0"  UseLayoutRounding="False" Padding="-2" ItemContainerStyle="{DynamicResource PlayListListBoxItem}" >
 
-                    			<i:Interaction.Triggers>
-                    				<i:EventTrigger EventName="MouseDoubleClick">
-                    					<i:InvokeCommandAction  Command="{Binding imageClicked}" 
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDoubleClick">
+                                        <i:InvokeCommandAction  Command="{Binding imageClicked}" 
                     						CommandParameter="{Binding SelectedItem, ElementName=imageListView}" />
-                    				</i:EventTrigger>
-                    			</i:Interaction.Triggers>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
 
 
 
 
-                    		</ListBox>
-                    	</Grid>
+                            </ListBox>
+                        </Grid>
                     </TabItem>
                     <TabItem Header="Videos" BorderBrush="{x:Null}" Height="20.4" VerticalAlignment="Bottom" Margin="-2,0" >
-                    	<Grid Background="Black" Margin="0,0,0,0.5">
-                    		<ListBox Grid.Column="0" x:Name="videoListView" ItemsSource="{Binding VideosList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedVideo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Black" Foreground="#FFDFE1E5" BorderBrush="{x:Null}" BorderThickness="0"  UseLayoutRounding="False" Padding="-2" ItemContainerStyle="{DynamicResource PlayListListBoxItem}" >
+                        <Grid Background="Black" Margin="0,0,0,0.5">
+                            <ListBox Grid.Column="0" x:Name="videoListView" ItemsSource="{Binding VideosList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedVideo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="Black" Foreground="#FFDFE1E5" BorderBrush="{x:Null}" BorderThickness="0"  UseLayoutRounding="False" Padding="-2" ItemContainerStyle="{DynamicResource PlayListListBoxItem}" >
 
-                    			<i:Interaction.Triggers>
-                    				<i:EventTrigger EventName="MouseDoubleClick">
-                    					<i:InvokeCommandAction  Command="{Binding videoClicked}" 
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDoubleClick">
+                                        <i:InvokeCommandAction  Command="{Binding videoClicked}" 
                     						CommandParameter="{Binding SelectedItem, ElementName=videoListView}" />
-                    				</i:EventTrigger>
-                    			</i:Interaction.Triggers>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
 
 
 
 
-                    		</ListBox>
-                    	</Grid>
+                            </ListBox>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Music playing" BorderBrush="{x:Null}" Margin="-2.5,3,-2,-1" >
+                        <Grid Background="Black" Margin="0,0,0,0.5">
+                            <TextBlock x:Name="artist" Margin="0,0,10,9.5" TextWrapping="Wrap" TextAlignment="Right" FontSize="16" Foreground="#FFDFE1E5" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="524"><Run Language="fr-fr" Text="{Binding NowPlayingArtist, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/></TextBlock>
+                            <TextBlock x:Name="title" Margin="0,0,10,29.5" TextWrapping="Wrap" TextAlignment="Right" FontSize="18.667" FontWeight="SemiBold" Foreground="#FFC19BEB" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="524"><Run Language="fr-fr" Text="{Binding NowPlayingTitle, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/></TextBlock>
+
+                            <TextBlock x:Name="musicIcon1" Margin="212,131.75" TextWrapping="Wrap" Foreground="#FFC19BEB" FontSize="96" FontFamily="FontAwesome" TextAlignment="Center" LineHeight="29.333"><Span><Run Text="&#xF001;"/></Span></TextBlock>
+                        </Grid>
                     </TabItem>
                 </TabControl>
             </Grid>
@@ -495,26 +504,26 @@
                     </RepeatButton.Background>
                 </RepeatButton>
                 <Button x:Name="Repeat" Command="{Binding repeatCommand}" Content="&#xF01E;" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="{Binding RepeatColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="0,0,188.998,3.167" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="25">
-                	<Button.Background>
-                		<SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
-                	</Button.Background>
+                    <Button.Background>
+                        <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
+                    </Button.Background>
                 </Button>
                 <Button x:Name="Shuffle" Command="{Binding shuffleCommand}" Content="&#xF074;" HorizontalAlignment="Right" Width="25" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="0,0,158.998,3.168" RenderTransformOrigin="-0.54,0.539" Height="30" VerticalAlignment="Bottom">
-                	<Button.Background>
-                		<SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
-                	</Button.Background>
+                    <Button.Background>
+                        <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
+                    </Button.Background>
                 </Button>
                 <TextBlock x:Name="volumeIcon" Margin="0,0,121.37,11.697" TextWrapping="Wrap" Foreground="#FFDFE1E5" RenderTransformOrigin="1.673,0.443" FontSize="13.333" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" Text="&#xF028;" Height="13.444" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="12.38"/>
                 <Slider x:Name="volumeSlider" IsMoveToPointEnabled="true"  Margin="0,0,10,9" Minimum="0" Foreground="{x:Null}"  Style="{StaticResource Horizontal_Slider}" Panel.ZIndex="99" Height="21" VerticalAlignment="Bottom" Maximum="100" Value="50" HorizontalAlignment="Right" Width="60"/>
                 <Button x:Name="previousButton" Command="{Binding prevCommand}" Content="&#xF049;" HorizontalAlignment="Left" Width="42" FontFamily="FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="10,6.833,0,3.167" Height="30" BorderBrush="{x:Null}" RenderTransformOrigin="1.845,0.206">
-                	<Button.Background>
-                		<SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
-                	</Button.Background>
+                    <Button.Background>
+                        <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
+                    </Button.Background>
                 </Button>
                 <Button x:Name="nextButton" Command="{Binding nextCommand}" Content="&#xF050;" HorizontalAlignment="Left" Width="42" FontFamily="/MediaPlayer;component/Fonts/#FontAwesome" FontSize="16" Foreground="#FFDFE1E5" BorderThickness="0" Margin="221,6.832,0,3.167" Height="30" BorderBrush="{x:Null}">
-                	<Button.Background>
-                		<SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
-                	</Button.Background>
+                    <Button.Background>
+                        <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
+                    </Button.Background>
                 </Button>
             </Grid>
         </Border>
